@@ -1,0 +1,73 @@
+Leggie parts list
+-----------------
+
+quant  part 
+ 18x   mg996r servo 
+ 1x    raspberry pi 3 (with 16gb microsd card for software)
+ 4x    arduino nano 
+ 18x   10k 6mm potentiometer with D shaft 
+ 6x    5v 3A switching regulator bec modules
+ 2x    3 axis joysticks
+ 10x   push button switches momentary  (12mm dia hole)
+ 1x    10a single pole single throw on/off toggle switch
+ 3x    short usb a to mini b  cables
+ 1x    1.5m long usb a to mini b cable for joystick 
+as needed some servo extension leads
+
+as needed signal wire
+
+bag of cable ties (that will fit though 3mm dia holes)
+
+1x bag of 100 M3 bolts
+1x bag of 100 M3 nuts
+1x bag of 100 M3 washers
+6x 150mm lenths of M3 threaded bar
+
+7.4v 4000mha lipo with deans connector (and suitable charger)
+
+matching deans connector for it and about 300mm of suitable power cable
+
+some strip board  to make servo power distribution boards from 
+some .1" pitch pin strips (for servo connectors etc)
+some solder
+
+time patience and some thought 
+
+for the 3d printed parts it takes 2x 1kg rolls of pla ( not accounting for
+having any bad prints so would recommend allowing for that )
+
+intended for printing on a tevo delta with a 340mm dia print limit 
+
+allow a few days for the printing of parts 
+
+extra parts
+----------------------
+the joystick can be plugged into the onboard rpi3 and you can control it
+via it like a wired remote  to control it over wifi you will need :-
+
+laptop / or linux based computer with usb port to run remote from 
+a display for status feedback and wifi , keyboard and mouse/touch pad helps
+for programming the arduino nano's and rpi3 
+
+im only writeing the remote pc code for linux if you dont have a linux pc 
+you could use another rpi for remote /status monitoring and programming 
+i dont do windows or mac or android  you can write your own if you wish 
+
+wifi access point , it is possible to config the on board rpi3 to act as a 
+access point for remote control/ monitoring of it , but if you want internet
+ access on the linux pc/laptop then you may want to connect it via your home 
+wifi , 
+
+
+(parts not yet defined ) 
+-----------------------
+leds led drivers and wireing 
+
+some sort of speaker / sounder for the onboard pi3 as it needs some way
+of giving status feedback without having a display connected
+
+future upgrades /extras 
+
+2x mg996r servos for camera pan tilt 
+
+ 
