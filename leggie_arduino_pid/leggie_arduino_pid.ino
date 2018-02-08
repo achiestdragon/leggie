@@ -451,7 +451,7 @@ void loop()
         if (foot1 !=  foot1_old) //new foot down detected
           {
             foot1_old = foot1;
-            Serial.print("[f,");
+            Serial.print("f[");
             Serial.print(leg1);
             Serial.print(",d,");
             Serial.print(tag1_hold);
@@ -461,6 +461,7 @@ void loop()
             Serial.print(leg1_pos_s);
             Serial.print(",");
             Serial.print(knee1_pos_s);
+            Serial.print("]");
             hip1_hold  = hip1_pos_s  ;
             leg1_hold  = leg1_pos_s  ;
             knee1_hold = knee1_pos_s ;
@@ -500,12 +501,12 @@ void loop()
           if ( hip1_pos  >= hip1_hold + backlash_range )  
             {  
               hip1_lock  =false;
-              Serial.print("err[hip1lock] "); //**fixme add tag number
+              Serial.print("E[hip1lock] "); //**fixme add tag number
             }
           if ( hip1_pos  <= hip1_hold - backlash_range ) 
             {
               hip1_lock  =false;
-              Serial.print("err[hip1lock]"); //**fixme add tag number
+              Serial.print("E[hip1lock]"); //**fixme add tag number
             }
           // pll lock up/down to hold  
           if (hip1_pos > hip1_hold ) { hip1_pwm=hip1_pwm - 1; }
@@ -513,7 +514,7 @@ void loop()
         }
         else
         {
-        // still moveing and not ready
+          // still moveing and not ready
         }
       }
 
@@ -534,12 +535,12 @@ void loop()
           if ( leg1_pos  >= leg1_hold + backlash_range )  
             {  
               leg1_lock  =false;
-              Serial.print("err[leg1lock]"); //**fixme add tag number 
+              Serial.print("E[leg1lock]"); //**fixme add tag number 
             }
           if ( leg1_pos  <= leg1_hold - backlash_range ) 
             {
               leg1_lock  =false;
-              Serial.print("err[leg1lock]");  //**fixme add tag number
+              Serial.print("E[leg1lock]");  //**fixme add tag number
             }
           // pll lock up/down to hold  
           if (leg1_pos > leg1_hold ) { leg1_pwm=leg1_pwm - 1; }
@@ -547,7 +548,7 @@ void loop()
         }
         else
         {
-        // still moveing and not ready
+          // still moveing and not ready
         }
       }
 
@@ -568,12 +569,12 @@ void loop()
           if ( knee1_pos  >= knee1_hold + backlash_range )  
             {  
               knee1_lock  =false;
-              Serial.print("err[knee1lock]"); //**fixme add tag number 
+              Serial.print("E[knee1lock]"); //**fixme add tag number 
             }
           if ( knee1_pos  <= knee1_hold - backlash_range ) 
             {
               knee1_lock  =false;
-              Serial.print("err[knee1lock]"); //**fixme add tag number 
+              Serial.print("E[knee1lock]"); //**fixme add tag number 
             }
           // pll lock up/down to hold  
           if (knee1_pos > knee1_hold ) { knee1_pwm=knee1_pwm - 1; }
@@ -581,7 +582,7 @@ void loop()
         }
         else
         {
-        // still moveing and not ready
+          // still moveing and not ready
         }
       }     
     if (hip1_rdy==true&leg1_rdy==true&knee1_rdy==true&rdy1==false)
@@ -590,7 +591,7 @@ void loop()
         if (hip1_lock==true&leg1_lock==true&knee1_lock==true)
           {
            // and all locks ok,send status, update rdy 
-           Serial.print("[#");
+           Serial.print("l[");
            Serial.print(leg1);
            Serial.print(",r,");
            Serial.print(tag1_hold);
@@ -629,7 +630,7 @@ void loop()
         if (foot2 !=  foot2_old) //new foot down detected
           {
             foot2_old = foot2;  
-            Serial.print("[f,");
+            Serial.print("f[");
             Serial.print(leg2);
             Serial.print(",d,");
             Serial.print(tag2_hold);
@@ -639,6 +640,7 @@ void loop()
             Serial.print(leg2_pos_s);
             Serial.print(",");
             Serial.print(knee2_pos_s);
+            Serial.print("]");
             hip2_hold  = hip2_pos_s  ; 
             leg2_hold  = leg2_pos_s  ;
             knee2_hold = knee2_pos_s ;
@@ -678,12 +680,12 @@ void loop()
           if ( hip2_pos  >= hip2_hold + backlash_range )  
             {  
               hip2_lock  =false;
-              Serial.println("err[hip2lock]");  //**fixme add tag number
+              Serial.println("E[hip2lock]");  //**fixme add tag number
             }
           if ( hip2_pos  <= hip2_hold - backlash_range ) 
             {
               hip2_lock  =false;
-              Serial.println("err[hip2lock]");  //**fixme add tag number
+              Serial.println("E[hip2lock]");  //**fixme add tag number
             }
           // pll lock up/down to hold  
           if (hip2_pos > hip2_hold ) { hip2_pwm=hip2_pwm - 1; }
@@ -691,7 +693,7 @@ void loop()
         }
         else
         {
-        // still moveing and not ready
+          // still moveing and not ready
         }
       }
 
@@ -712,12 +714,12 @@ void loop()
           if ( leg2_pos  >= leg2_hold + backlash_range )  
             {  
               leg2_lock  =false;
-              Serial.print("err[leg2lock]");  //**fixme add tag number
+              Serial.print("E[leg2lock]");  //**fixme add tag number
             }
           if ( leg2_pos  <= leg2_hold - backlash_range ) 
             {
               leg2_lock  =false;
-              Serial.print("err[leg2lock]");  //**fixme add tag number
+              Serial.print("E[leg2lock]");  //**fixme add tag number
             }
           // pll lock up/down to hold  
           if (leg2_pos > leg2_hold ) { leg2_pwm=leg2_pwm - 1; }
@@ -725,7 +727,7 @@ void loop()
         }
         else
         {
-        // still moveing and not ready
+          // still moveing and not ready
         }
       }
 
@@ -746,12 +748,12 @@ void loop()
           if ( knee2_pos  >= knee2_hold + backlash_range )  
             {  
               knee2_lock  = false;
-              Serial.print("err[knee2lock]"); //**fixme add tag number 
+              Serial.print("E[knee2lock]"); //**fixme add tag number 
             }
           if ( knee2_pos  <= knee2_hold - backlash_range ) 
             {
               knee2_lock  = false;
-              Serial.print("err[knee2lock]");  //**fixme add tag number
+              Serial.print("E[knee2lock]");  //**fixme add tag number
             }
           // pll lock up/down to hold  
           if (knee2_pos > knee2_hold ) { knee2_pwm=knee2_pwm - 1; }
@@ -759,7 +761,7 @@ void loop()
         }
         else
         {
-        // still moveing and not ready
+          // still moveing and not ready
         }
       }
     if (hip2_rdy==true&leg2_rdy==true&knee2_rdy==true&rdy2==false)
@@ -768,7 +770,7 @@ void loop()
         if (hip2_lock==true&leg2_lock==true&knee2_lock==true)
           {
            // and all locks ok,send status, update rdy 
-           Serial.print("[#");
+           Serial.print("l[");
            Serial.print(leg2);
            Serial.print(",r,");
            Serial.print(tag2_hold);
@@ -780,7 +782,7 @@ void loop()
           }
         else
           {
-            Serial.println("[WTF.2]"); // something realy bad happened 
+            Serial.println("E[WTF.2]"); // something realy bad happened 
           }
        }
        
