@@ -38,7 +38,7 @@ arduino nano pinouts
 --------------------
 
               usb connector 
-d13  step_rdy_out    step_rdy_a_in d12
+d13  rdy_out         step_rdy_a_in d12
 3v3                  hip1_servo    d11/pwm
 ref                  leg1_servo    d10/pwm
 a0   hip1_pot        knee1_servo   d9 /pwm
@@ -57,28 +57,29 @@ vin                  srl rx data   tx1
 */
 //
 // **********************************************************************
-// TODO:-  ( not urgent and can be left )
+// TODO:-  ( leave till later stuff )
 //
 //  add option to invert the read adc values (depending on what direction 
 //  the potentiometers are actualy wired if different )
 //
-//  output pin  step_rdy_out,(d13) also drives an onboad led l1 
-//  make use of this as a status led in some form 
 //
 //
 // **********************************************************************
-// FIXME:-  ( must be fixed before it will function as intended )
 //
-//  fix servo lock error message and add tag value
 //
-//  fix error message formats and codes
-//    error = 1  =   ERROR [ com frame sync ]
-//    error = 2  =   ERROR [ buffer overrun ]
+//  error message formats and codes
 //
-//  add footing loss error 
-//  add footing mode for foot loss error
-//  
-//  finish command input decode   
+//    E[1]                            = com frame sync
+//    E[2]                            = buffer overrun 
+//    E[3,leg,tag,(h,l or k servo) ]  = servo pwm pll lock loss
+//    E[WTF.n]");                     = something realy bad happened
+//
+//  status message formats and codes
+//
+//    f[leg,d,tag,hip,leg,knee]       = new foot down detected
+//    f[leg,u,tag]                    = new foot up detected
+//    k[leg,tag]                      = ack command recived 
+//    l[leg,r,tag]                    = leg reached hold pos and ready
 //
 //
 // **********************************************************************
@@ -120,7 +121,7 @@ const int knee1_servo_pin   = 9;  // pwm
 const int leg1_servo_pin    = 10; // pwm
 const int hip1_servo_pin    = 11; // pwm
 const int step_rdy_a_in_pin = 12; // ** pin defined but currently unused
-const int step_rdy_out_pin  = 13; // ** pin defined but currently unused
+const int rdy_out_pin       = 13; // output
 
 // varibles  pot read values
 
@@ -204,8 +205,8 @@ int adr1          = false;
 
 // output pin varibles
 
-//int step_rdy_out  = false;   //**unused ** this drives a board led
-                               // use this as a status led in  some form 
+int rdy_out  = false;   // rdy led
+                               
 //serial Strings
 
 String inByte    ;
@@ -309,7 +310,7 @@ void setup()
 {
   // define i/o & servo pwm pins 
   
-  pinMode(step_rdy_out_pin, OUTPUT);     //  d13 ** defined but unused
+  pinMode(rdy_out_pin, OUTPUT);          //  d13 rdy led
   pinMode(step_rdy_a_in_pin, INPUT);     //  d12 ** defined but unused
   hip1_servo.attach(hip1_servo_pin);     //  d11 pwm hip1
   leg1_servo.attach(leg1_servo_pin);     //  d10 pwm leg1
@@ -461,7 +462,7 @@ void loop()
             Serial.print(leg1_pos_s);
             Serial.print(",");
             Serial.print(knee1_pos_s);
-            Serial.print("]");
+            Serial.println("]");
             hip1_hold  = hip1_pos_s  ;
             leg1_hold  = leg1_pos_s  ;
             knee1_hold = knee1_pos_s ;
@@ -479,9 +480,16 @@ void loop()
       } 
       else
       {
-        foot1_old = foot1;
         foot1=false;
-        //**Serial.print("u,");
+        if (foot1 !=  foot1_old) //new foot up detected
+          {
+            foot1_old = foot1;
+            Serial.print("f[");
+            Serial.print(leg1);
+            Serial.print(",u,");
+            Serial.print(tag1_hold);
+            Serial.println("]");
+          }
       }
 
     //
@@ -501,12 +509,20 @@ void loop()
           if ( hip1_pos  >= hip1_hold + backlash_range )  
             {  
               hip1_lock  =false;
-              Serial.print("E[hip1lock] "); //**fixme add tag number
+              Serial.print("E[3,");
+              Serial.print(leg1);
+              Serial.print(",");
+              Serial.print(tag1_hold);
+              Serial.println(",h]");
             }
           if ( hip1_pos  <= hip1_hold - backlash_range ) 
             {
               hip1_lock  =false;
-              Serial.print("E[hip1lock]"); //**fixme add tag number
+              Serial.print("E[3,");
+              Serial.print(leg1);
+              Serial.print(",");
+              Serial.print(tag1_hold);
+              Serial.println(",h]");
             }
           // pll lock up/down to hold  
           if (hip1_pos > hip1_hold ) { hip1_pwm=hip1_pwm - 1; }
@@ -535,12 +551,20 @@ void loop()
           if ( leg1_pos  >= leg1_hold + backlash_range )  
             {  
               leg1_lock  =false;
-              Serial.print("E[leg1lock]"); //**fixme add tag number 
+              Serial.print("E[3,");
+              Serial.print(leg1);
+              Serial.print(",");
+              Serial.print(tag1_hold);
+              Serial.println(",l]"); 
             }
           if ( leg1_pos  <= leg1_hold - backlash_range ) 
             {
               leg1_lock  =false;
-              Serial.print("E[leg1lock]");  //**fixme add tag number
+              Serial.print("E[3,");
+              Serial.print(leg1);
+              Serial.print(",");
+              Serial.print(tag1_hold);
+              Serial.println(",l]");
             }
           // pll lock up/down to hold  
           if (leg1_pos > leg1_hold ) { leg1_pwm=leg1_pwm - 1; }
@@ -569,12 +593,20 @@ void loop()
           if ( knee1_pos  >= knee1_hold + backlash_range )  
             {  
               knee1_lock  =false;
-              Serial.print("E[knee1lock]"); //**fixme add tag number 
+              Serial.print("E[3,");
+              Serial.print(leg1);
+              Serial.print(",");
+              Serial.print(tag1_hold);
+              Serial.println(",k]");
             }
           if ( knee1_pos  <= knee1_hold - backlash_range ) 
             {
               knee1_lock  =false;
-              Serial.print("E[knee1lock]"); //**fixme add tag number 
+              Serial.print("E[3,");
+              Serial.print(leg1);
+              Serial.print(",");
+              Serial.print(tag1_hold);
+              Serial.println(",k]"); 
             }
           // pll lock up/down to hold  
           if (knee1_pos > knee1_hold ) { knee1_pwm=knee1_pwm - 1; }
@@ -603,7 +635,7 @@ void loop()
           }
         else
           {
-            Serial.println("[WTF.1]"); // something realy bad happened 
+            Serial.println("E[WTF.1]"); // something realy bad happened 
           }
       }
     //
@@ -640,7 +672,7 @@ void loop()
             Serial.print(leg2_pos_s);
             Serial.print(",");
             Serial.print(knee2_pos_s);
-            Serial.print("]");
+            Serial.println("]");
             hip2_hold  = hip2_pos_s  ; 
             leg2_hold  = leg2_pos_s  ;
             knee2_hold = knee2_pos_s ;
@@ -658,9 +690,16 @@ void loop()
       } 
       else
       {
-        foot2_old = foot2;
         foot2=false;
-        //**Serial.print("u,");
+        if (foot2 !=  foot2_old) //new foot up detected
+          {
+            foot2_old = foot2;
+            Serial.print("f[");
+            Serial.print(leg2);
+            Serial.print(",u,");
+            Serial.print(tag2_hold);
+            Serial.println("]");
+          }
       }
     
     //
@@ -680,12 +719,20 @@ void loop()
           if ( hip2_pos  >= hip2_hold + backlash_range )  
             {  
               hip2_lock  =false;
-              Serial.println("E[hip2lock]");  //**fixme add tag number
+              Serial.print("E[3,");
+              Serial.print(leg2);
+              Serial.print(",");
+              Serial.print(tag2_hold);
+              Serial.println(",h]");
             }
           if ( hip2_pos  <= hip2_hold - backlash_range ) 
             {
               hip2_lock  =false;
-              Serial.println("E[hip2lock]");  //**fixme add tag number
+              Serial.print("E[3,");
+              Serial.print(leg2);
+              Serial.print(",");
+              Serial.print(tag2_hold);
+              Serial.println(",h]");
             }
           // pll lock up/down to hold  
           if (hip2_pos > hip2_hold ) { hip2_pwm=hip2_pwm - 1; }
@@ -714,12 +761,20 @@ void loop()
           if ( leg2_pos  >= leg2_hold + backlash_range )  
             {  
               leg2_lock  =false;
-              Serial.print("E[leg2lock]");  //**fixme add tag number
+              Serial.print("E[3,");
+              Serial.print(leg2);
+              Serial.print(",");
+              Serial.print(tag2_hold);
+              Serial.println(",l]");
             }
           if ( leg2_pos  <= leg2_hold - backlash_range ) 
             {
               leg2_lock  =false;
-              Serial.print("E[leg2lock]");  //**fixme add tag number
+              Serial.print("E[3,");
+              Serial.print(leg2);
+              Serial.print(",");
+              Serial.print(tag2_hold);
+              Serial.println(",l]");
             }
           // pll lock up/down to hold  
           if (leg2_pos > leg2_hold ) { leg2_pwm=leg2_pwm - 1; }
@@ -748,12 +803,20 @@ void loop()
           if ( knee2_pos  >= knee2_hold + backlash_range )  
             {  
               knee2_lock  = false;
-              Serial.print("E[knee2lock]"); //**fixme add tag number 
+              Serial.print("E[3,");
+              Serial.print(leg2);
+              Serial.print(",");
+              Serial.print(tag2_hold);
+              Serial.println(",k]"); 
             }
           if ( knee2_pos  <= knee2_hold - backlash_range ) 
             {
               knee2_lock  = false;
-              Serial.print("E[knee2lock]");  //**fixme add tag number
+              Serial.print("E[3,");
+              Serial.print(leg2);
+              Serial.print(",");
+              Serial.print(tag2_hold);
+              Serial.println(",k]");
             }
           // pll lock up/down to hold  
           if (knee2_pos > knee2_hold ) { knee2_pwm=knee2_pwm - 1; }
@@ -785,7 +848,17 @@ void loop()
             Serial.println("E[WTF.2]"); // something realy bad happened 
           }
        }
-       
+    // set status led
+    if (rdy1 == true & rdy2 == true)
+      { 
+        rdy_out= true ;
+      }
+    else
+      { 
+        rdy_out= true ;
+      }   
+    digitalWrite(rdy_out_pin, rdy_out);  // set led pin state
+    
     // read serial
     if (Serial.available())       // new serial data
       {
@@ -889,7 +962,7 @@ void loop()
                       Serial.print(tag2_new);
                       Serial.println("]");                      
                     }
-                  buff ="";              // clear buffer
+                  buff ="";             
                   error=0;  
                 }
               if (buff.substring(0) == "#2")  //next
@@ -920,12 +993,12 @@ void loop()
                   leg2_lock  = false;
                   knee2_lock = false;
                   
-                  buff ="";              // clear buffer
+                  buff ="";            
                   error=0;
                 }
               if (buff.substring(0) == "#3")  //stop
                 {
-                  // stop   sets vurrent read values to hold values
+                  // stop   sets current read values to hold values
                   // for all legs and pwm pll lock
                   hip1_hold  = hip1_pos_s  ;
                   leg1_hold  = leg1_pos_s  ;
@@ -949,56 +1022,56 @@ void loop()
                   leg2_lock  = true  ;
                   knee2_lock = true  ;
                   
-                  buff ="";              // clear buffer
+                  buff ="";          
                   error=0;
                 }
-              if (buff.substring(0) == "#4")  //
+              if (buff.substring(0) == "#4")  // not yet defined
                 {
                   // TODO:-
 
                   
-                  buff ="";              // clear buffer
+                  buff ="";         
                   error=0;
                 }
-              if (buff.substring(0) == "#5")  //
+              if (buff.substring(0) == "#5")  // not yet defined
                 {
                   // TODO:-
 
                   
-                  buff ="";              // clear buffer 
+                  buff ="";      
                   error=0;
                 }
-              if (buff.substring(0) == "#6")  //
+              if (buff.substring(0) == "#6")  // not yet defined
                 {
                   // TODO:-
 
                    
-                  buff ="";              // clear buffer
+                  buff ="";             
                   error=0;
                 }
-              if (buff.substring(0) == "#7")  //
+              if (buff.substring(0) == "#7")  // not yet defined
                 {
                   // TODO:- 
 
                   
-                  buff ="";              // clear buffer
+                  buff ="";              
                   error=0;
                 }
                                 
-              if (buff.substring(0) == "#8")  //
+              if (buff.substring(0) == "#8")  // not yet defined
                 {
                   // TODO:- 
 
                   
-                  buff ="";              // clear buffer
+                  buff ="";              
                   error=0;
                 }
-              if (buff.substring(0) == "#9")  //
+              if (buff.substring(0) == "#9")  // not yet defined
                 {
                   // TODO:- 
                   
 
-                  buff ="";              // clear buffer
+                  buff ="";              
                   error=0;
                 }
             }   
@@ -1073,7 +1146,7 @@ void loop()
     //
     // it outputs a serial stream in the format :-
     
-    // "1[h=[raw]pwm[d],l=[raw]pwm[d],k=[raw]pwm[d],f[t]]  ;2[h=[raw]pwm[
+    // "&1[h=[raw]pwm[d],l=[raw]pwm[d],k=[raw]pwm[d],f[t]]  ;&2[h=[raw]pwm[
     // d],l=[raw]pwm[d],k=[raw]pwm[d],f[t]]"
     //
     // where:-
@@ -1089,7 +1162,7 @@ void loop()
     //  all values shown are none inverted !  be aware of that  
 
     // hip1
-    Serial.print("1[h=[");
+    Serial.print("&1[h=[");
     hip1_pos = analogRead(hip1_pot);                
     Serial.print(hip1_pos);                     
     Serial.print("]");
@@ -1152,7 +1225,7 @@ void loop()
     Serial.print("]]  ;");
     delay(2);
     //hip2
-    Serial.print("2[h=[");
+    Serial.print("&2[h=[");
     hip2_pos = analogRead(hip2_pot);
     Serial.print(hip2_pos);
     Serial.print("]");
