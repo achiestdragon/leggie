@@ -65,7 +65,7 @@ vin                  srl rx data   tx1
 //
 //
 // **********************************************************************
-//
+// serial message format for transmissions to rpi3 from this code
 //
 //  error message formats and codes
 //
@@ -81,10 +81,39 @@ vin                  srl rx data   tx1
 //    k[leg,tag]                      = ack command recived 
 //    l[leg,r,tag]                    = leg reached hold pos and ready
 //
+//  cal/test mode output format ( all on one line )
+//
+//  &1[h=[raw]pwm[d],l=[raw]pwm[d],k=[raw]pwm[d],f[t]]  ;&2[h=[raw]pwm[ 
+//       d],l=[raw]pwm[d],k=[raw]pwm[d],f[t]]"
+//
 //
 // **********************************************************************
+// serial message commands format , from to rpi3 to this code
 //
+//    #0                    = home
+//            stops current moves/holds and moves legs to home position
+// 
+//    #1[n,t,hhh,lll,kkk]   = set new
+//            preloads hip leg knee and tag values for leg n
+//
+//    #2                    = next
+//            last preload values to current values for all legs
+//
+//    #3                    = stop
+//            current leg positions current hold positions
+//
+//    #4                    = next odd
+//            last preload values to current values for odd legs
+//
+//    #5                    = next even
+//            last preload values to current values for even legs
+//
+//    #6[n]                 = next individual
+//            last preload values to current values for leg n
 
+//    #7                    = not yet defined
+//    #8                    = not yet defined
+//    #9                    = not yet defined
 //
 // **********************************************************************
 //                                 includes
@@ -216,6 +245,8 @@ String tagstr    ;
 String hipstr    ;
 String legstr    ;
 String kneestr   ;
+String leg       ;
+
 // other varibles
 
 int cal    = false ;
@@ -315,8 +346,8 @@ void setup()
   hip1_servo.attach(hip1_servo_pin);     //  d11 pwm hip1
   leg1_servo.attach(leg1_servo_pin);     //  d10 pwm leg1
   knee1_servo.attach(knee1_servo_pin);   //  d9  pwm knee1
-  pinMode(adr1_pin, INPUT_PULLUP);       //  d8
-  pinMode(adr0_pin, INPUT_PULLUP);       //  d7 
+  pinMode(adr1_pin, INPUT_PULLUP);       //  d8  adr 1
+  pinMode(adr0_pin, INPUT_PULLUP);       //  d7  adr 2
   hip2_servo.attach(hip2_servo_pin);     //  d6  pwm hip2
   leg2_servo.attach(leg2_servo_pin);     //  d5  pwm leg2
   pinMode(step_rdy_b_in_pin, INPUT);     //  d4  ** defined but unused
@@ -893,9 +924,9 @@ void loop()
                   leg1_rdy   = false ;
                   knee1_rdy  = false ;
                   rdy1       = false ;
-                  hip1_lock  = false;
-                  leg1_lock  = false;
-                  knee1_lock = false;
+                  hip1_lock  = false ;
+                  leg1_lock  = false ;
+                  knee1_lock = false ;
                   
                   hip2_hold  = hip2_new  ;
                   leg2_hold  = leg2_new  ;
@@ -905,9 +936,12 @@ void loop()
                   leg2_rdy   = false ;
                   knee2_rdy  = false ;
                   rdy2       = false ;
-                  hip2_lock  = false;
-                  leg2_lock  = false;
-                  knee2_lock = false;
+                  hip2_lock  = false ;
+                  leg2_lock  = false ;
+                  knee2_lock = false ;
+                  
+                  Serial.println("k[#0]");
+    
                 
                   buff ="";              // clear buffer
                   error=0;                 
@@ -928,7 +962,7 @@ void loop()
                   // ** hip,leg and knee values must have leading 0's
                   // and be a 3 chrs fixed lenght
                   //
-                  // if leg nos is valid then ack with "k[n,t]"
+                  // if leg nos is valid then ack with "k[#1,n,t]"
                   //
                   nosstr=buff.substring(3)      ;
                   tagstr=buff.substring(5)      ;
@@ -943,7 +977,7 @@ void loop()
                       hip1_new  = hipstr.toInt() ;
                       leg1_new  = legstr.toInt() ;
                       knee1_new = kneestr.toInt();
-                      Serial.print("k[");
+                      Serial.print("k[#1,");
                       Serial.print(leg1);
                       Serial.println(",");
                       Serial.print(tag1_new);
@@ -956,7 +990,7 @@ void loop()
                       hip2_new  = hipstr.toInt() ;
                       leg2_new  = legstr.toInt() ;
                       knee2_new = kneestr.toInt();
-                      Serial.print("k[");
+                      Serial.print("k[#1,");
                       Serial.print(leg2);
                       Serial.println(",");
                       Serial.print(tag2_new);
@@ -977,10 +1011,9 @@ void loop()
                   leg1_rdy   = false ;
                   knee1_rdy  = false ;
                   rdy1       = false ;
-                  hip1_lock  = false;
-                  leg1_lock  = false;
-                  knee1_lock = false;
-                  
+                  hip1_lock  = false ;
+                  leg1_lock  = false ;
+                  knee1_lock = false ;
                   hip2_hold  = hip2_new  ;
                   leg2_hold  = leg2_new  ;
                   knee2_hold = knee2_new ; 
@@ -989,10 +1022,10 @@ void loop()
                   leg2_rdy   = false ;
                   knee2_rdy  = false ;
                   rdy2       = false ;
-                  hip2_lock  = false;
-                  leg2_lock  = false;
-                  knee2_lock = false;
-                  
+                  hip2_lock  = false ;
+                  leg2_lock  = false ;
+                  knee2_lock = false ;
+                  Serial.println("k[#2]");
                   buff ="";            
                   error=0;
                 }
@@ -1010,7 +1043,6 @@ void loop()
                   hip1_lock  = true  ;
                   leg1_lock  = true  ;
                   knee1_lock = true  ;
-                  
                   hip2_hold  = hip2_pos_s  ;
                   leg2_hold  = leg2_pos_s  ;
                   knee2_hold = knee2_pos_s ; 
@@ -1021,31 +1053,78 @@ void loop()
                   hip2_lock  = true  ;
                   leg2_lock  = true  ;
                   knee2_lock = true  ;
-                  
+                  Serial.println("k[#3]");
                   buff ="";          
                   error=0;
                 }
-              if (buff.substring(0) == "#4")  // not yet defined
+              if (buff.substring(0) == "#4")  // new odd
                 {
-                  // TODO:-
-
-                  
+                  hip1_hold  = hip1_new  ;
+                  leg1_hold  = leg1_new  ;
+                  knee1_hold = knee1_new ;
+                  tag1_hold  = tag1_new  ;
+                  hip1_rdy   = false ;
+                  leg1_rdy   = false ;
+                  knee1_rdy  = false ;
+                  rdy1       = false ;
+                  hip1_lock  = false ;
+                  leg1_lock  = false ;
+                  knee1_lock = false ;
+                  Serial.println("k[#4]");                
                   buff ="";         
                   error=0;
                 }
-              if (buff.substring(0) == "#5")  // not yet defined
+              if (buff.substring(0) == "#5")  // new even
                 {
-                  // TODO:-
-
-                  
+                  hip2_hold  = hip2_new  ;
+                  leg2_hold  = leg2_new  ;
+                  knee2_hold = knee2_new ; 
+                  tag2_hold  = tag2_new  ;  
+                  hip2_rdy   = false ;
+                  leg2_rdy   = false ;
+                  knee2_rdy  = false ;
+                  rdy2       = false ;
+                  hip2_lock  = false ;
+                  leg2_lock  = false ;
+                  knee2_lock = false ;
+                  Serial.println("k[#5]"); 
                   buff ="";      
                   error=0;
                 }
-              if (buff.substring(0) == "#6")  // not yet defined
+              if (buff.substring(0) == "#6")  // new individual
                 {
-                  // TODO:-
-
-                   
+                  leg=buff.substring(3);
+                  if (leg == "1" or leg == "3" or leg == "5")
+                    {
+                      hip1_hold  = hip1_new  ;
+                      leg1_hold  = leg1_new  ;
+                      knee1_hold = knee1_new ;
+                      tag1_hold  = tag1_new  ;
+                      hip1_rdy   = false ;
+                      leg1_rdy   = false ;
+                      knee1_rdy  = false ;
+                      rdy1       = false ;
+                      hip1_lock  = false ;
+                      leg1_lock  = false ;
+                      knee1_lock = false ;     
+                    }
+                  if (leg == "2" or leg == "3" or leg == "6")
+                    {
+                      hip2_hold  = hip2_new  ;
+                      leg2_hold  = leg2_new  ;
+                      knee2_hold = knee2_new ; 
+                      tag2_hold  = tag2_new  ;  
+                      hip2_rdy   = false ;
+                      leg2_rdy   = false ;
+                      knee2_rdy  = false ;
+                      rdy2       = false ;
+                      hip2_lock  = false ;
+                      leg2_lock  = false ;
+                      knee2_lock = false ;  
+                    }
+                  Serial.print("k[#5,"); 
+                  Serial.print(leg); 
+                  Serial.println("]"); 
                   buff ="";             
                   error=0;
                 }
