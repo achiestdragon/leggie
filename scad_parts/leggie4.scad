@@ -1,4 +1,4 @@
-// l-egg-ie 4 hexapod robot <leggie4.scad>   rev 1.0  15 jan 2018
+// l-egg-ie 4 hexapod robot <leggie4.scad>   rev 1.0a  7 feb 2018
 // 
 //*****************************************************************************
 //*             (c) 2018 by David Powell (aka AchiestDragon)                  *
@@ -16,55 +16,13 @@
 
 
 //*****************************************************************************
-// Libraries :-     (general mcad libs) 
-
-include <MCAD/units/metric.scad>
-include <MCAD/hardware/bearing.scad>
-
-include <MCAD/fasteners/metric_fastners.scad>
-// csk_bolt (3,14);
-// washer (3);
-// flat_nut (3);
-// bolt (3,14);
-// cylinder_chamfer (8,1);
-// chamfer (10,2);
-
-// ****************************************************************************
 // Libraries :-     (local directory libs) 
 
-include <raspberrypi.scad>
-// pi (part,header);
-// zero ( header= 0);
-// hifiberryDacPlus (withHeader=false);
-//# pi_hat();
-//# pi3 ();
-
+// from https://www.thingiverse.com/thing:2023897
+//include <raspberrypi.scad>
 include <parts_lib.scad>
-// printer_bed ();    // 3d printer bed size allignment guide
-// motor();           // 12v 12000 rpm 3mm shaft
-// microswitch ();    // small microswitch 
-// shaft_coupler ();  // 3mm to 3mm shaft coupler 
-// encoder_disk ();   // optical encoder disk 3mm mounting (printable)
-// slot_sensor ();    // slotted opto switch
-// selonoid ();       // lift/hold seloniod 2.5kg 20mm dia 15mm h
-// bearings (type);   // from lib MCAD-dev but only needs type input
-//                    // skate(608) =683 etc eg:-
-// translate ([0,0,10]) {rotate([0,0,0]){bearings(623);}}    //3mm 
-// translate ([0,0,0])  {rotate([0,0,0]){bearings(624);}}    //4mm
-// translate ([0,0,-10]){rotate([0,0,0]){ bearings(606);}}    //6mm
-//# pot();             // pot 16mm metal flat d 6mm shaft  
-// eurocard();        // a quick pre rendered  100x160mm euro square pad 
-//                    // proto board , from euro100x160pcb.scad pcb();
-//                    // as that takes about 15 mins to render
-
 include <shapes.scad> // csg shapes/functions
-//# slot (width, lenth, hight, rotation)
-//# ring (outer, inner, hight, segments)
-// rbox (x,y,z,d)
-// torus (r1,r2,a,s1,s2)
-//
-// Cubic_Array (sx,sy,sz,nx,ny,nz,center=true){ child_objects ;}
-//# Radial_Array (a,n,r){ child_objects ;}
+
 
 //*****************************************************************************
 // Varibles :-
@@ -663,9 +621,9 @@ module servo_cut() // servo cutout/mounting hole csg shape
 module base_hw() // servos and pots and pi3 parts in base assembly 
 {  
     translate ([-2,0,40]){rotate([180,0,0]){
-      pi_hat();
-      pi3 ();}}
-  // servo cutouts 
+       // needs pi3 scad file https://www.thingiverse.com/thing:2023897 
+            pi3 ();}}
+       // servo cutouts 
       Radial_Array (60,6,140)
       {
         translate ([0,0,-2]){rotate([0,180,0]){ servo() ;}}
