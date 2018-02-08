@@ -208,12 +208,17 @@ int adr1          = false;
                                // use this as a status led in  some form 
 //serial Strings
 
-String inByte  ;
-String buff    ;
-
+String inByte    ;
+String buff      ;
+String nosstr    ;
+String tagstr    ;
+String hipstr    ;
+String legstr    ;
+String kneestr   ;
 // other varibles
 
-int cal        = false ;
+int cal    = false ;
+int btag   = 0     ;
 
 // individual servos reached new hold pos 
   
@@ -791,7 +796,7 @@ void loop()
             if (buff.substring(0) == "#") 
               {
                 //valid command string detected
-                if (buff.substring(0) == "#0")  //home
+                if (buff.substring(0,1) == "#0")  //home
                   {
                   // home all legs direct 
                   // 
@@ -829,14 +834,61 @@ void loop()
                   leg2_lock  = false;
                   knee2_lock = false;
                 
-                  error=0;
+                  buff ="";              // clear buffer
+                  error=0;                 
                 }
               if (buff.substring(0) == "#1")  //new
                 {
                   // new    load new values for hip,leg,knee
-                  // for appropriate legs
-                  //************************** finish this bit !!! *********************************
-             
+                  // for appropriate legs data format :-
+                  //
+                  // "#1[n,t,hhh,lll,kkk]"
+                  //
+                  // where :- 
+                  //     n   = legnos (1 to 6)
+                  //     t   = tag  (1 to 8)
+                  //     hhh  = hip val   000 to 255
+                  //     lll = leg value 000 to 255
+                  //     kkk   = knee value 000 to 255
+                  // ** hip,leg and knee values must have leading 0's
+                  // and be a 3 chrs fixed lenght
+                  //
+                  // if leg nos is valid then ack with "k[n,t]"
+                  //
+                  nosstr=buff.substring(3)      ;
+                  tagstr=buff.substring(5)      ;
+                  hipstr=buff.substring(7,9)    ;
+                  legstr=buff.substring(11,13)  ;
+                  kneestr=buff.substring(14,16) ;
+                  
+                  btag=nosstr.toInt();
+                  if (btag == leg1 )
+                    {
+                      tag1_new  = tagstr.toInt() ;
+                      hip1_new  = hipstr.toInt() ;
+                      leg1_new  = legstr.toInt() ;
+                      knee1_new = kneestr.toInt();
+                      Serial.print("k[");
+                      Serial.print(leg1);
+                      Serial.println(",");
+                      Serial.print(tag1_new);
+                      Serial.println("]");
+                    }
+                  
+                  if (btag == leg2 )
+                    {
+                      tag2_new  = tagstr.toInt() ;
+                      hip2_new  = hipstr.toInt() ;
+                      leg2_new  = legstr.toInt() ;
+                      knee2_new = kneestr.toInt();
+                      Serial.print("k[");
+                      Serial.print(leg2);
+                      Serial.println(",");
+                      Serial.print(tag2_new);
+                      Serial.println("]");                      
+                    }
+                  buff ="";              // clear buffer
+                  error=0;  
                 }
               if (buff.substring(0) == "#2")  //next
                 {
@@ -865,7 +917,8 @@ void loop()
                   hip2_lock  = false;
                   leg2_lock  = false;
                   knee2_lock = false;
-
+                  
+                  buff ="";              // clear buffer
                   error=0;
                 }
               if (buff.substring(0) == "#3")  //stop
@@ -893,45 +946,57 @@ void loop()
                   hip2_lock  = true  ;
                   leg2_lock  = true  ;
                   knee2_lock = true  ;
-
+                  
+                  buff ="";              // clear buffer
                   error=0;
                 }
               if (buff.substring(0) == "#4")  //
                 {
-                  // 
+                  // TODO:-
+
                   
+                  buff ="";              // clear buffer
                   error=0;
                 }
               if (buff.substring(0) == "#5")  //
                 {
-                  //
-                   
+                  // TODO:-
+
+                  
+                  buff ="";              // clear buffer 
                   error=0;
                 }
               if (buff.substring(0) == "#6")  //
                 {
-                  // 
-                  
+                  // TODO:-
+
+                   
+                  buff ="";              // clear buffer
                   error=0;
                 }
               if (buff.substring(0) == "#7")  //
                 {
-                  // 
+                  // TODO:- 
 
+                  
+                  buff ="";              // clear buffer
                   error=0;
                 }
                                 
               if (buff.substring(0) == "#8")  //
                 {
-                  // 
+                  // TODO:- 
+
                   
+                  buff ="";              // clear buffer
                   error=0;
                 }
               if (buff.substring(0) == "#9")  //
                 {
-                  // 
-
+                  // TODO:- 
                   
+
+                  buff ="";              // clear buffer
                   error=0;
                 }
             }   
@@ -941,18 +1006,24 @@ void loop()
             }
           buff ="";              // clear buffer for next command 
         }
-      if (buff.length() > 32)  // serial overrun
+      if (buff.length() > 32)    // serial overrun
         {
+          // serial overrun error and realy it should never get her
+          // the longest command string is 18chrs long
+          // and most of them are just 2 bytes long
+           
           buff ="";              // clear buffer
-          error = 2;        //ERROR [ buffer overrun ]
+          error = 2;             //ERROR [ buffer overrun ]
         }
     
       }
     if (error != 0)
       {
-        Serial.print("*ERR[");
+        Serial.print("E[");
         Serial.print(error);
         Serial.println("]");
+        //clear error
+        error=0;
       }    
     // set and invert if needed pwmo values 
     if (hip_d == 0)
