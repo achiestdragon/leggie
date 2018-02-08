@@ -16,4 +16,8 @@ ardruino nano  leg drive control code :- work in progress
 
 raspberry pi3 code                    :- not yet started
 
+picture of it (sorry for the bad webcam image of it ) :-
+
+https://drive.google.com/file/d/1_pFC5v_w873IGby1gHJB-mPfsxGtAzRv/view
+
 
