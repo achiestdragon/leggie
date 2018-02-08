@@ -57,12 +57,21 @@ vin                  srl rx data   tx1
 */
 //
 // **********************************************************************
-// TODO:-  ( leave till later stuff )
+// TODO:-  ( the leave till later stuff )
 //
 //  add option to invert the read adc values (depending on what direction 
 //  the potentiometers are actualy wired if different )
 //
+//  define the serial command functions for :-
+//    #7                    = not yet defined
+//    #8                    = not yet defined
+//    #9                    = not yet defined
+//  and sort out there code
 //
+//  i/o signal pins d2 , d4 , d12  are defined but not used as there
+//  orignial intended task is now handled over serial  so are available 
+//  for other uses 
+// 
 //
 // **********************************************************************
 // serial message format for transmissions to rpi3 from this code
@@ -88,7 +97,7 @@ vin                  srl rx data   tx1
 //
 //
 // **********************************************************************
-// serial message commands format , from to rpi3 to this code
+// serial message commands format , from rpi3 to this code
 //
 //    #0                    = home
 //            stops current moves/holds and moves legs to home position
@@ -110,7 +119,7 @@ vin                  srl rx data   tx1
 //
 //    #6[n]                 = next individual
 //            last preload values to current values for leg n
-
+//
 //    #7                    = not yet defined
 //    #8                    = not yet defined
 //    #9                    = not yet defined
@@ -226,11 +235,11 @@ int knee2_hold = 0;
 
 // input pin varibles
 
-//int exception_in  = false;  // **unused
-//int step_rdy_b_in = false;  // **unused
+int exception_in  = false;  // **unused
+int step_rdy_b_in = false;  // **unused
 int adr0          = false;
 int adr1          = false;
-//int step_rdy_a_in = false;  // **unused
+int step_rdy_a_in = false;  // **unused
 
 // output pin varibles
 
@@ -322,9 +331,9 @@ const int hip_d = 0  ;  // 0=normal / 1=invert pot read to pwm value
 const int leg_d = 0  ;  // 0=normal / 1=invert pot read to pwm value
 const int knee_d = 0 ;  // 0=normal / 1=invert pot read to pwm value
 
-//default backlash range read is of 20 (+-10) as read from adc values
-//needs scaleing to the pwm range thats = to 1/4 approx = +-2.5
-//as it needs to be an int use 3 and add one more so that you have a
+// default backlash range read is of 20 (+-10) as read from adc values
+// needs scaleing to the pwm range thats = to 1/4 approx = +-2.5
+// as it needs to be an int use 3 and add one more so that you have a
 // wider pwm lock range  makes it +-4 , use 4 as the values is used
 // in eather direction no need to have it signed
 
@@ -891,12 +900,12 @@ void loop()
     digitalWrite(rdy_out_pin, rdy_out);  // set led pin state
     
     // read serial
-    if (Serial.available())       // new serial data
+    if (Serial.available())       
       {
-        inByte = Serial.read();   // read serial
-        buff += inByte;           // add char to buffer
+        inByte = Serial.read();   
+        buff += inByte;           
        
-        if (inByte=='\n')         // is end of line
+        if (inByte=='\n')         
           {
             //newline detected so decode string
             if (buff.substring(0) == "#") 
@@ -915,7 +924,6 @@ void loop()
                   leg2_new  = 255; // up full
                   knee2_new = 0;   // down full
                   tag2_new  = 1;   // position  sync id tag
-            
                   hip1_hold  = hip1_new  ;
                   leg1_hold  = leg1_new  ;
                   knee1_hold = knee1_new ;
@@ -927,7 +935,6 @@ void loop()
                   hip1_lock  = false ;
                   leg1_lock  = false ;
                   knee1_lock = false ;
-                  
                   hip2_hold  = hip2_new  ;
                   leg2_hold  = leg2_new  ;
                   knee2_hold = knee2_new ; 
@@ -939,11 +946,8 @@ void loop()
                   hip2_lock  = false ;
                   leg2_lock  = false ;
                   knee2_lock = false ;
-                  
                   Serial.println("k[#0]");
-    
-                
-                  buff ="";              // clear buffer
+                  buff ="";              
                   error=0;                 
                 }
               if (buff.substring(0) == "#1")  //new
@@ -969,7 +973,6 @@ void loop()
                   hipstr=buff.substring(7,9)    ;
                   legstr=buff.substring(11,13)  ;
                   kneestr=buff.substring(14,16) ;
-                  
                   btag=nosstr.toInt();
                   if (btag == leg1 )
                     {
@@ -983,7 +986,6 @@ void loop()
                       Serial.print(tag1_new);
                       Serial.println("]");
                     }
-                  
                   if (btag == leg2 )
                     {
                       tag2_new  = tagstr.toInt() ;
@@ -1057,7 +1059,7 @@ void loop()
                   buff ="";          
                   error=0;
                 }
-              if (buff.substring(0) == "#4")  // new odd
+              if (buff.substring(0) == "#4")  // next odd
                 {
                   hip1_hold  = hip1_new  ;
                   leg1_hold  = leg1_new  ;
@@ -1074,7 +1076,7 @@ void loop()
                   buff ="";         
                   error=0;
                 }
-              if (buff.substring(0) == "#5")  // new even
+              if (buff.substring(0) == "#5")  // next even
                 {
                   hip2_hold  = hip2_new  ;
                   leg2_hold  = leg2_new  ;
@@ -1091,7 +1093,7 @@ void loop()
                   buff ="";      
                   error=0;
                 }
-              if (buff.substring(0) == "#6")  // new individual
+              if (buff.substring(0) == "#6")  // next individual
                 {
                   leg=buff.substring(3);
                   if (leg == "1" or leg == "3" or leg == "5")
@@ -1158,25 +1160,19 @@ void loop()
             {
               error=1 ; //ERROR [com frame sync]
             }
-          buff ="";              // clear buffer for next command 
+          buff ="";      
         }
-      if (buff.length() > 32)    // serial overrun
+      if (buff.length() > 32)   
         {
-          // serial overrun error and realy it should never get her
-          // the longest command string is 18chrs long
-          // and most of them are just 2 bytes long
-           
-          buff ="";              // clear buffer
+          buff ="";    
           error = 2;             //ERROR [ buffer overrun ]
         }
-    
       }
     if (error != 0)
       {
         Serial.print("E[");
         Serial.print(error);
         Serial.println("]");
-        //clear error
         error=0;
       }    
     // set and invert if needed pwmo values 
