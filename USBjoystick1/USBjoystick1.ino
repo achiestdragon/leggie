@@ -6,7 +6,7 @@
 // **********************************************************************
 //          (c) 2018 by david powell  (aka AchiestDragon)
 // **********************************************************************
-//     
+//   licence :-  GPL v3  
 /*
 discription :-
  ardunio nano code for the dual USB joystick control pad for the leggie
@@ -78,12 +78,11 @@ notes :- the led l1 on the ardunio lights when js2 button is pressed
  
 */
 
-
-// **********************************************************************
-//                                 includes
-// **********************************************************************
-
-
+//
+// TODO :-
+// add output code so it sends data to both serial ports 
+// so support for rf remote (by extra module ) option
+//
 
 // **********************************************************************
 //                                 varibles

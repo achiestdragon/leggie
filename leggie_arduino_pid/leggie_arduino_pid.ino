@@ -3,6 +3,7 @@
 // **********************************************************************
 // *      (c) 2018 & written by david powell (aka AchiestDragon)        *
 // **********************************************************************
+//   licence :-    GPL V3
 /*
 
 discription:-
@@ -57,8 +58,7 @@ vin                  srl rx data   tx1
 */
 //
 // **********************************************************************
-// TODO:-  ( the leave till later stuff )
-//
+// TODO:-  
 //
 //  define the serial command functions for :-
 //    #7                    = not yet defined
@@ -72,6 +72,7 @@ vin                  srl rx data   tx1
 // 
 //
 // **********************************************************************
+// 
 // serial message format for transmissions to rpi3 from this code
 //
 //  error message formats and codes
@@ -325,15 +326,15 @@ const int pot_max    = 930;  // 850 for 180 degree servos
 
 // change if pwm out values need inverting
  
-const int hip_d = 0  ;  // 0=normal / 1=invert  pwm out value
+const int hip_d = 1  ;  // 0=normal / 1=invert  pwm out value
 const int leg_d = 0  ;  // 0=normal / 1=invert  pwm out value
-const int knee_d = 0 ;  // 0=normal / 1=invert  pwm out value
+const int knee_d = 1 ;  // 0=normal / 1=invert  pwm out value
 
 // change if read adc values need inverting
 
-const int hip_a = 1  ;  // 0=normal / 1=invert  adc in value
-const int leg_a = 1  ;  // 0=normal / 1=invert  adc in value
-const int knee_a = 1 ;  // 0=normal / 1=invert  adc in value
+const int hip_a = 0  ;  // 0=normal / 1=invert  adc in value
+const int leg_a = 0  ;  // 0=normal / 1=invert  adc in value
+const int knee_a = 0 ;  // 0=normal / 1=invert  adc in value
 
 // default backlash range read is of 20 (+-10) as read from adc values
 // needs scaleing to the pwm range thats = to 1/4 approx = +-2.5
@@ -369,9 +370,7 @@ void setup()
   
   // initialize serial communications at 9600 bps:
   Serial.begin(9600);
-
   delay(200);
-   
   adr0 = digitalRead(adr0_pin);
   adr1 = digitalRead(adr1_pin); 
   if ( adr0 == 0 )
@@ -723,6 +722,7 @@ void loop()
     delay(2);
     //
     // invert adc values if needed
+    //
     if( hip_a != 0 )
       {
         hip2_pos_s= 255-hip2_pos_s;
@@ -931,19 +931,24 @@ void loop()
           {
             Serial.println("E[WTF.2]"); // something realy bad happened 
           }
-       }
-    // set status led
+      }
+    //   
+    // set status led 
+    //
     if (rdy1 == true && rdy2 == true)
       { 
         rdy_out= true ;
       }
     else
       { 
-        rdy_out= true ;
+        rdy_out= false ;
       }   
     digitalWrite(rdy_out_pin, rdy_out);  // set led pin state
     
+    //
     // read serial
+    //
+    
     if (Serial.available())       
       {
         inByte = (char)Serial.read();    //** fixme ** string decode not working
