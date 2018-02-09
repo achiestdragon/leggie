@@ -314,7 +314,7 @@ int error     = 0;
 // this should be set to the pwm driven rotational range of movment of 
 // the servos  , default 180 degree mg996r servos
    
-const int pwm_neg90  =  20 ;  //-90 deg rotation pwm value of servos
+const int pwm_neg90  =  25 ;  //-90 deg rotation pwm value of servos
 const int pwm_pos90  = 230 ;  //-90 deg rotation pwm value of servos
 
 // set so that scaled adc values = servo pwm for the range 
@@ -337,7 +337,7 @@ const int knee_d = 0 ;  // 0=normal / 1=invert pot read to pwm value
 // wider pwm lock range  makes it +-4 , use 4 as the values is used
 // in eather direction no need to have it signed
 
-const int backlash_range  = 6 ;  //default backlash value 
+const int backlash_range  = 4 ;  //default backlash value 
 
 // unscale this value for note on pot_min & pot_max settings above
 
@@ -366,7 +366,8 @@ void setup()
   // initialize serial communications at 9600 bps:
   Serial.begin(9600);
 
-  delay(200); 
+  delay(200);
+   
   adr0 = digitalRead(adr0_pin);
   adr1 = digitalRead(adr1_pin); 
   if ( adr0 == 0 )
@@ -494,7 +495,7 @@ void loop()
     //foot1 status 
     //
    
-    foot1_pos = analogRead(foot1);
+    foot1_pos = analogRead(foot1_pot);
     
     if (foot1_pos > 520) 
       { 
@@ -547,7 +548,6 @@ void loop()
     //  
     if (hip1_hold == hip1_pos_s)
       {
-        
         hip1_lock = true; 
         hip1_rdy  = true;
       }
@@ -556,7 +556,7 @@ void loop()
         // hip 1 pll lock dir check and pwm update
         if (hip1_lock == true)
         {
-          if ( hip1_pos  >= hip1_hold + backlash_range )  
+          if ( hip1_pos_s  >= (hip1_hold + backlash_range) )  
             {  
               hip1_lock  =false;
               Serial.print("E[3,");
@@ -565,7 +565,7 @@ void loop()
               Serial.print(tag1_hold);
               Serial.println(",h]");
             }
-          if ( hip1_pos  <= hip1_hold - backlash_range ) 
+          if ( hip1_pos_s  <= (hip1_hold - backlash_range) ) 
             {
               hip1_lock  =false;
               Serial.print("E[3,");
@@ -575,8 +575,8 @@ void loop()
               Serial.println(",h]");
             }
           // pll lock up/down to hold  
-          if (hip1_pos > hip1_hold ) { hip1_pwm=hip1_pwm - 1; }
-          if (hip1_pos < hip1_hold ) { hip1_pwm=hip1_pwm + 1; }           
+          if (hip1_pos_s > hip1_hold ) { hip1_pwm=hip1_pwm - 1; }
+          if (hip1_pos_s < hip1_hold ) { hip1_pwm=hip1_pwm + 1; }           
         }
         else
         {
@@ -598,7 +598,7 @@ void loop()
         // leg 1 pll lock dir check and pwm update
         if (leg1_lock == true)
         {
-          if ( leg1_pos  >= leg1_hold + backlash_range )  
+          if ( leg1_pos_s  >= (leg1_hold + backlash_range) )  
             {  
               leg1_lock  =false;
               Serial.print("E[3,");
@@ -607,7 +607,7 @@ void loop()
               Serial.print(tag1_hold);
               Serial.println(",l]"); 
             }
-          if ( leg1_pos  <= leg1_hold - backlash_range ) 
+          if ( leg1_pos_s  <= (leg1_hold - backlash_range) ) 
             {
               leg1_lock  =false;
               Serial.print("E[3,");
@@ -617,8 +617,8 @@ void loop()
               Serial.println(",l]");
             }
           // pll lock up/down to hold  
-          if (leg1_pos > leg1_hold ) { leg1_pwm=leg1_pwm - 1; }
-          if (leg1_pos < leg1_hold ) { leg1_pwm=leg1_pwm + 1; }           
+          if (leg1_pos_s > leg1_hold ) { leg1_pwm=leg1_pwm - 1; }
+          if (leg1_pos_s < leg1_hold ) { leg1_pwm=leg1_pwm + 1; }           
         }
         else
         {
@@ -640,7 +640,7 @@ void loop()
         // knee 1 pll lock dir check and pwm update
         if (knee1_lock == true)
         {
-          if ( knee1_pos  >= knee1_hold + backlash_range )  
+          if ( knee1_pos_s  >= (knee1_hold + backlash_range) )  
             {  
               knee1_lock  =false;
               Serial.print("E[3,");
@@ -649,7 +649,7 @@ void loop()
               Serial.print(tag1_hold);
               Serial.println(",k]");
             }
-          if ( knee1_pos  <= knee1_hold - backlash_range ) 
+          if ( knee1_pos_s  <= (knee1_hold - backlash_range) ) 
             {
               knee1_lock  =false;
               Serial.print("E[3,");
@@ -659,18 +659,18 @@ void loop()
               Serial.println(",k]"); 
             }
           // pll lock up/down to hold  
-          if (knee1_pos > knee1_hold ) { knee1_pwm=knee1_pwm - 1; }
-          if (knee1_pos < knee1_hold ) { knee1_pwm=knee1_pwm + 1; }           
+          if (knee1_pos_s > knee1_hold ) { knee1_pwm=knee1_pwm - 1; }
+          if (knee1_pos_s < knee1_hold ) { knee1_pwm=knee1_pwm + 1; }           
         }
         else
         {
           // still moveing and not ready
         }
       }     
-    if (hip1_rdy==true&leg1_rdy==true&knee1_rdy==true&rdy1==false)
+    if (hip1_rdy==true&&leg1_rdy==true&&knee1_rdy==true&&rdy1==false)
       {    
         // all valid new ready signals
-        if (hip1_lock==true&leg1_lock==true&knee1_lock==true)
+        if (hip1_lock==true&&leg1_lock==true&&knee1_lock==true)
           {
            // and all locks ok,send status, update rdy 
            Serial.print("l[");
@@ -691,7 +691,7 @@ void loop()
     //
     //  leg2  read and scale adc pot positions for leg 2
     //
-    hip2_pos = analogRead(hip1_pot);
+    hip2_pos = analogRead(hip2_pot);
     hip2_pos_s=map(hip2_pos,pot_min,pot_max, pwm_neg90,pwm_pos90);
     delay(2);
     leg2_pos = analogRead(leg2_pot);
@@ -704,7 +704,7 @@ void loop()
     //
     //foot2 status  
     //
-    foot2_pos = analogRead(foot2);
+    foot2_pos = analogRead(foot2_pot);
     
     if (foot2_pos > 520) 
       { 
@@ -766,7 +766,7 @@ void loop()
         // hip 2 pll lock dir check and pwm update
         if (hip2_lock == true)
         {
-          if ( hip2_pos  >= hip2_hold + backlash_range )  
+          if ( hip2_pos_s  >= (hip2_hold + backlash_range) )  
             {  
               hip2_lock  =false;
               Serial.print("E[3,");
@@ -775,7 +775,7 @@ void loop()
               Serial.print(tag2_hold);
               Serial.println(",h]");
             }
-          if ( hip2_pos  <= hip2_hold - backlash_range ) 
+          if ( hip2_pos_s  <= (hip2_hold - backlash_range) ) 
             {
               hip2_lock  =false;
               Serial.print("E[3,");
@@ -785,8 +785,8 @@ void loop()
               Serial.println(",h]");
             }
           // pll lock up/down to hold  
-          if (hip2_pos > hip2_hold ) { hip2_pwm=hip2_pwm - 1; }
-          if (hip2_pos < hip2_hold ) { hip2_pwm=hip2_pwm + 1; }           
+          if (hip2_pos_s > hip2_hold ) { hip2_pwm=hip2_pwm - 1; }
+          if (hip2_pos_s < hip2_hold ) { hip2_pwm=hip2_pwm + 1; }           
         }
         else
         {
@@ -808,7 +808,7 @@ void loop()
         // leg 2 pll lock dir check and pwm update
         if (leg2_lock == true)
         {
-          if ( leg2_pos  >= leg2_hold + backlash_range )  
+          if ( leg2_pos_s  >= (leg2_hold + backlash_range) )  
             {  
               leg2_lock  =false;
               Serial.print("E[3,");
@@ -817,7 +817,7 @@ void loop()
               Serial.print(tag2_hold);
               Serial.println(",l]");
             }
-          if ( leg2_pos  <= leg2_hold - backlash_range ) 
+          if ( leg2_pos_s  <= (leg2_hold - backlash_range) ) 
             {
               leg2_lock  =false;
               Serial.print("E[3,");
@@ -827,8 +827,8 @@ void loop()
               Serial.println(",l]");
             }
           // pll lock up/down to hold  
-          if (leg2_pos > leg2_hold ) { leg2_pwm=leg2_pwm - 1; }
-          if (leg2_pos < leg2_hold ) { leg2_pwm=leg2_pwm + 1; }           
+          if (leg2_pos_s > leg2_hold ) { leg2_pwm=leg2_pwm - 1; }
+          if (leg2_pos_s < leg2_hold ) { leg2_pwm=leg2_pwm + 1; }           
         }
         else
         {
@@ -850,7 +850,7 @@ void loop()
         // knee 2 pll lock dir check and pwm update
         if (knee2_lock == true)
         {
-          if ( knee2_pos  >= knee2_hold + backlash_range )  
+          if ( knee2_pos_s  >= (knee2_hold + backlash_range) )  
             {  
               knee2_lock  = false;
               Serial.print("E[3,");
@@ -859,7 +859,7 @@ void loop()
               Serial.print(tag2_hold);
               Serial.println(",k]"); 
             }
-          if ( knee2_pos  <= knee2_hold - backlash_range ) 
+          if ( knee2_pos_s  <= (knee2_hold - backlash_range) ) 
             {
               knee2_lock  = false;
               Serial.print("E[3,");
@@ -869,18 +869,18 @@ void loop()
               Serial.println(",k]");
             }
           // pll lock up/down to hold  
-          if (knee2_pos > knee2_hold ) { knee2_pwm=knee2_pwm - 1; }
-          if (knee2_pos < knee2_hold ) { knee2_pwm=knee2_pwm + 1; }           
+          if (knee2_pos_s > knee2_hold ) { knee2_pwm=knee2_pwm - 1; }
+          if (knee2_pos_s < knee2_hold ) { knee2_pwm=knee2_pwm + 1; }           
         }
         else
         {
           // still moveing and not ready
         }
       }
-    if (hip2_rdy==true&leg2_rdy==true&knee2_rdy==true&rdy2==false)
+    if (hip2_rdy==true&&leg2_rdy==true&&knee2_rdy==true&&rdy2==false)
       {    
         // all valid new ready signals
-        if (hip2_lock==true&leg2_lock==true&knee2_lock==true)
+        if (hip2_lock==true&&leg2_lock==true&&knee2_lock==true)
           {
            // and all locks ok,send status, update rdy 
            Serial.print("l[");
@@ -899,7 +899,7 @@ void loop()
           }
        }
     // set status led
-    if (rdy1 == true & rdy2 == true)
+    if (rdy1 == true && rdy2 == true)
       { 
         rdy_out= true ;
       }
@@ -912,27 +912,27 @@ void loop()
     // read serial
     if (Serial.available())       
       {
-        inByte = Serial.read();   
-        buff += inByte;           
-       
+        inByte = (char)Serial.read();    //** fixme ** string decode not working
+        buff   = String(buff + inByte);           
+         Serial.println(buff);           //** remove  , for testing only **
         if (inByte=='\n')         
           {
             //newline detected so decode string
             if (buff.substring(0) == "#") 
               {
                 //valid command string detected
-                if (buff.substring(0,1) == "#0")  //home
+                if (buff.substring(1) == "0")  //home
                   {
                   // home all legs direct 
                   // 
                   // to fix  constants for hip,leg,knee home values
                   hip1_new  = 127; // mid
                   leg1_new  = 230; // up full
-                  knee1_new = 20;   // down full
+                  knee1_new = 20;  // down full
                   tag1_new  = 1;   // position  sync id tag
                   hip2_new  = 127; // mid
                   leg2_new  = 230; // up full
-                  knee2_new = 20;   // down full
+                  knee2_new = 20;  // down full
                   tag2_new  = 1;   // position  sync id tag
                   hip1_hold  = hip1_new  ;
                   leg1_hold  = leg1_new  ;
@@ -960,7 +960,7 @@ void loop()
                   buff ="";              
                   error=0;                 
                 }
-              if (buff.substring(0) == "#1")  //new
+              if (buff.substring(1) == "1")  //new
                 {
                   // new    load new values for hip,leg,knee
                   // for appropriate legs data format :-
@@ -1011,7 +1011,7 @@ void loop()
                   buff ="";             
                   error=0;  
                 }
-              if (buff.substring(0) == "#2")  //next
+              if (buff.substring(1) == "2")  //next
                 {
                   // next   make new values current values
                   // for specified legs
@@ -1041,7 +1041,7 @@ void loop()
                   buff ="";            
                   error=0;
                 }
-              if (buff.substring(0) == "#3")  //stop
+              if (buff.substring(1) == "3")  //stop
                 {
                   // stop   sets current read values to hold values
                   // for all legs and pwm pll lock
@@ -1069,7 +1069,7 @@ void loop()
                   buff ="";          
                   error=0;
                 }
-              if (buff.substring(0) == "#4")  // next odd
+              if (buff.substring(1) == "4")  // next odd
                 {
                   hip1_hold  = hip1_new  ;
                   leg1_hold  = leg1_new  ;
@@ -1086,7 +1086,7 @@ void loop()
                   buff ="";         
                   error=0;
                 }
-              if (buff.substring(0) == "#5")  // next even
+              if (buff.substring(1) == "5")  // next even
                 {
                   hip2_hold  = hip2_new  ;
                   leg2_hold  = leg2_new  ;
@@ -1103,7 +1103,7 @@ void loop()
                   buff ="";      
                   error=0;
                 }
-              if (buff.substring(0) == "#6")  // next individual
+              if (buff.substring(1) == "6")  // next individual
                 {
                   leg=buff.substring(3);
                   if (leg == "1" or leg == "3" or leg == "5")
@@ -1140,7 +1140,7 @@ void loop()
                   buff ="";             
                   error=0;
                 }
-              if (buff.substring(0) == "#7")  // not yet defined
+              if (buff.substring(1) == "7")  // not yet defined
                 {
                   // TODO:- 
 
@@ -1149,7 +1149,7 @@ void loop()
                   error=0;
                 }
                                 
-              if (buff.substring(0) == "#8")  // not yet defined
+              if (buff.substring(1) == "8")  // not yet defined
                 {
                   // TODO:- 
 
@@ -1157,7 +1157,7 @@ void loop()
                   buff ="";              
                   error=0;
                 }
-              if (buff.substring(0) == "#9")  // not yet defined
+              if (buff.substring(1) == "9")  // not yet defined
                 {
                   // TODO:- 
                   
@@ -1174,8 +1174,9 @@ void loop()
         }
       if (buff.length() > 32)   
         {
+          Serial.print(buff);
           buff ="";    
-          error = 2;             //ERROR [ buffer overrun ]
+          error = 2;    //ERROR [ buffer overrun ]
         }
       }
     if (error != 0)
