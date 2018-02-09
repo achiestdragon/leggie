@@ -314,8 +314,8 @@ int error     = 0;
 // this should be set to the pwm driven rotational range of movment of 
 // the servos  , default 180 degree mg996r servos
    
-const int pwm_neg90  =   0 ;  //-90 deg rotation pwm value of servos
-const int pwm_pos90  = 255 ;  //-90 deg rotation pwm value of servos
+const int pwm_neg90  =  20 ;  //-90 deg rotation pwm value of servos
+const int pwm_pos90  = 230 ;  //-90 deg rotation pwm value of servos
 
 // set so that scaled adc values = servo pwm for the range 
 // note :-
@@ -337,7 +337,7 @@ const int knee_d = 0 ;  // 0=normal / 1=invert pot read to pwm value
 // wider pwm lock range  makes it +-4 , use 4 as the values is used
 // in eather direction no need to have it signed
 
-const int backlash_range  = 4 ;  //default backlash value 
+const int backlash_range  = 6 ;  //default backlash value 
 
 // unscale this value for note on pot_min & pot_max settings above
 
@@ -366,6 +366,7 @@ void setup()
   // initialize serial communications at 9600 bps:
   Serial.begin(9600);
 
+  delay(200); 
   adr0 = digitalRead(adr0_pin);
   adr1 = digitalRead(adr1_pin); 
   if ( adr0 == 0 )
@@ -402,7 +403,16 @@ void setup()
   } 
 
   // set inital hold values to inital pwm values
-  
+  hip1_pwm  = 127;  // mid
+  leg1_pwm  = 230;  // up full
+  knee1_pwm = 20;   // down full
+  tag1_hold  = 0;    // position  sync id tag
+  hip2_pwm  = 127;  // mid
+  leg2_pwm  = 230;  // up full
+  knee2_pwm = 20;   // down full
+  tag2_hold  = 0;    // position  sync id tag
+
+  // make inital  pwm values  hold values 
   hip1_hold  = hip1_pwm ;       
   leg1_hold  = leg1_pwm ;       
   knee1_hold = knee1_pwm;       
@@ -460,7 +470,7 @@ void setup()
 void loop() 
 {
   // main code :
-  if ( cal = false)
+  if ( cal == false)
   {
     // read adc's for both legs 
     // scale values  read foot status
@@ -917,12 +927,12 @@ void loop()
                   // 
                   // to fix  constants for hip,leg,knee home values
                   hip1_new  = 127; // mid
-                  leg1_new  = 255; // up full
-                  knee1_new = 0;   // down full
+                  leg1_new  = 230; // up full
+                  knee1_new = 20;   // down full
                   tag1_new  = 1;   // position  sync id tag
                   hip2_new  = 127; // mid
-                  leg2_new  = 255; // up full
-                  knee2_new = 0;   // down full
+                  leg2_new  = 230; // up full
+                  knee2_new = 20;   // down full
                   tag2_new  = 1;   // position  sync id tag
                   hip1_hold  = hip1_new  ;
                   leg1_hold  = leg1_new  ;
