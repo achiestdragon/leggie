@@ -4,7 +4,8 @@ leggie  hexapod robot project version 1.0 README.txt
 
 version 1.0a  alpha prototype 
 
-TODO & NOTES for  version 1.0b  (beta version)
+most of  the documentation so far is in the comments in the code
+
 
 3d printing requirements   
 ------------------------
@@ -14,6 +15,9 @@ TODO & NOTES for  version 1.0b  (beta version)
   Note :- current gcode has some prity rough settings that may need tweeking
   depending on your filament , its probablay better to recreate them from the
   stl files , printing times are based on these slower settings also 
+  (scad and stl files have been uploaded to the project but i have Not
+  uploaded the gcode as you would be better generating it using slic3r or
+  whatever other program you use to ensure its suitable for your 3d printer)
 
   part            material   quant     time per print   total time per set
 --------------- ----------- ------  ---------------- ---------------------
@@ -37,7 +41,7 @@ TODO & NOTES for  version 1.0b  (beta version)
 
  
                                                         ----------------
-                                       total print time  
+                                       total print time    a few days
                                                         ----------------
   filament usage it should be  possible to print it with 
          1kg of black pla * would go for 2x 1kg spools as its borderline
@@ -54,37 +58,48 @@ NOTES :-
    this is the alpha prototype version and is still in development 
    as such some parts :-
    
-    1   may need modifying to fit properly
+    1   parts may need modifying to fit properly
+           some small mods
+           
     2   the documentation may be incompleate
+           it still is
+           
     3   parts are subject to change without notice
+           
     4   there is  no garantee that it will work 
+           
     5   the software is still beeing written so
         maybe incompleate or none functional
+        
     6   other stuff as it becomes apparent
     
     current progress
      parts printed , and robot assembled , at least it all fits together
+     some minor mods but couple of extra holes but it fits
 
      legs wired , battery and power regulators and distribution done , 
      pi3 mounted, wireing loom done , 
      
-     robot arduinos to mount 
+     robot leg driver arduinos mounted , it powers up , reads the adc values
+     sorting the pwm drive code 
      
-     the joystick is finished, and its arduino software tested
+     the joystick is finished, and its arduino software tested this bit at
+     least is done and working 
      
      the contoller pc side code ie joystick to wifi to robot and robot
-     status over wifi to pc display still to do
+     status over wifi to pc display still to do although inital testing 
+     is going to be done with joystick connected directly to the onboard 
+     pi3 via usb
      
      camera pan tilt mount still todo and camera / head sensors to sort
     
+     parts list for the electronics and hardware
      
-TODO:-  to sort out in genaral for next version
+TODO:-  most are to sort out in genaral for next version
 
    do some documentation for the project , assembly instructions , programming
    and setup guide, operating guide , fix spellings
    
-   parts list for the electronics and hardware
-    
    draw a schematic wireing diagram for it
    
    camera pan and  tilt brackets 3d printable parts  ( once its decided
@@ -114,7 +129,7 @@ TODO:-  to sort out in genaral for next version
    the other with holes for logo plate
 
    joystick top plate add holes for usb cable tie  , and 
-   mountings for pots 1 and 2  (optional) 
+   mountings for additional pots 1 and 2  (optional) 
    and add mounting for a power led  
 
    other stuff as it becomes apparent 
