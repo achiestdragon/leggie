@@ -59,8 +59,6 @@ vin                  srl rx data   tx1
 // **********************************************************************
 // TODO:-  ( the leave till later stuff )
 //
-//  add option to invert the read adc values (depending on what direction 
-//  the potentiometers are actualy wired if different )
 //
 //  define the serial command functions for :-
 //    #7                    = not yet defined
@@ -314,8 +312,8 @@ int error     = 0;
 // this should be set to the pwm driven rotational range of movment of 
 // the servos  , default 180 degree mg996r servos
    
-const int pwm_neg90  =  25 ;  //-90 deg rotation pwm value of servos
-const int pwm_pos90  = 230 ;  //-90 deg rotation pwm value of servos
+const int pwm_neg90  =25 ;  //-90 deg rotation pwm value of servos
+const int pwm_pos90  =230 ;  //-90 deg rotation pwm value of servos
 
 // set so that scaled adc values = servo pwm for the range 
 // note :-
@@ -325,11 +323,17 @@ const int pwm_pos90  = 230 ;  //-90 deg rotation pwm value of servos
 const int pot_min    = 90;   // 170 for 180 degree servos
 const int pot_max    = 930;  // 850 for 180 degree servos
 
-// change if potentiometer values need inverting
+// change if pwm out values need inverting
  
-const int hip_d = 0  ;  // 0=normal / 1=invert pot read to pwm value
-const int leg_d = 0  ;  // 0=normal / 1=invert pot read to pwm value
-const int knee_d = 0 ;  // 0=normal / 1=invert pot read to pwm value
+const int hip_d = 0  ;  // 0=normal / 1=invert  pwm out value
+const int leg_d = 0  ;  // 0=normal / 1=invert  pwm out value
+const int knee_d = 0 ;  // 0=normal / 1=invert  pwm out value
+
+// change if read adc values need inverting
+
+const int hip_a = 1  ;  // 0=normal / 1=invert  adc in value
+const int leg_a = 1  ;  // 0=normal / 1=invert  adc in value
+const int knee_a = 1 ;  // 0=normal / 1=invert  adc in value
 
 // default backlash range read is of 20 (+-10) as read from adc values
 // needs scaleing to the pwm range thats = to 1/4 approx = +-2.5
@@ -407,11 +411,11 @@ void setup()
   hip1_pwm  = 127;  // mid
   leg1_pwm  = 230;  // up full
   knee1_pwm = 20;   // down full
-  tag1_hold  = 0;    // position  sync id tag
+  tag1_hold  = 0;   // position  sync id tag
   hip2_pwm  = 127;  // mid
   leg2_pwm  = 230;  // up full
   knee2_pwm = 20;   // down full
-  tag2_hold  = 0;    // position  sync id tag
+  tag2_hold  = 0;   // position  sync id tag
 
   // make inital  pwm values  hold values 
   hip1_hold  = hip1_pwm ;       
@@ -426,12 +430,12 @@ void setup()
     {
        hip1_pwmo  =  hip1_pwm  ;
        hip2_pwmo  =  hip2_pwm  ;
-     }  
+    }  
   else 
     {
        hip1_pwmo  = 256 - hip1_pwm  ;
        hip2_pwmo  = 256 - hip2_pwm  ;
-     }
+    }
   if (leg_d == 0) 
     {
       leg1_pwmo  =  leg1_pwm  ;
@@ -459,7 +463,9 @@ void setup()
   hip2_servo.write(hip2_pwmo);     
   leg2_servo.write(leg2_pwmo);     
   knee2_servo.write(knee2_pwmo); 
-     
+
+  foot1_old = foot1;
+  foot2_old = foot2;
 }
 
 //
@@ -490,6 +496,21 @@ void loop()
     knee1_pos = analogRead(knee1_pot);
     knee1_pos_s=map(knee1_pos,pot_min,pot_max, pwm_neg90,pwm_pos90);
     delay(2);
+    //
+    // invert adc values if needed
+    //
+    if( hip_a != 0 )
+      {
+        hip1_pos_s = 255-hip1_pos_s;
+      }  
+    if( leg_a != 0 )
+      {
+        leg1_pos_s = 255-leg1_pos_s;
+      }        
+    if( knee_a != 0 )
+      {
+        knee1_pos_s = 255-knee1_pos_s;
+      }
 
     //
     //foot1 status 
@@ -575,12 +596,12 @@ void loop()
               Serial.println(",h]");
             }
           // pll lock up/down to hold  
-          if (hip1_pos_s > hip1_hold ) { hip1_pwm=hip1_pwm - 1; }
-          if (hip1_pos_s < hip1_hold ) { hip1_pwm=hip1_pwm + 1; }           
+          if (hip1_pos_s > hip1_hold ) {hip1_pwm = hip1_pwm - 1;}
+          if (hip1_pos_s < hip1_hold ) {hip1_pwm = hip1_pwm + 1;}           
         }
         else
         {
-          // still moveing and not ready
+           hip1_pwm   = hip1_hold  ;// still moveing and not ready
         }
       }
 
@@ -617,12 +638,12 @@ void loop()
               Serial.println(",l]");
             }
           // pll lock up/down to hold  
-          if (leg1_pos_s > leg1_hold ) { leg1_pwm=leg1_pwm - 1; }
-          if (leg1_pos_s < leg1_hold ) { leg1_pwm=leg1_pwm + 1; }           
+          if (leg1_pos_s > leg1_hold ) {leg1_pwm = leg1_pwm - 1;}
+          if (leg1_pos_s < leg1_hold ) {leg1_pwm = leg1_pwm + 1;}           
         }
         else
         {
-          // still moveing and not ready
+          leg1_pwm   = leg1_hold  ;// still moveing and not ready
         }
       }
 
@@ -659,12 +680,12 @@ void loop()
               Serial.println(",k]"); 
             }
           // pll lock up/down to hold  
-          if (knee1_pos_s > knee1_hold ) { knee1_pwm=knee1_pwm - 1; }
-          if (knee1_pos_s < knee1_hold ) { knee1_pwm=knee1_pwm + 1; }           
+          if (knee1_pos_s > knee1_hold ) {knee1_pwm = knee1_pwm - 1;}
+          if (knee1_pos_s < knee1_hold ) {knee1_pwm = knee1_pwm + 1;}           
         }
         else
         {
-          // still moveing and not ready
+          knee1_pwm   = knee1_hold  ;// still moveing and not ready
         }
       }     
     if (hip1_rdy==true&&leg1_rdy==true&&knee1_rdy==true&&rdy1==false)
@@ -700,7 +721,20 @@ void loop()
     knee2_pos = analogRead(knee2_pot);
     knee2_pos_s=map(knee2_pos,pot_min,pot_max, pwm_neg90,pwm_pos90);
     delay(2);
-
+    //
+    // invert adc values if needed
+    if( hip_a != 0 )
+      {
+        hip2_pos_s= 255-hip2_pos_s;
+      }  
+    if( leg_a != 0 )
+      {
+        leg2_pos_s= 255-leg2_pos_s;
+      }        
+    if( knee_a != 0 )
+      {
+        knee2_pos_s= 255-knee2_pos_s;
+      }
     //
     //foot2 status  
     //
@@ -785,12 +819,12 @@ void loop()
               Serial.println(",h]");
             }
           // pll lock up/down to hold  
-          if (hip2_pos_s > hip2_hold ) { hip2_pwm=hip2_pwm - 1; }
-          if (hip2_pos_s < hip2_hold ) { hip2_pwm=hip2_pwm + 1; }           
+          if (hip2_pos_s > hip2_hold ) {hip2_pwm = hip2_pwm - 1;}
+          if (hip2_pos_s < hip2_hold ) {hip2_pwm = hip2_pwm + 1;}           
         }
         else
         {
-          // still moveing and not ready
+          hip2_pwm   = hip2_hold  ;// still moveing and not ready
         }
       }
 
@@ -827,12 +861,12 @@ void loop()
               Serial.println(",l]");
             }
           // pll lock up/down to hold  
-          if (leg2_pos_s > leg2_hold ) { leg2_pwm=leg2_pwm - 1; }
-          if (leg2_pos_s < leg2_hold ) { leg2_pwm=leg2_pwm + 1; }           
+          if (leg2_pos_s > leg2_hold ) {leg2_pwm = leg2_pwm - 1;}
+          if (leg2_pos_s < leg2_hold ) {leg2_pwm = leg2_pwm + 1;}           
         }
         else
         {
-          // still moveing and not ready
+          leg2_pwm   = leg2_hold  ;// still moveing and not ready
         }
       }
 
@@ -869,12 +903,12 @@ void loop()
               Serial.println(",k]");
             }
           // pll lock up/down to hold  
-          if (knee2_pos_s > knee2_hold ) { knee2_pwm=knee2_pwm - 1; }
-          if (knee2_pos_s < knee2_hold ) { knee2_pwm=knee2_pwm + 1; }           
+          if (knee2_pos_s > knee2_hold ) {knee2_pwm = knee2_pwm - 1;}
+          if (knee2_pos_s < knee2_hold ) {knee2_pwm = knee2_pwm + 1;}           
         }
         else
         {
-          // still moveing and not ready
+          knee2_pwm   = knee2_hold  ;// still moveing and not ready
         }
       }
     if (hip2_rdy==true&&leg2_rdy==true&&knee2_rdy==true&&rdy2==false)
@@ -1191,7 +1225,7 @@ void loop()
       {
          hip1_pwmo  =  hip1_pwm  ;
          hip2_pwmo  =  hip2_pwm  ;
-       }  
+      }  
     else 
       {
          hip1_pwmo  = 256 - hip1_pwm  ;
