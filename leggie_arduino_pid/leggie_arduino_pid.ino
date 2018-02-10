@@ -58,13 +58,28 @@ vin                  srl rx data   tx1
 */
 //
 // **********************************************************************
-// TODO:-  
+// TODO:-  FIXME:- (high prioraty)
 //
+// sort out pwm pll lock , should lock all servos in start positions
+// from power up , rather than have it opperate like it has a bad case of
+// MS ,then curl up all pwms seem to set to max,  this may be down to 
+// power supply noise , eather way this is the proiraty todo fix atm
+//
+// serial command prase function not decoding input streem , the 2nd
+// prioraty todo fix
+//
+// TODO:- (low prioraty)  :-
+//
+// (aditional features)
 //  define the serial command functions for :-
-//    #7                    = not yet defined
+//    #7                    = pose
+//           //format  #7[posenos] 
+//           // where pose nos is in the range 0 to 9
+//           // causes the legs to move to some preset positions 
+//           // 
 //    #8                    = not yet defined
 //    #9                    = not yet defined
-//  and sort out there code
+//  and sort out the code for them 
 //
 //  i/o signal pins d2 , d4 , d12  are defined but not used as there
 //  orignial intended task is now handled over serial  so are available 
