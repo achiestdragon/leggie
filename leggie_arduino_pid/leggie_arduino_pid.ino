@@ -627,6 +627,7 @@ void loop()
       }
       
     //  *********** debug status message for hip1 **********
+    /*
     //  remove once fixed 
     Serial.print("debug[");
     Serial.print(leg1);
@@ -644,6 +645,8 @@ void loop()
     else{ Serial.print("false] , pwm dir =[");}
     if (hip_d == true ){ Serial.println("true]]");}
     else{ Serial.println("false]]");}
+
+    */
     //  ****************************************************
                            
     //
