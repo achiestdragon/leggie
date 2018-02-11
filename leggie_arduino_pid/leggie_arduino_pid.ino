@@ -389,37 +389,37 @@ void setup()
   adr0 = digitalRead(adr0_pin);
   adr1 = digitalRead(adr1_pin); 
   if ( adr0 == 0 )
-  {
-    if ( adr1 == 0)
     {
-      // adr=00   legs 1&2
-      leg1 = 1;
-      leg2 = 2;
-      cal = false ;
+      if ( adr1 == 0)
+        {
+          // adr=00   legs 1&2
+          leg1 = 1;
+          leg2 = 2;
+          cal = false ;
+        }
+      else
+        {
+          // adr=01   legs 3&4
+          leg1 = 3;
+          leg2 = 4;
+          cal = false ;           
+        }
     }
-    else
-    {
-      // adr=01   legs 3&4
-      leg1 = 3;
-      leg2 = 4;
-      cal = false ;           
-    }
-  }
   else
-  {
-    if ( adr1 == 0)
     {
-      // adr=10   legs 5&6
-      leg1 = 5;
-      leg2 = 6;  
-      cal = false ;     
-    }
-    else
-    {
-      // adr=11   calibrate/test mode 
-      cal = true;
-    }
-  } 
+      if ( adr1 == 0)
+        {
+          // adr=10   legs 5&6
+          leg1 = 5;
+          leg2 = 6;  
+          cal = false ;     
+        }
+      else
+        {
+          // adr=11   calibrate/test mode 
+          cal = true;
+        }
+    } 
 
   // set inital hold values to inital pwm values
   hip1_pwm  = 127;  // mid
@@ -442,13 +442,13 @@ void setup()
   // set and invert if needed pwmo values 
   if (hip_d == 0)
     {
-       hip1_pwmo  =  hip1_pwm  ;
-       hip2_pwmo  =  hip2_pwm  ;
+      hip1_pwmo  =  hip1_pwm  ;
+      hip2_pwmo  =  hip2_pwm  ;
     }  
   else 
     {
-       hip1_pwmo  = 256 - hip1_pwm  ;
-       hip2_pwmo  = 256 - hip2_pwm  ;
+      hip1_pwmo  = 256 - hip1_pwm  ;
+      hip2_pwmo  = 256 - hip2_pwm  ;
     }
   if (leg_d == 0) 
     {
@@ -515,15 +515,15 @@ void loop()
     //
     if( hip_a != 0 )
       {
-        hip1_pos_s = 255-hip1_pos_s;
+        hip1_pos_s = 255 - hip1_pos_s;
       }  
     if( leg_a != 0 )
       {
-        leg1_pos_s = 255-leg1_pos_s;
+        leg1_pos_s = 255 - leg1_pos_s;
       }        
     if( knee_a != 0 )
       {
-        knee1_pos_s = 255-knee1_pos_s;
+        knee1_pos_s = 255 - knee1_pos_s;
       }
 
     //
@@ -535,7 +535,7 @@ void loop()
     if (foot1_pos > 520) 
       { 
         foot1=true;
-        if (foot1 !=  foot1_old) //new foot down detected
+        if (foot1 != foot1_old) //new foot down detected
           {
             foot1_old = foot1;
             Serial.print("f[");
@@ -564,10 +564,10 @@ void loop()
             knee1_pwm  = knee1_hold ;
           }
       } 
-      else
+    else
       {
         foot1=false;
-        if (foot1 !=  foot1_old) //new foot up detected
+        if (foot1 != foot1_old) //new foot up detected
           {
             foot1_old = foot1;
             Serial.print("f[");
@@ -590,35 +590,62 @@ void loop()
       {
         // hip 1 pll lock dir check and pwm update
         if (hip1_lock == true)
-        {
-          if ( hip1_pos_s  >= (hip1_hold + backlash_range) )  
-            {  
-              hip1_lock  =false;
-              Serial.print("E[3,");
-              Serial.print(leg1);
-              Serial.print(",");
-              Serial.print(tag1_hold);
-              Serial.println(",h]");
-            }
-          if ( hip1_pos_s  <= (hip1_hold - backlash_range) ) 
-            {
-              hip1_lock  =false;
-              Serial.print("E[3,");
-              Serial.print(leg1);
-              Serial.print(",");
-              Serial.print(tag1_hold);
-              Serial.println(",h]");
-            }
-          // pll lock up/down to hold  
-          if (hip1_pos_s > hip1_hold ) {hip1_pwm = hip1_pwm - 1;}
-          if (hip1_pos_s < hip1_hold ) {hip1_pwm = hip1_pwm + 1;}           
-        }
+          {
+            if ( hip1_pos_s  >= (hip1_hold + backlash_range) )  
+              {  
+                hip1_lock  =false;
+                Serial.print("E[3,");
+                Serial.print(leg1);
+                Serial.print(",");
+                Serial.print(tag1_hold);
+                Serial.println(",h]");
+              }
+            if ( hip1_pos_s  <= (hip1_hold - backlash_range) ) 
+              {
+                hip1_lock  =false;
+                Serial.print("E[3,");
+                Serial.print(leg1);
+                Serial.print(",");
+                Serial.print(tag1_hold);
+                Serial.println(",h]");
+              }
+            // pll lock up/down to hold  
+            if (hip1_pos_s > hip1_hold ) 
+              {
+                hip1_pwm = hip1_pwm - 1;
+              }
+            if (hip1_pos_s < hip1_hold ) 
+              {
+                hip1_pwm = hip1_pwm + 1;
+              }           
+          }
         else
-        {
-           hip1_pwm   = hip1_hold  ;// still moveing and not ready
-        }
+          {
+             //hip1_pwm   = hip1_hold  ;// still moveing and not ready
+  
+          }
       }
-
+      
+    //  *********** debug status message for hip1 **********
+    //  remove once fixed 
+    Serial.print("debug[");
+    Serial.print(leg1);
+    Serial.print(", hip  pos_s = [");
+    Serial.print(hip1_pos_s);
+    Serial.print("], pwm = [");
+    Serial.print(hip1_pwm);
+    Serial.print("], hold = [");
+    Serial.print(hip1_hold);
+    Serial.print("], lock = [");
+                
+    if (hip1_lock == true ){ Serial.print("true] , hip dir =[");}
+    else{ Serial.print("false] , hip dir =[");}
+    if (hip_d == true ){ Serial.print("true] , pwm dir =[");}
+    else{ Serial.print("false] , pwm dir =[");}
+    if (hip_d == true ){ Serial.println("true]]");}
+    else{ Serial.println("false]]");}
+    //  ****************************************************
+                           
     //
     //   leg1 pwm pll lock and rdy detect
     //  
@@ -632,33 +659,39 @@ void loop()
       {
         // leg 1 pll lock dir check and pwm update
         if (leg1_lock == true)
-        {
-          if ( leg1_pos_s  >= (leg1_hold + backlash_range) )  
-            {  
-              leg1_lock  =false;
-              Serial.print("E[3,");
-              Serial.print(leg1);
-              Serial.print(",");
-              Serial.print(tag1_hold);
-              Serial.println(",l]"); 
-            }
-          if ( leg1_pos_s  <= (leg1_hold - backlash_range) ) 
-            {
-              leg1_lock  =false;
-              Serial.print("E[3,");
-              Serial.print(leg1);
-              Serial.print(",");
-              Serial.print(tag1_hold);
-              Serial.println(",l]");
-            }
-          // pll lock up/down to hold  
-          if (leg1_pos_s > leg1_hold ) {leg1_pwm = leg1_pwm - 1;}
-          if (leg1_pos_s < leg1_hold ) {leg1_pwm = leg1_pwm + 1;}           
-        }
+          {
+            if ( leg1_pos_s  >= (leg1_hold + backlash_range) )  
+              {  
+                leg1_lock  =false;
+                Serial.print("E[3,");
+                Serial.print(leg1);
+                Serial.print(",");
+                Serial.print(tag1_hold);
+                Serial.println(",l]"); 
+              }
+            if ( leg1_pos_s  <= (leg1_hold - backlash_range) ) 
+              {
+                leg1_lock  =false;
+                Serial.print("E[3,");
+                Serial.print(leg1);
+                Serial.print(",");
+                Serial.print(tag1_hold);
+                Serial.println(",l]");
+              }
+            // pll lock up/down to hold  
+            if (leg1_pos_s > leg1_hold ) 
+              {
+                leg1_pwm = leg1_pwm - 1;
+              }
+            if (leg1_pos_s < leg1_hold ) 
+              {
+                leg1_pwm = leg1_pwm + 1;
+              }           
+          }
         else
-        {
-          leg1_pwm   = leg1_hold  ;// still moveing and not ready
-        }
+          {
+            leg1_pwm   = leg1_hold  ;// still moveing and not ready
+          }
       }
 
     //
@@ -674,53 +707,61 @@ void loop()
       {
         // knee 1 pll lock dir check and pwm update
         if (knee1_lock == true)
-        {
-          if ( knee1_pos_s  >= (knee1_hold + backlash_range) )  
-            {  
-              knee1_lock  =false;
-              Serial.print("E[3,");
-              Serial.print(leg1);
-              Serial.print(",");
-              Serial.print(tag1_hold);
-              Serial.println(",k]");
-            }
-          if ( knee1_pos_s  <= (knee1_hold - backlash_range) ) 
-            {
-              knee1_lock  =false;
-              Serial.print("E[3,");
-              Serial.print(leg1);
-              Serial.print(",");
-              Serial.print(tag1_hold);
-              Serial.println(",k]"); 
-            }
-          // pll lock up/down to hold  
-          if (knee1_pos_s > knee1_hold ) {knee1_pwm = knee1_pwm - 1;}
-          if (knee1_pos_s < knee1_hold ) {knee1_pwm = knee1_pwm + 1;}           
-        }
+          {
+            if ( knee1_pos_s  >= (knee1_hold + backlash_range) )  
+              {  
+                knee1_lock  =false;
+                Serial.print("E[3,");
+                Serial.print(leg1);
+                Serial.print(",");
+                Serial.print(tag1_hold);
+                Serial.println(",k]");
+              }
+            if ( knee1_pos_s  <= (knee1_hold - backlash_range) ) 
+              {
+                knee1_lock  =false;
+                Serial.print("E[3,");
+                Serial.print(leg1);
+                Serial.print(",");
+                Serial.print(tag1_hold);
+                Serial.println(",k]"); 
+              }
+            // pll lock up/down to hold  
+            if (knee1_pos_s > knee1_hold ) 
+              {
+                knee1_pwm = knee1_pwm - 1;
+              }
+            if (knee1_pos_s < knee1_hold ) 
+              {
+                knee1_pwm = knee1_pwm + 1;
+              }           
+          }
         else
-        {
-          knee1_pwm   = knee1_hold  ;// still moveing and not ready
-        }
+          {
+            knee1_pwm   = knee1_hold  ;// still moveing and not ready
+          }
       }     
     if (hip1_rdy==true&&leg1_rdy==true&&knee1_rdy==true&&rdy1==false)
       {    
         // all valid new ready signals
         if (hip1_lock==true&&leg1_lock==true&&knee1_lock==true)
           {
-           // and all locks ok,send status, update rdy 
-           Serial.print("l[");
-           Serial.print(leg1);
-           Serial.print(",r,");
-           Serial.print(tag1_hold);
-           Serial.println("]"); 
-           hip1_rdy  = false ;
-           leg1_rdy  = false ;
-           knee1_rdy = false ;
-           rdy1      =  true ;
+            // and all locks ok,send status, update rdy 
+            Serial.print("l[");
+            Serial.print(leg1);
+            Serial.print(",r,");
+            Serial.print(tag1_hold);
+            Serial.println("]"); 
+            hip1_rdy  = false ;
+            leg1_rdy  = false ;
+            knee1_rdy = false ;
+            rdy1      =  true ;
           }
         else
           {
-            Serial.println("E[WTF.1]"); // something realy bad happened 
+            Serial.println("E[WTF.1]"); // something realy bad happened
+            // because if individual rdy's have been set locks should
+            // have been set also 
           }
       }
     //
@@ -787,7 +828,7 @@ void loop()
             knee2_pwm  = knee2_hold ;
           }
       } 
-      else
+    else
       {
         foot2=false;
         if (foot2 !=  foot2_old) //new foot up detected
@@ -814,33 +855,39 @@ void loop()
       {
         // hip 2 pll lock dir check and pwm update
         if (hip2_lock == true)
-        {
-          if ( hip2_pos_s  >= (hip2_hold + backlash_range) )  
-            {  
-              hip2_lock  =false;
-              Serial.print("E[3,");
-              Serial.print(leg2);
-              Serial.print(",");
-              Serial.print(tag2_hold);
-              Serial.println(",h]");
-            }
-          if ( hip2_pos_s  <= (hip2_hold - backlash_range) ) 
-            {
-              hip2_lock  =false;
-              Serial.print("E[3,");
-              Serial.print(leg2);
-              Serial.print(",");
-              Serial.print(tag2_hold);
-              Serial.println(",h]");
-            }
-          // pll lock up/down to hold  
-          if (hip2_pos_s > hip2_hold ) {hip2_pwm = hip2_pwm - 1;}
-          if (hip2_pos_s < hip2_hold ) {hip2_pwm = hip2_pwm + 1;}           
-        }
+          {
+            if ( hip2_pos_s  >= (hip2_hold + backlash_range) )  
+              {  
+                hip2_lock  =false;
+                Serial.print("E[3,");
+                Serial.print(leg2);
+                Serial.print(",");
+                Serial.print(tag2_hold);
+                Serial.println(",h]");
+              }
+            if ( hip2_pos_s  <= (hip2_hold - backlash_range) ) 
+              {
+                hip2_lock  =false;
+                Serial.print("E[3,");
+                Serial.print(leg2);
+                Serial.print(",");
+                Serial.print(tag2_hold);
+                Serial.println(",h]");
+              }
+            // pll lock up/down to hold  
+            if (hip2_pos_s > hip2_hold ) 
+              {
+                hip2_pwm = hip2_pwm - 1;
+              }
+            if (hip2_pos_s < hip2_hold ) 
+             { 
+               hip2_pwm = hip2_pwm + 1;
+             }           
+          }
         else
-        {
-          hip2_pwm   = hip2_hold  ;// still moveing and not ready
-        }
+          {
+            hip2_pwm   = hip2_hold  ;// still moveing and not ready
+          }
       }
 
     //
@@ -856,33 +903,39 @@ void loop()
       {
         // leg 2 pll lock dir check and pwm update
         if (leg2_lock == true)
-        {
-          if ( leg2_pos_s  >= (leg2_hold + backlash_range) )  
-            {  
-              leg2_lock  =false;
-              Serial.print("E[3,");
-              Serial.print(leg2);
-              Serial.print(",");
-              Serial.print(tag2_hold);
-              Serial.println(",l]");
-            }
-          if ( leg2_pos_s  <= (leg2_hold - backlash_range) ) 
-            {
-              leg2_lock  =false;
-              Serial.print("E[3,");
-              Serial.print(leg2);
-              Serial.print(",");
-              Serial.print(tag2_hold);
-              Serial.println(",l]");
-            }
-          // pll lock up/down to hold  
-          if (leg2_pos_s > leg2_hold ) {leg2_pwm = leg2_pwm - 1;}
-          if (leg2_pos_s < leg2_hold ) {leg2_pwm = leg2_pwm + 1;}           
-        }
+          {
+            if ( leg2_pos_s  >= (leg2_hold + backlash_range) )  
+              {  
+                leg2_lock  =false;
+                Serial.print("E[3,");
+                Serial.print(leg2);
+                Serial.print(",");
+                Serial.print(tag2_hold);
+                Serial.println(",l]");
+              }
+            if ( leg2_pos_s  <= (leg2_hold - backlash_range) ) 
+              {
+                leg2_lock  =false;
+                Serial.print("E[3,");
+                Serial.print(leg2);
+                Serial.print(",");
+                Serial.print(tag2_hold);
+                Serial.println(",l]");
+              }
+            // pll lock up/down to hold  
+            if (leg2_pos_s > leg2_hold ) 
+              {
+                leg2_pwm = leg2_pwm - 1;
+              }
+            if (leg2_pos_s < leg2_hold ) 
+              {
+                leg2_pwm = leg2_pwm + 1;
+              }           
+          }
         else
-        {
-          leg2_pwm   = leg2_hold  ;// still moveing and not ready
-        }
+          {
+            leg2_pwm   = leg2_hold  ;// still moveing and not ready
+          }
       }
 
     //
@@ -890,7 +943,6 @@ void loop()
     //  
     if (knee2_hold == knee2_pos_s)
       {
-        
         knee2_lock = true; 
         knee2_rdy  = true;
       }
@@ -898,53 +950,61 @@ void loop()
       {
         // knee 2 pll lock dir check and pwm update
         if (knee2_lock == true)
-        {
-          if ( knee2_pos_s  >= (knee2_hold + backlash_range) )  
-            {  
-              knee2_lock  = false;
-              Serial.print("E[3,");
-              Serial.print(leg2);
-              Serial.print(",");
-              Serial.print(tag2_hold);
-              Serial.println(",k]"); 
-            }
-          if ( knee2_pos_s  <= (knee2_hold - backlash_range) ) 
-            {
-              knee2_lock  = false;
-              Serial.print("E[3,");
-              Serial.print(leg2);
-              Serial.print(",");
-              Serial.print(tag2_hold);
-              Serial.println(",k]");
-            }
-          // pll lock up/down to hold  
-          if (knee2_pos_s > knee2_hold ) {knee2_pwm = knee2_pwm - 1;}
-          if (knee2_pos_s < knee2_hold ) {knee2_pwm = knee2_pwm + 1;}           
-        }
+          {
+            if ( knee2_pos_s  >= (knee2_hold + backlash_range) )  
+              {  
+                knee2_lock  = false;
+                Serial.print("E[3,");
+                Serial.print(leg2);
+                Serial.print(",");
+                Serial.print(tag2_hold);
+                Serial.println(",k]"); 
+              }
+            if ( knee2_pos_s  <= (knee2_hold - backlash_range) ) 
+              {
+                knee2_lock  = false;
+                Serial.print("E[3,");
+                Serial.print(leg2);
+                Serial.print(",");
+                Serial.print(tag2_hold);
+                Serial.println(",k]");
+              }
+            // pll lock up/down to hold  
+            if (knee2_pos_s > knee2_hold ) 
+              {
+                knee2_pwm = knee2_pwm - 1;
+              }
+            if (knee2_pos_s < knee2_hold ) 
+              {
+                knee2_pwm = knee2_pwm + 1;
+              }           
+          }
         else
-        {
-          knee2_pwm   = knee2_hold  ;// still moveing and not ready
-        }
+          {
+            knee2_pwm   = knee2_hold  ;// still moveing and not ready
+          }
       }
     if (hip2_rdy==true&&leg2_rdy==true&&knee2_rdy==true&&rdy2==false)
       {    
         // all valid new ready signals
         if (hip2_lock==true&&leg2_lock==true&&knee2_lock==true)
           {
-           // and all locks ok,send status, update rdy 
-           Serial.print("l[");
-           Serial.print(leg2);
-           Serial.print(",r,");
-           Serial.print(tag2_hold);
-           Serial.println("]"); 
-           hip2_rdy  = false ;
-           leg2_rdy  = false ;
-           knee2_rdy = false ;
-           rdy2      =  true ;   
+            // and all locks ok,send status, update rdy 
+            Serial.print("l[");
+            Serial.print(leg2);
+            Serial.print(",r,");
+            Serial.print(tag2_hold);
+            Serial.println("]"); 
+            hip2_rdy  = false ;
+            leg2_rdy  = false ;
+            knee2_rdy = false ;
+            rdy2      =  true ;   
           }
         else
           {
-            Serial.println("E[WTF.2]"); // something realy bad happened 
+            Serial.println("E[WTF.2]"); // something realy bad happened
+            // because if individual rdy's have been set locks should
+            // have been set also 
           }
       }
     //   
@@ -959,6 +1019,7 @@ void loop()
         rdy_out= false ;
       }   
     digitalWrite(rdy_out_pin, rdy_out);  // set led pin state
+    // led on when all servos on both legs are in lock 
     
     //
     // read serial
@@ -968,8 +1029,8 @@ void loop()
       {
         inByte = (char)Serial.read();    //** fixme ** string decode not working
         buff   = String(buff + inByte);           
-         Serial.println(buff);           //** remove  , for testing only **
-        if (inByte=='\n')         
+         Serial.println(buff);           //** remove  , for debug only **
+        if (inByte=="\n")         
           {
             //newline detected so decode string
             if (buff.substring(0) == "#") 
@@ -1401,7 +1462,7 @@ void loop()
     knee2_pos = analogRead(knee2_pot); 
     Serial.print(knee2_pos); 
     Serial.print("]");
-    knee1_pos_s=map(knee2_pos,pot_min,pot_max,pwm_neg90,pwm_pos90);
+    knee2_pos_s=map(knee2_pos,pot_min,pot_max,pwm_neg90,pwm_pos90);
     Serial.print(knee2_pos_s); 
     if (knee_d == 0) 
       {
