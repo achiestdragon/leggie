@@ -1385,6 +1385,19 @@ void loop()
         knee2_pwmo = 256 - knee2_pwm ;
       }
     // update pwm i/o values   servo.write(pwmvalout); for all servos
+
+    // ************************************************************************
+    // *** debug force fixed set pwm overide values !!!!!!!
+    //  **************remove this after test
+    hip1_pwmo=127;    
+    leg1_pwmo=127;    
+    knee1_pwmo=127;    
+    hip2_pwmo=127;     
+    leg2_pwmo=127;     
+    knee2_pwmo=127; 
+    //
+    // ************************************************************************
+    
     hip1_servo.write(hip1_pwmo);    
     leg1_servo.write(leg1_pwmo);    
     knee1_servo.write(knee1_pwmo);    
