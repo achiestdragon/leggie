@@ -1403,7 +1403,12 @@ void loop()
     knee1_servo.write(knee1_pwmo);    
     hip2_servo.write(hip2_pwmo);     
     leg2_servo.write(leg2_pwmo);     
-    knee2_servo.write(knee2_pwmo);     
+    knee2_servo.write(knee2_pwmo);   
+    //**********
+    // ****  debug test to see if random movment is cuased by setting the pwm too rapidly
+    delay(200);
+    //
+    //********** 
   } 
   else     // calibrate (cal == true)
   { 
