@@ -328,8 +328,8 @@ int error     = 0;
 // this should be set to the pwm driven rotational range of movment of 
 // the servos  , default 180 degree mg996r servos
    
-const int pwm_neg90  =25 ;  //-90 deg rotation pwm value of servos
-const int pwm_pos90  =230 ;  //-90 deg rotation pwm value of servos
+const int pwm_neg90  =0;//=25 ;  //-90 deg rotation pwm value of servos
+const int pwm_pos90  =255;//=230 ;  //-90 deg rotation pwm value of servos
 
 // set so that scaled adc values = servo pwm for the range 
 // note :-
@@ -357,7 +357,7 @@ const int knee_a = 0 ;  // 0=normal / 1=invert  adc in value
 // wider pwm lock range  makes it +-4 , use 4 as the values is used
 // in eather direction no need to have it signed
 
-const int backlash_range  = 4 ;  //default backlash value 
+const int backlash_range  = 6 ;  //default backlash value 
 
 // unscale this value for note on pot_min & pot_max settings above
 
