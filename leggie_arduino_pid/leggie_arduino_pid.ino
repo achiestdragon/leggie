@@ -60,12 +60,15 @@ vin                  srl rx data   tx1
 // **********************************************************************
 // TODO:-  FIXME:- (high prioraty)
 //
-// sort out pwm pll lock , should lock all servos in start positions
+// 1/. sort out pwm pll lock , should lock all servos in start positions
 // from power up , rather than have it opperate like it has a bad case of
-// MS ,then curl up all pwms seem to set to max,  this may be down to 
-// power supply noise , eather way this is the proiraty todo fix atm
+// MS, 
+//   note :- the problem here is not software its down to servo power
+//       seems the mesured servo power drops to arround 2.5v when active
+//   hardware fix in progress 
 //
-// serial command prase function not decoding input streem , the 2nd
+//
+// 2/. serial command prase function not decoding input streem , the 2nd
 // prioraty todo fix
 //
 // TODO:- (low prioraty)  :-
@@ -1386,29 +1389,13 @@ void loop()
       }
     // update pwm i/o values   servo.write(pwmvalout); for all servos
 
-    // ************************************************************************
-    // *** debug force fixed set pwm overide values !!!!!!!
-    //  **************remove this after test
-    hip1_pwmo=94;    
-    leg1_pwmo=27;    
-    knee1_pwmo=42;    
-    hip2_pwmo=94;     
-    leg2_pwmo=27;     
-    knee2_pwmo=42; 
-    //
-    // ************************************************************************
-    
     hip1_servo.write(hip1_pwmo);    
     leg1_servo.write(leg1_pwmo);    
     knee1_servo.write(knee1_pwmo);    
     hip2_servo.write(hip2_pwmo);     
     leg2_servo.write(leg2_pwmo);     
     knee2_servo.write(knee2_pwmo);   
-    //**********
-    // ****  debug test to see if random movment is cuased by setting the pwm too rapidly
-    delay(200);
-    //
-    //********** 
+ 
   } 
   else     // calibrate (cal == true)
   { 
