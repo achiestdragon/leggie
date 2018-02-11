@@ -95,7 +95,7 @@ vin                  srl rx data   tx1
 //    E[1]                            = com frame sync
 //    E[2]                            = buffer overrun 
 //    E[3,leg,tag,(h,l or k servo) ]  = servo pwm pll lock loss
-//    E[WTF.n]");                     = something realy bad happened
+//    E[WTF.n]                        = something realy bad happened
 //
 //  status message formats and codes
 //
@@ -107,7 +107,7 @@ vin                  srl rx data   tx1
 //  cal/test mode output format ( all on one line )
 //
 //  &1[h=[raw]pwm[d],l=[raw]pwm[d],k=[raw]pwm[d],f[t]]  ;&2[h=[raw]pwm[ 
-//       d],l=[raw]pwm[d],k=[raw]pwm[d],f[t]]"
+//       d],l=[raw]pwm[d],k=[raw]pwm[d],f[t]]
 //
 //
 // **********************************************************************
@@ -503,13 +503,38 @@ void loop()
     //
     hip1_pos = analogRead(hip1_pot);
     hip1_pos_s=map(hip1_pos,pot_min,pot_max, pwm_neg90,pwm_pos90);
+    if ( hip1_pos_s < pwm_neg90 )
+      {
+        hip1_pos_s = pwm_neg90;
+      }
+    if ( hip1_pos_s > pwm_pos90 )
+      {
+        hip1_pos_s = pwm_pos90;
+      }
     delay(2);
     leg1_pos = analogRead(leg1_pot);
     leg1_pos_s=map(leg1_pos,pot_min,pot_max, pwm_neg90,pwm_pos90);
+    if ( leg1_pos_s < pwm_neg90 )
+      {
+        leg1_pos_s = pwm_neg90;
+      }
+    if ( leg1_pos_s > pwm_pos90 )
+      {
+        leg1_pos_s = pwm_pos90;
+      }    
     delay(2);
     knee1_pos = analogRead(knee1_pot);
     knee1_pos_s=map(knee1_pos,pot_min,pot_max, pwm_neg90,pwm_pos90);
+    if ( knee1_pos_s < pwm_neg90 )
+      {
+        knee1_pos_s = pwm_neg90;
+      }
+    if ( knee1_pos_s > pwm_pos90 )
+      {
+        knee1_pos_s = pwm_pos90;
+      }    
     delay(2);
+    
     //
     // invert adc values if needed
     //
@@ -772,12 +797,36 @@ void loop()
     //
     hip2_pos = analogRead(hip2_pot);
     hip2_pos_s=map(hip2_pos,pot_min,pot_max, pwm_neg90,pwm_pos90);
+    if ( hip2_pos_s < pwm_neg90 )
+      {
+        hip2_pos_s = pwm_neg90;
+      }
+    if ( hip2_pos_s > pwm_pos90 )
+      {
+        hip2_pos_s = pwm_pos90;
+      }    
     delay(2);
     leg2_pos = analogRead(leg2_pot);
     leg2_pos_s=map(leg2_pos,pot_min,pot_max, pwm_neg90,pwm_pos90);
-    delay(2);
+    if ( leg2_pos_s < pwm_neg90 )
+      {
+        leg2_pos_s = pwm_neg90;
+      }
+    if ( leg2_pos_s > pwm_pos90 )
+      {
+        leg2_pos_s = pwm_pos90;
+      } 
+    delay(2);   
     knee2_pos = analogRead(knee2_pot);
     knee2_pos_s=map(knee2_pos,pot_min,pot_max, pwm_neg90,pwm_pos90);
+    if ( knee2_pos_s < pwm_neg90 )
+      {
+        knee2_pos_s = pwm_neg90;
+      }
+    if ( knee2_pos_s > pwm_pos90 )
+      {
+        knee2_pos_s = pwm_pos90;
+      }
     delay(2);
     //
     // invert adc values if needed
