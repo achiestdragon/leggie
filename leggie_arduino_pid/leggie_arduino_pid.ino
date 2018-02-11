@@ -612,11 +612,11 @@ void loop()
             // pll lock up/down to hold  
             if (hip1_pos_s > hip1_hold ) 
               {
-                hip1_pwm = hip1_pwm - 1;
+                hip1_pwm =hip1_hold;
               }
             if (hip1_pos_s < hip1_hold ) 
               {
-                hip1_pwm = hip1_pwm + 1;
+                hip1_pwm = hip1_hold;
               }           
           }
         else
@@ -681,11 +681,11 @@ void loop()
             // pll lock up/down to hold  
             if (leg1_pos_s > leg1_hold ) 
               {
-                leg1_pwm = leg1_pwm - 1;
+                leg1_pwm = leg1_hold;
               }
             if (leg1_pos_s < leg1_hold ) 
               {
-                leg1_pwm = leg1_pwm + 1;
+                leg1_pwm = leg1_hold;
               }           
           }
         else
@@ -729,11 +729,11 @@ void loop()
             // pll lock up/down to hold  
             if (knee1_pos_s > knee1_hold ) 
               {
-                knee1_pwm = knee1_pwm - 1;
+                knee1_pwm = knee1_hold;
               }
             if (knee1_pos_s < knee1_hold ) 
               {
-                knee1_pwm = knee1_pwm + 1;
+                knee1_pwm = knee1_hold;
               }           
           }
         else
@@ -877,11 +877,11 @@ void loop()
             // pll lock up/down to hold  
             if (hip2_pos_s > hip2_hold ) 
               {
-                hip2_pwm = hip2_pwm - 1;
+                hip2_pwm = hip2_hold;
               }
             if (hip2_pos_s < hip2_hold ) 
              { 
-               hip2_pwm = hip2_pwm + 1;
+               hip2_pwm = hip2_hold;
              }           
           }
         else
@@ -925,11 +925,11 @@ void loop()
             // pll lock up/down to hold  
             if (leg2_pos_s > leg2_hold ) 
               {
-                leg2_pwm = leg2_pwm - 1;
+                leg2_pwm = leg2_hold;
               }
             if (leg2_pos_s < leg2_hold ) 
               {
-                leg2_pwm = leg2_pwm + 1;
+                leg2_pwm = leg2_hold;
               }           
           }
         else
@@ -972,11 +972,11 @@ void loop()
             // pll lock up/down to hold  
             if (knee2_pos_s > knee2_hold ) 
               {
-                knee2_pwm = knee2_pwm - 1;
+                knee2_pwm = knee2_hold;
               }
             if (knee2_pos_s < knee2_hold ) 
               {
-                knee2_pwm = knee2_pwm + 1;
+                knee2_pwm = knee2_hold;
               }           
           }
         else
