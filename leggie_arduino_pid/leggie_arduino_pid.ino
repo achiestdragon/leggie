@@ -329,7 +329,7 @@ int error     = 0;
 // the servos  , default 180 degree mg996r servos
    
 const int pwm_neg90  =0;//=25 ;  //-90 deg rotation pwm value of servos
-const int pwm_pos90  =255;//=230 ;  //-90 deg rotation pwm value of servos
+const int pwm_pos90  =199;//=230 ;  //-90 deg rotation pwm value of servos
 
 // set so that scaled adc values = servo pwm for the range 
 // note :-
@@ -423,11 +423,11 @@ void setup()
 
   // set inital hold values to inital pwm values
   hip1_pwm  = 127;  // mid
-  leg1_pwm  = 230;  // up full
+  leg1_pwm  = 199;  // up full
   knee1_pwm = 20;   // down full
   tag1_hold  = 0;   // position  sync id tag
   hip2_pwm  = 127;  // mid
-  leg2_pwm  = 230;  // up full
+  leg2_pwm  = 199;  // up full
   knee2_pwm = 20;   // down full
   tag2_hold  = 0;   // position  sync id tag
 
@@ -447,8 +447,8 @@ void setup()
     }  
   else 
     {
-      hip1_pwmo  = 256 - hip1_pwm  ;
-      hip2_pwmo  = 256 - hip2_pwm  ;
+      hip1_pwmo  = 199 - hip1_pwm  ;
+      hip2_pwmo  = 199 - hip2_pwm  ;
     }
   if (leg_d == 0) 
     {
@@ -457,8 +457,8 @@ void setup()
     }
     else
     {
-      leg1_pwmo  = 256 - leg1_pwm  ;
-      leg2_pwmo  = 256 - leg2_pwm  ;
+      leg1_pwmo  = 199 - leg1_pwm  ;
+      leg2_pwmo  = 199 - leg2_pwm  ;
     }       
   if (knee_d == 0) 
     {
@@ -467,8 +467,8 @@ void setup()
     }
     else
     {
-      knee1_pwmo = 256 - knee1_pwm ;       
-      knee2_pwmo = 256 - knee2_pwm ;
+      knee1_pwmo = 199 - knee1_pwm ;       
+      knee2_pwmo = 199 - knee2_pwm ;
     }
   // update pwm i/o values   servo.write(pwmvalout); for all servos
   hip1_servo.write(hip1_pwmo);    
@@ -540,15 +540,15 @@ void loop()
     //
     if( hip_a != 0 )
       {
-        hip1_pos_s = 255 - hip1_pos_s;
+        hip1_pos_s = 199 - hip1_pos_s;
       }  
     if( leg_a != 0 )
       {
-        leg1_pos_s = 255 - leg1_pos_s;
+        leg1_pos_s = 199 - leg1_pos_s;
       }        
     if( knee_a != 0 )
       {
-        knee1_pos_s = 255 - knee1_pos_s;
+        knee1_pos_s = 199 - knee1_pos_s;
       }
 
     //
@@ -833,15 +833,15 @@ void loop()
     //
     if( hip_a != 0 )
       {
-        hip2_pos_s= 255-hip2_pos_s;
+        hip2_pos_s= 199  -hip2_pos_s;
       }  
     if( leg_a != 0 )
       {
-        leg2_pos_s= 255-leg2_pos_s;
+        leg2_pos_s= 199 - leg2_pos_s;
       }        
     if( knee_a != 0 )
       {
-        knee2_pos_s= 255-knee2_pos_s;
+        knee2_pos_s= 199 - knee2_pos_s;
       }
     //
     //foot2 status  
@@ -1361,8 +1361,8 @@ void loop()
       }  
     else 
       {
-         hip1_pwmo  = 256 - hip1_pwm  ;
-         hip2_pwmo  = 256 - hip2_pwm  ;
+         hip1_pwmo  = 199 - hip1_pwm  ;
+         hip2_pwmo  = 199 - hip2_pwm  ;
       }
     if (leg_d == 0) 
       {
@@ -1371,8 +1371,8 @@ void loop()
       }
     else
       {
-        leg1_pwmo  = 256 - leg1_pwm  ;
-        leg2_pwmo  = 256 - leg2_pwm  ;
+        leg1_pwmo  = 199 - leg1_pwm  ;
+        leg2_pwmo  = 199 - leg2_pwm  ;
       }       
     if ( knee_d == 0) 
       {
@@ -1381,20 +1381,20 @@ void loop()
       }
     else
       {
-        knee1_pwmo = 256 - knee1_pwm ;       
-        knee2_pwmo = 256 - knee2_pwm ;
+        knee1_pwmo = 199 - knee1_pwm ;       
+        knee2_pwmo = 199 - knee2_pwm ;
       }
     // update pwm i/o values   servo.write(pwmvalout); for all servos
 
     // ************************************************************************
     // *** debug force fixed set pwm overide values !!!!!!!
     //  **************remove this after test
-    hip1_pwmo=127;    
-    leg1_pwmo=127;    
-    knee1_pwmo=127;    
-    hip2_pwmo=127;     
-    leg2_pwmo=127;     
-    knee2_pwmo=127; 
+    hip1_pwmo=100;    
+    leg1_pwmo=100;    
+    knee1_pwmo=100;    
+    hip2_pwmo=100;     
+    leg2_pwmo=100;     
+    knee2_pwmo=100; 
     //
     // ************************************************************************
     
