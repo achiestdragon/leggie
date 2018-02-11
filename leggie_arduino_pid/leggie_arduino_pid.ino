@@ -1389,12 +1389,12 @@ void loop()
     // ************************************************************************
     // *** debug force fixed set pwm overide values !!!!!!!
     //  **************remove this after test
-    hip1_pwmo=100;    
-    leg1_pwmo=100;    
-    knee1_pwmo=100;    
-    hip2_pwmo=100;     
-    leg2_pwmo=100;     
-    knee2_pwmo=100; 
+    hip1_pwmo=94;    
+    leg1_pwmo=27;    
+    knee1_pwmo=42;    
+    hip2_pwmo=94;     
+    leg2_pwmo=27;     
+    knee2_pwmo=42; 
     //
     // ************************************************************************
     
