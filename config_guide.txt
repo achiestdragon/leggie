@@ -1,0 +1,63 @@
+leggie robot raspberry pi 3 configuration
+
+
+1/. setup the rpi to a monitor with keyboard and mouse attached
+
+2/. configure an sd card with noobs and install rasbian 
+
+3/. configure vnc so you can remotely access the pi over wifi
+    for this you will need ether a pc , laptop, or other rpi
+    and a local wifi network , that should have internet access
+    be shure to setup a password other than the pi default one
+
+4/. install the arduino ide on the rpi , this will let you
+    program the arduino nanos from the on board rpi using vnc
+    remotely so you dont have to connect programming cables
+    each time 
+
+5/. create a directory(folder) in /home/pi/Documents  called
+    git ,  and open a teminal
+
+> cd Doc*
+> cd git
+> git clone https://github.com/achiestdragon/leggie.git
+
+this should coppy all the needed leggie files to a folder
+called leggie in the git folder
+
+6/. now is as good a time as any to program the joystick
+    arduino ,  connect the ardruno nano for the joystick
+    to the pi by usb , start the ardruino ide set the 
+    board and programmer type  load the file USBjoystick1
+    and upload it to the nano
+    when done goto the serial monitor in the arduino ide
+    and you should see the values change with the moment
+    of the joysticks and the state of the buttons
+
+6/. power down the rpi , remove keyboad, mouse hdmi and
+    joystick
+    power up and connect to it using vnc ,you will need
+    to set the display resolution on the pi to be at least
+    1024*768 as the default 640*480 is too small for the
+    arduino window
+
+7/. you  can mount the rpi on the robot and connect up the 
+    3 servo control arduinos  , you should now see them as 
+    dev/ttyUSBsrl0 1 and 2 in the ardruino ide
+    in the ide set the board type as arduino nano and the
+    programmer type as arduino as ISP
+    
+8/. load the file leggie_ardruino_pid in the ide and compile
+    select port dev/ttyUSBsrl0 and upload
+    wait for it to complete  then select port  dev/ttyUSBsrl1
+    upload and wait , and the same for dev/ttyUSBsrl2
+    you now should have all 3 arduinos programmed 
+    you can check by selecting them by there serial port
+    and opening the serial monitor in the arduino ide
+    where you should see status messages by pressing the foot
+    sence switchs on the legs connected to it 
+    
+9/. if you are wanting to use the joystick wired to thr robot
+    then the joystick to the rpi via the remaining usb port
+    ( this should make it /dev/ttyUSBsrl3) but it may not
+     
