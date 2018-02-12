@@ -1383,8 +1383,16 @@ void loop()
         knee1_pwmo = 199 - knee1_pwm ;       
         knee2_pwmo = 199 - knee2_pwm ;
       }
-    // update pwm i/o values   servo.write(pwmvalout); for all servos
 
+    // debug try fixed positions again 
+    hip1_pwmo = 90;
+    leg1_pwmo  =90; 
+    knee1_pwmo =90;   
+    hip2_pwmo  =90 ;
+    leg2_pwmo  =90 ;  
+    knee2_pwmo =90 ; 
+   
+    // update pwm i/o values   servo.write(pwmvalout); for all servos
     hip1_servo.write(hip1_pwmo);    
     leg1_servo.write(leg1_pwmo);    
     knee1_servo.write(knee1_pwmo);    
