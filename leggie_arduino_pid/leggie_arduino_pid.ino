@@ -1058,7 +1058,7 @@ void loop()
       {
         inByte = (char)Serial.read();    //** fixme ** string decode not working
         buff   = String(buff + inByte);           
-         Serial.println(buff);           //** remove  , for debug only **
+         Serial.println(buff);           //** remove line  , for debug only **
         if (inByte=="\n")         
           {
             //newline detected so decode string
@@ -1363,6 +1363,7 @@ void loop()
       }
 
     // ******** debug  serial pwmo values see if there in range 
+    ///*
     Serial.print("h1= ");
     Serial.print(hip1_pwmo);
     Serial.print(", l1= ");
@@ -1375,14 +1376,16 @@ void loop()
     Serial.print(leg2_pwmo);
     Serial.print(", k2= ");
     Serial.println(knee2_pwmo);
-    
+    //*/
     //************ debug try fixed positions again 
+    /*
     hip1_pwmo  = 60 ;
     leg1_pwmo  = 60 ; 
     knee1_pwmo = 20 ;   
     hip2_pwmo  = 60 ;
     leg2_pwmo  = 60 ;  
     knee2_pwmo = 20 ; 
+    */
     //************
    
     // update pwm i/o values   servo.write(pwmvalout); for all servos
