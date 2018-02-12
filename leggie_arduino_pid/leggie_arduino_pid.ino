@@ -61,11 +61,7 @@ vin                  srl rx data   tx1
 // TODO:-  FIXME:- (high prioraty)
 //
 // 1/. sort out pwm pll lock , should lock all servos in start positions
-// from power up , rather than have it opperate like it has a bad case of
-// MS, 
-//   note :- the problem here is not software its down to servo power
-//       seems the mesured servo power drops to arround 2.5v when active
-//   hardware fix in progress 
+// from power up 
 //
 //
 // 2/. serial command prase function not decoding input streem , the 2nd
@@ -426,11 +422,11 @@ void setup()
 
   // set inital hold values to inital pwm values
   hip1_pwm  = 127;  // mid
-  leg1_pwm  = 199;  // up full
+  leg1_pwm  = 127;  // up full
   knee1_pwm = 20;   // down full
   tag1_hold  = 0;   // position  sync id tag
   hip2_pwm  = 127;  // mid
-  leg2_pwm  = 199;  // up full
+  leg2_pwm  = 127;  // up full
   knee2_pwm = 20;   // down full
   tag2_hold  = 0;   // position  sync id tag
 
@@ -514,7 +510,7 @@ void loop()
       {
         hip1_pos_s = pwm_pos90;
       }
-    delay(2);
+    delay(4);
     leg1_pos = analogRead(leg1_pot);
     leg1_pos_s=map(leg1_pos,pot_min,pot_max, pwm_neg90,pwm_pos90);
     if ( leg1_pos_s < pwm_neg90 )
@@ -525,7 +521,7 @@ void loop()
       {
         leg1_pos_s = pwm_pos90;
       }    
-    delay(2);
+    delay(4);
     knee1_pos = analogRead(knee1_pot);
     knee1_pos_s=map(knee1_pos,pot_min,pot_max, pwm_neg90,pwm_pos90);
     if ( knee1_pos_s < pwm_neg90 )
@@ -536,7 +532,7 @@ void loop()
       {
         knee1_pos_s = pwm_pos90;
       }    
-    delay(2);
+    delay(4);
     
     //
     // invert adc values if needed
@@ -808,7 +804,7 @@ void loop()
       {
         hip2_pos_s = pwm_pos90;
       }    
-    delay(2);
+    delay(4);
     leg2_pos = analogRead(leg2_pot);
     leg2_pos_s=map(leg2_pos,pot_min,pot_max, pwm_neg90,pwm_pos90);
     if ( leg2_pos_s < pwm_neg90 )
@@ -819,7 +815,7 @@ void loop()
       {
         leg2_pos_s = pwm_pos90;
       } 
-    delay(2);   
+    delay(4);   
     knee2_pos = analogRead(knee2_pot);
     knee2_pos_s=map(knee2_pos,pot_min,pot_max, pwm_neg90,pwm_pos90);
     if ( knee2_pos_s < pwm_neg90 )
@@ -830,7 +826,7 @@ void loop()
       {
         knee2_pos_s = pwm_pos90;
       }
-    delay(2);
+    delay(4);
     //
     // invert adc values if needed
     //
