@@ -62,6 +62,7 @@ vin                  srl rx data   tx1
 //
 // 1/. sort out pwm pll lock , should lock all servos in start positions
 // from power up 
+//    notes   some servos workking and locking others not 
 //
 //
 // 2/. serial command prase function not decoding input streem , the 2nd
@@ -328,7 +329,7 @@ int error     = 0;
 // the servos  , default 180 degree mg996r servos
    
 const int pwm_neg90  =0;//=25 ;  //-90 deg rotation pwm value of servos
-const int pwm_pos90  =199;//=230 ;  //-90 deg rotation pwm value of servos
+const int pwm_pos90  =179;//=230 ;  //-90 deg rotation pwm value of servos
 
 // set so that scaled adc values = servo pwm for the range 
 // note :-
@@ -539,15 +540,15 @@ void loop()
     //
     if( hip_a != 0 )
       {
-        hip1_pos_s = 199 - hip1_pos_s;
+        hip1_pos_s = 179 - hip1_pos_s;
       }  
     if( leg_a != 0 )
       {
-        leg1_pos_s = 199 - leg1_pos_s;
+        leg1_pos_s = 179 - leg1_pos_s;
       }        
     if( knee_a != 0 )
       {
-        knee1_pos_s = 199 - knee1_pos_s;
+        knee1_pos_s = 179 - knee1_pos_s;
       }
 
     //
@@ -649,30 +650,7 @@ void loop()
   
           }
       }
-      
-    //  *********** debug status message for hip1 **********
-    /*
-    //  remove once fixed 
-    Serial.print("debug[");
-    Serial.print(leg1);
-    Serial.print(", hip  pos_s = [");
-    Serial.print(hip1_pos_s);
-    Serial.print("], pwm = [");
-    Serial.print(hip1_pwm);
-    Serial.print("], hold = [");
-    Serial.print(hip1_hold);
-    Serial.print("], lock = [");
-                
-    if (hip1_lock == true ){ Serial.print("true] , hip dir =[");}
-    else{ Serial.print("false] , hip dir =[");}
-    if (hip_d == true ){ Serial.print("true] , pwm dir =[");}
-    else{ Serial.print("false] , pwm dir =[");}
-    if (hip_d == true ){ Serial.println("true]]");}
-    else{ Serial.println("false]]");}
-
-    */
-    //  ****************************************************
-                           
+                 
     //
     //   leg1 pwm pll lock and rdy detect
     //  
@@ -832,15 +810,15 @@ void loop()
     //
     if( hip_a != 0 )
       {
-        hip2_pos_s= 199  -hip2_pos_s;
+        hip2_pos_s= 179  -hip2_pos_s;
       }  
     if( leg_a != 0 )
       {
-        leg2_pos_s= 199 - leg2_pos_s;
+        leg2_pos_s= 179 - leg2_pos_s;
       }        
     if( knee_a != 0 )
       {
-        knee2_pos_s= 199 - knee2_pos_s;
+        knee2_pos_s= 179 - knee2_pos_s;
       }
     //
     //foot2 status  
@@ -1093,11 +1071,11 @@ void loop()
                   // 
                   // to fix  constants for hip,leg,knee home values
                   hip1_new  = 127; // mid
-                  leg1_new  = 230; // up full
+                  leg1_new  = 170; // up full
                   knee1_new = 20;  // down full
                   tag1_new  = 1;   // position  sync id tag
                   hip2_new  = 127; // mid
-                  leg2_new  = 230; // up full
+                  leg2_new  = 170; // up full
                   knee2_new = 20;  // down full
                   tag2_new  = 1;   // position  sync id tag
                   hip1_hold  = hip1_new  ;
@@ -1360,8 +1338,8 @@ void loop()
       }  
     else 
       {
-         hip1_pwmo  = 199 - hip1_pwm  ;
-         hip2_pwmo  = 199 - hip2_pwm  ;
+         hip1_pwmo  = 179 - hip1_pwm  ;
+         hip2_pwmo  = 179 - hip2_pwm  ;
       }
     if (leg_d == 0) 
       {
@@ -1370,8 +1348,8 @@ void loop()
       }
     else
       {
-        leg1_pwmo  = 199 - leg1_pwm  ;
-        leg2_pwmo  = 199 - leg2_pwm  ;
+        leg1_pwmo  = 179 - leg1_pwm  ;
+        leg2_pwmo  = 179 - leg2_pwm  ;
       }       
     if ( knee_d == 0) 
       {
@@ -1380,17 +1358,32 @@ void loop()
       }
     else
       {
-        knee1_pwmo = 199 - knee1_pwm ;       
-        knee2_pwmo = 199 - knee2_pwm ;
+        knee1_pwmo = 179 - knee1_pwm ;       
+        knee2_pwmo = 179 - knee2_pwm ;
       }
 
-    // debug try fixed positions again 
-    hip1_pwmo = 90;
-    leg1_pwmo  =90; 
-    knee1_pwmo =90;   
-    hip2_pwmo  =90 ;
-    leg2_pwmo  =90 ;  
-    knee2_pwmo =90 ; 
+    // ******** debug  serial pwmo values see if there in range 
+    Serial.print("h1= ");
+    Serial.print(hip1_pwmo);
+    Serial.print(", l1= ");
+    Serial.print(leg1_pwmo);
+    Serial.print(", k1= ");
+    Serial.print(knee1_pwmo);
+    Serial.print(",   h2= ");
+    Serial.print(hip2_pwmo);
+    Serial.print(", l2= ");
+    Serial.print(leg2_pwmo);
+    Serial.print(", k2= ");
+    Serial.println(knee2_pwmo);
+    
+    //************ debug try fixed positions again 
+    hip1_pwmo  = 60 ;
+    leg1_pwmo  = 60 ; 
+    knee1_pwmo = 20 ;   
+    hip2_pwmo  = 60 ;
+    leg2_pwmo  = 60 ;  
+    knee2_pwmo = 20 ; 
+    //************
    
     // update pwm i/o values   servo.write(pwmvalout); for all servos
     hip1_servo.write(hip1_pwmo);    
