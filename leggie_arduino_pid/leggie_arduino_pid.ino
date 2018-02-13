@@ -61,12 +61,8 @@ vin                  srl rx data   tx1
 // TODO:-  FIXME:- (high prioraty)
 //
 // 1/. sort out pwm pll lock , should lock all servos in start positions
-// from power up 
-//    notes   some servos workking and locking others not 
-//
-//
-// 2/. serial command prase function not decoding input streem , the 2nd
-// prioraty todo fix
+// from power up , hardware fail ,currently awating fix 
+//   
 //
 // TODO:- (low prioraty)  :-
 //
@@ -359,7 +355,10 @@ const int knee_a = 0 ;  // 0=normal / 1=invert  adc in value
 
 const int backlash_range  = 6 ;  //default backlash value 
 
-// unscale this value for note on pot_min & pot_max settings above
+// servo home positions  startup position values
+const int hip_home = 70  ;
+const int leg_home = 70  ;
+const int knee_home = 20  ;
 
 //
 // **********************************************************************
@@ -388,6 +387,11 @@ void setup()
   delay(200);
   adr0 = digitalRead(adr0_pin);
   adr1 = digitalRead(adr1_pin); 
+
+  // **** debug force set to adr 00
+  //adr0 = 0;
+  //adr1 = 0;
+  // *****
   if ( adr0 == 0 )
     {
       if ( adr1 == 0)
@@ -421,24 +425,34 @@ void setup()
         }
     } 
 
-  // set inital hold values to inital pwm values
-  hip1_pwm  = 127;  // mid
-  leg1_pwm  = 127;  // up full
-  knee1_pwm = 20;   // down full
-  tag1_hold  = 0;   // position  sync id tag
-  hip2_pwm  = 127;  // mid
-  leg2_pwm  = 127;  // up full
-  knee2_pwm = 20;   // down full
-  tag2_hold  = 0;   // position  sync id tag
+  // set inital new, hold and pwm to servo home positions
+  hip1_new  = hip_home  ; 
+  leg1_new  = leg_home  ; 
+  knee1_new = knee_home ;  
+  hip2_new  = hip_home  ; 
+  leg2_new  = leg_home  ; 
+  knee2_new = knee_home ;  
 
-  // make inital  pwm values  hold values 
-  hip1_hold  = hip1_pwm ;       
-  leg1_hold  = leg1_pwm ;       
-  knee1_hold = knee1_pwm;       
-  hip2_hold  = hip2_pwm ;       
-  leg2_hold  = leg2_pwm ;       
-  knee2_hold = knee2_pwm; 
-
+  hip1_hold  = hip1_new  ;
+  leg1_hold  = leg1_new  ;
+  knee1_hold = knee1_new ;
+  hip2_hold  = hip2_new  ;
+  leg2_hold  = leg2_new  ;
+  knee2_hold = knee2_new ;
+   
+  hip1_pwm  = hip1_hold  ;  
+  leg1_pwm  = leg1_hold  ;  
+  knee1_pwm = knee1_hold ;   
+  hip2_pwm  = hip2_hold  ;  
+  leg2_pwm  = leg2_hold  ; 
+  knee2_pwm = knee2_hold ;
+   
+  // set position  sync id tags
+  tag1_hold = 0;   
+  tag2_hold = 0;   
+  tag1_new  = 0;   
+  tag2_new  = 0;   
+  
   // set and invert if needed pwmo values 
   if (hip_d == 0)
     {
@@ -1057,271 +1071,275 @@ void loop()
     if (Serial.available())       
       {
         inByte = (char)Serial.read();    //** fixme ** string decode not working
-        buff   = String(buff + inByte);           
-         Serial.println(buff);           //** remove line  , for debug only **
+        buff   = String(buff + inByte);
+        if (inByte=="#")   // start of new command line
+          {
+            buff = String( "#");
+          }
         if (inByte=="\n")         
           {
+
             //newline detected so decode string
-            if (buff.substring(0) == "#") 
+            if (buff.substring(0,1) == "#") 
               {
                 //valid command string detected
-                if (buff.substring(1) == "0")  //home
+                if (buff.substring(1,2) == "0")  //home
                   {
-                  // home all legs direct 
-                  // 
-                  // to fix  constants for hip,leg,knee home values
-                  hip1_new  = 127; // mid
-                  leg1_new  = 170; // up full
-                  knee1_new = 20;  // down full
-                  tag1_new  = 1;   // position  sync id tag
-                  hip2_new  = 127; // mid
-                  leg2_new  = 170; // up full
-                  knee2_new = 20;  // down full
-                  tag2_new  = 1;   // position  sync id tag
-                  hip1_hold  = hip1_new  ;
-                  leg1_hold  = leg1_new  ;
-                  knee1_hold = knee1_new ;
-                  tag1_hold  = tag1_new  ;
-                  hip1_rdy   = false ;
-                  leg1_rdy   = false ;
-                  knee1_rdy  = false ;
-                  rdy1       = false ;
-                  hip1_lock  = false ;
-                  leg1_lock  = false ;
-                  knee1_lock = false ;
-                  hip2_hold  = hip2_new  ;
-                  leg2_hold  = leg2_new  ;
-                  knee2_hold = knee2_new ; 
-                  tag2_hold  = tag2_new  ;  
-                  hip2_rdy   = false ;
-                  leg2_rdy   = false ;
-                  knee2_rdy  = false ;
-                  rdy2       = false ;
-                  hip2_lock  = false ;
-                  leg2_lock  = false ;
-                  knee2_lock = false ;
-                  Serial.println("k[#0]");
-                  buff ="";              
-                  error=0;                 
-                }
-              if (buff.substring(1) == "1")  //new
-                {
-                  // new    load new values for hip,leg,knee
-                  // for appropriate legs data format :-
-                  //
-                  // "#1[n,t,hhh,lll,kkk]"
-                  //
-                  // where :- 
-                  //     n   = legnos (1 to 6)
-                  //     t   = tag  (1 to 8)
-                  //     hhh  = hip val   000 to 255
-                  //     lll = leg value 000 to 255
-                  //     kkk   = knee value 000 to 255
-                  // ** hip,leg and knee values must have leading 0's
-                  // and be a 3 chrs fixed lenght
-                  //
-                  // if leg nos is valid then ack with "k[#1,n,t]"
-                  //
-                  nosstr=buff.substring(3)      ;
-                  tagstr=buff.substring(5)      ;
-                  hipstr=buff.substring(7,9)    ;
-                  legstr=buff.substring(11,13)  ;
-                  kneestr=buff.substring(14,16) ;
-                  btag=nosstr.toInt();
-                  if (btag == leg1 )
-                    {
-                      tag1_new  = tagstr.toInt() ;
-                      hip1_new  = hipstr.toInt() ;
-                      leg1_new  = legstr.toInt() ;
-                      knee1_new = kneestr.toInt();
-                      Serial.print("k[#1,");
-                      Serial.print(leg1);
-                      Serial.println(",");
-                      Serial.print(tag1_new);
-                      Serial.println("]");
-                    }
-                  if (btag == leg2 )
-                    {
-                      tag2_new  = tagstr.toInt() ;
-                      hip2_new  = hipstr.toInt() ;
-                      leg2_new  = legstr.toInt() ;
-                      knee2_new = kneestr.toInt();
-                      Serial.print("k[#1,");
-                      Serial.print(leg2);
-                      Serial.println(",");
-                      Serial.print(tag2_new);
-                      Serial.println("]");                      
-                    }
-                  buff ="";             
-                  error=0;  
-                }
-              if (buff.substring(1) == "2")  //next
-                {
-                  // next   make new values current values
-                  // for specified legs
-                  hip1_hold  = hip1_new  ;
-                  leg1_hold  = leg1_new  ;
-                  knee1_hold = knee1_new ;
-                  tag1_hold  = tag1_new  ;
-                  hip1_rdy   = false ;
-                  leg1_rdy   = false ;
-                  knee1_rdy  = false ;
-                  rdy1       = false ;
-                  hip1_lock  = false ;
-                  leg1_lock  = false ;
-                  knee1_lock = false ;
-                  hip2_hold  = hip2_new  ;
-                  leg2_hold  = leg2_new  ;
-                  knee2_hold = knee2_new ; 
-                  tag2_hold  = tag2_new  ;  
-                  hip2_rdy   = false ;
-                  leg2_rdy   = false ;
-                  knee2_rdy  = false ;
-                  rdy2       = false ;
-                  hip2_lock  = false ;
-                  leg2_lock  = false ;
-                  knee2_lock = false ;
-                  Serial.println("k[#2]");
-                  buff ="";            
-                  error=0;
-                }
-              if (buff.substring(1) == "3")  //stop
-                {
-                  // stop   sets current read values to hold values
-                  // for all legs and pwm pll lock
-                  hip1_hold  = hip1_pos_s  ;
-                  leg1_hold  = leg1_pos_s  ;
-                  knee1_hold = knee1_pos_s ;
-                  hip1_rdy   = false ;
-                  leg1_rdy   = false ;
-                  knee1_rdy  = false ;
-                  rdy1       = false ;
-                  hip1_lock  = true  ;
-                  leg1_lock  = true  ;
-                  knee1_lock = true  ;
-                  hip2_hold  = hip2_pos_s  ;
-                  leg2_hold  = leg2_pos_s  ;
-                  knee2_hold = knee2_pos_s ; 
-                  hip2_rdy   = false ;
-                  leg2_rdy   = false ;
-                  knee2_rdy  = false ;
-                  rdy2       = false ;
-                  hip2_lock  = true  ;
-                  leg2_lock  = true  ;
-                  knee2_lock = true  ;
-                  Serial.println("k[#3]");
-                  buff ="";          
-                  error=0;
-                }
-              if (buff.substring(1) == "4")  // next odd
-                {
-                  hip1_hold  = hip1_new  ;
-                  leg1_hold  = leg1_new  ;
-                  knee1_hold = knee1_new ;
-                  tag1_hold  = tag1_new  ;
-                  hip1_rdy   = false ;
-                  leg1_rdy   = false ;
-                  knee1_rdy  = false ;
-                  rdy1       = false ;
-                  hip1_lock  = false ;
-                  leg1_lock  = false ;
-                  knee1_lock = false ;
-                  Serial.println("k[#4]");                
-                  buff ="";         
-                  error=0;
-                }
-              if (buff.substring(1) == "5")  // next even
-                {
-                  hip2_hold  = hip2_new  ;
-                  leg2_hold  = leg2_new  ;
-                  knee2_hold = knee2_new ; 
-                  tag2_hold  = tag2_new  ;  
-                  hip2_rdy   = false ;
-                  leg2_rdy   = false ;
-                  knee2_rdy  = false ;
-                  rdy2       = false ;
-                  hip2_lock  = false ;
-                  leg2_lock  = false ;
-                  knee2_lock = false ;
-                  Serial.println("k[#5]"); 
-                  buff ="";      
-                  error=0;
-                }
-              if (buff.substring(1) == "6")  // next individual
-                {
-                  leg=buff.substring(3);
-                  if (leg == "1" or leg == "3" or leg == "5")
-                    {
-                      hip1_hold  = hip1_new  ;
-                      leg1_hold  = leg1_new  ;
-                      knee1_hold = knee1_new ;
-                      tag1_hold  = tag1_new  ;
-                      hip1_rdy   = false ;
-                      leg1_rdy   = false ;
-                      knee1_rdy  = false ;
-                      rdy1       = false ;
-                      hip1_lock  = false ;
-                      leg1_lock  = false ;
-                      knee1_lock = false ;     
-                    }
-                  if (leg == "2" or leg == "3" or leg == "6")
-                    {
-                      hip2_hold  = hip2_new  ;
-                      leg2_hold  = leg2_new  ;
-                      knee2_hold = knee2_new ; 
-                      tag2_hold  = tag2_new  ;  
-                      hip2_rdy   = false ;
-                      leg2_rdy   = false ;
-                      knee2_rdy  = false ;
-                      rdy2       = false ;
-                      hip2_lock  = false ;
-                      leg2_lock  = false ;
-                      knee2_lock = false ;  
-                    }
-                  Serial.print("k[#5,"); 
-                  Serial.print(leg); 
-                  Serial.println("]"); 
-                  buff ="";             
-                  error=0;
-                }
-              if (buff.substring(1) == "7")  // not yet defined
-                {
-                  // TODO:- 
+                    // home all legs direct 
+                    // 
+                    // to fix  constants for hip,leg,knee home values
+                    hip1_new  = hip_home; 
+                    leg1_new  = leg_home; 
+                    knee1_new = knee_home;  
+                    tag1_new  = 1;   // position  sync id tag
+                    hip2_new  = hip_home; 
+                    leg2_new  = leg_home; 
+                    knee2_new = knee_home;  
+                    tag2_new  = 1;   // position  sync id tag
+                    hip1_hold  = hip1_new  ;
+                    leg1_hold  = leg1_new  ;
+                    knee1_hold = knee1_new ;
+                    tag1_hold  = tag1_new  ;
+                    hip1_rdy   = false ;
+                    leg1_rdy   = false ;
+                    knee1_rdy  = false ;
+                    rdy1       = false ;
+                    hip1_lock  = false ;
+                    leg1_lock  = false ;
+                    knee1_lock = false ;
+                    hip2_hold  = hip2_new  ;
+                    leg2_hold  = leg2_new  ;
+                    knee2_hold = knee2_new ; 
+                    tag2_hold  = tag2_new  ;  
+                    hip2_rdy   = false ;
+                    leg2_rdy   = false ;
+                    knee2_rdy  = false ;
+                    rdy2       = false ;
+                    hip2_lock  = false ;
+                    leg2_lock  = false ;
+                    knee2_lock = false ;
+                    Serial.println("k[#0]");
+                    buff ="";              
+                    error=0;                 
+                  }
+                if (buff.substring(1,2) == "1")  //new
+                  {
+                    // new    load new values for hip,leg,knee
+                    // for appropriate legs data format :-
+                    //
+                    // "#1[n,t,hhh,lll,kkk]"
+                    //
+                    // where :- 
+                    //     n   = legnos (1 to 6)
+                    //     t   = tag  (1 to 8)
+                    //     hhh  = hip val   000 to 255
+                    //     lll = leg value 000 to 255
+                    //     kkk   = knee value 000 to 255
+                    // ** hip,leg and knee values must have leading 0's
+                    // and be a 3 chrs fixed lenght
+                    //
+                    // if leg nos is valid then ack with "k[#1,n,t]"
+                    //
+                    nosstr=buff.substring(3,4)      ;
+                    tagstr=buff.substring(5,6)      ;
+                    hipstr=buff.substring(7,9)    ;
+                    legstr=buff.substring(11,13)  ;
+                    kneestr=buff.substring(14,16) ;
+                    btag=nosstr.toInt();
+                    if (btag == leg1 )
+                      {
+                        tag1_new  = tagstr.toInt() ;
+                        hip1_new  = hipstr.toInt() ;
+                        leg1_new  = legstr.toInt() ;
+                        knee1_new = kneestr.toInt();
+                        Serial.print("k[#1,");
+                        Serial.print(leg1);
+                        Serial.println(",");
+                        Serial.print(tag1_new);
+                        Serial.println("]");
+                      }
+                    if (btag == leg2 )
+                      {
+                        tag2_new  = tagstr.toInt() ;
+                        hip2_new  = hipstr.toInt() ;
+                        leg2_new  = legstr.toInt() ;
+                        knee2_new = kneestr.toInt();
+                        Serial.print("k[#1,");
+                        Serial.print(leg2);
+                        Serial.println(",");
+                        Serial.print(tag2_new);
+                        Serial.println("]");                      
+                      }
+                    buff ="";             
+                    error=0;  
+                  }
+                if (buff.substring(1,2) == "2")  //next
+                  {
+                    // next   make new values current values
+                    // for specified legs
+                    hip1_hold  = hip1_new  ;
+                    leg1_hold  = leg1_new  ;
+                    knee1_hold = knee1_new ;
+                    tag1_hold  = tag1_new  ;
+                    hip1_rdy   = false ;
+                    leg1_rdy   = false ;
+                    knee1_rdy  = false ;
+                    rdy1       = false ;
+                    hip1_lock  = false ;
+                    leg1_lock  = false ;
+                    knee1_lock = false ;
+                    hip2_hold  = hip2_new  ;
+                    leg2_hold  = leg2_new  ;
+                    knee2_hold = knee2_new ; 
+                    tag2_hold  = tag2_new  ;  
+                    hip2_rdy   = false ;
+                    leg2_rdy   = false ;
+                    knee2_rdy  = false ;
+                    rdy2       = false ;
+                    hip2_lock  = false ;
+                    leg2_lock  = false ;
+                    knee2_lock = false ;
+                    Serial.println("k[#2]");
+                    buff ="";            
+                    error=0;
+                  }
+                if (buff.substring(1,2) == "3")  //stop
+                  {
+                    // stop   sets current read values to hold values
+                    // for all legs and pwm pll lock
+                    hip1_hold  = hip1_pos_s  ;
+                    leg1_hold  = leg1_pos_s  ;
+                    knee1_hold = knee1_pos_s ;
+                    hip1_rdy   = false ;
+                    leg1_rdy   = false ;
+                    knee1_rdy  = false ;
+                    rdy1       = false ;
+                    hip1_lock  = true  ;
+                    leg1_lock  = true  ;
+                    knee1_lock = true  ;
+                    hip2_hold  = hip2_pos_s  ;
+                    leg2_hold  = leg2_pos_s  ;
+                    knee2_hold = knee2_pos_s ; 
+                    hip2_rdy   = false ;
+                    leg2_rdy   = false ;
+                    knee2_rdy  = false ;
+                    rdy2       = false ;
+                    hip2_lock  = true  ;
+                    leg2_lock  = true  ;
+                    knee2_lock = true  ;
+                    Serial.println("k[#3]");
+                    buff ="";          
+                    error=0;
+                  }
+                if (buff.substring(1,2) == "4")  // next odd
+                  {
+                    hip1_hold  = hip1_new  ;
+                    leg1_hold  = leg1_new  ;
+                    knee1_hold = knee1_new ;
+                    tag1_hold  = tag1_new  ;
+                    hip1_rdy   = false ;
+                    leg1_rdy   = false ;
+                    knee1_rdy  = false ;
+                    rdy1       = false ;
+                    hip1_lock  = false ;
+                    leg1_lock  = false ;
+                    knee1_lock = false ;
+                    Serial.println("k[#4]");                
+                    buff ="";         
+                    error=0;
+                  }
+                if (buff.substring(1,2) == "5")  // next even
+                  {
+                    hip2_hold  = hip2_new  ;
+                    leg2_hold  = leg2_new  ;
+                    knee2_hold = knee2_new ; 
+                    tag2_hold  = tag2_new  ;  
+                    hip2_rdy   = false ;
+                    leg2_rdy   = false ;
+                    knee2_rdy  = false ;
+                    rdy2       = false ;
+                    hip2_lock  = false ;
+                    leg2_lock  = false ;
+                    knee2_lock = false ;
+                    Serial.println("k[#5]"); 
+                    buff ="";      
+                    error=0;
+                  }
+                if (buff.substring(1,2) == "6")  // next individual
+                  {
+                    leg=buff.substring(3,114);
+                    if (leg == "1" or leg == "3" or leg == "5")
+                      {
+                        hip1_hold  = hip1_new  ;
+                        leg1_hold  = leg1_new  ;
+                        knee1_hold = knee1_new ;
+                        tag1_hold  = tag1_new  ;
+                        hip1_rdy   = false ;
+                        leg1_rdy   = false ;
+                        knee1_rdy  = false ;
+                        rdy1       = false ;
+                        hip1_lock  = false ;
+                        leg1_lock  = false ;
+                        knee1_lock = false ;     
+                      }
+                    if (leg == "2" or leg == "3" or leg == "6")
+                      {
+                        hip2_hold  = hip2_new  ;
+                        leg2_hold  = leg2_new  ;
+                        knee2_hold = knee2_new ; 
+                        tag2_hold  = tag2_new  ;  
+                        hip2_rdy   = false ;
+                        leg2_rdy   = false ;
+                        knee2_rdy  = false ;
+                        rdy2       = false ;
+                        hip2_lock  = false ;
+                        leg2_lock  = false ;
+                        knee2_lock = false ;  
+                      }
+                    Serial.print("k[#6,"); 
+                    Serial.print(leg); 
+                    Serial.println("]"); 
+                    buff ="";             
+                    error=0;
+                  }
+                if (buff.substring(1,2) == "7")  // not yet defined
+                  {
+                    // TODO:- 
 
                   
-                  buff ="";              
-                  error=0;
-                }
+                    buff ="";              
+                    error=0;
+                  }
                                 
-              if (buff.substring(1) == "8")  // not yet defined
-                {
-                  // TODO:- 
+                if (buff.substring(1,2) == "8")  // not yet defined
+                  {
+                    // TODO:- 
 
                   
-                  buff ="";              
-                  error=0;
-                }
-              if (buff.substring(1) == "9")  // not yet defined
-                {
-                  // TODO:- 
+                    buff ="";              
+                    error=0;
+                  }
+                if (buff.substring(1,2) == "9")  // not yet defined
+                  {
+                    // TODO:- 
                   
 
-                  buff ="";              
-                  error=0;
-                }
-            }   
-          else
-            {
-              error=1 ; //ERROR [com frame sync]
-            }
-          buff ="";      
-        }
-      if (buff.length() > 32)   
-        {
-          Serial.print(buff);
-          buff ="";    
-          error = 2;    //ERROR [ buffer overrun ]
-        }
+                    buff ="";              
+                    error=0;
+                  }
+              }   
+            else
+              {
+                error=1 ; //ERROR [com frame sync]
+              }
+            buff ="";      
+          }
+        if (buff.length() > 32)   
+          {
+            Serial.print(buff);
+            buff ="";    
+            error = 2;    //ERROR [ buffer overrun ]
+          }
       }
     if (error != 0)
       {
@@ -1363,7 +1381,7 @@ void loop()
       }
 
     // ******** debug  serial pwmo values see if there in range 
-    ///*
+    /*
     Serial.print("h1= ");
     Serial.print(hip1_pwmo);
     Serial.print(", l1= ");
@@ -1376,7 +1394,7 @@ void loop()
     Serial.print(leg2_pwmo);
     Serial.print(", k2= ");
     Serial.println(knee2_pwmo);
-    //*/
+    */
     //************ debug try fixed positions again 
     /*
     hip1_pwmo  = 60 ;
