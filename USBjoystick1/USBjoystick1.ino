@@ -1,22 +1,31 @@
 
 // **********************************************************************
-//   leggie  dual USB joystick hexapod robot controler (ardunio nano)
+// * leggie  dual USB joystick hexapod robot controler (ardunio nano)   *
 // **********************************************************************
-//   version 1.0a                                    date  3 feb 2018 
+// * version 1.0b                                    date  3 feb 2018   *
 // **********************************************************************
-//          (c) 2018 by david powell  (aka AchiestDragon)
+// *        (c) 2018 by david powell  (aka AchiestDragon)               *
 // **********************************************************************
-//   licence :-  GPL v3  
+//   licence :-  GPL v3.  
+//
+//  change notes :-
+//
+//    13 feb 2018 - version number bumped up from 1.0a to 1.0b
+//                  first release 
+//
+
 /*
 discription :-
+
  ardunio nano code for the dual USB joystick control pad for the leggie
  hexapod robot project 
 
-the controler consists of 2 joysticks 
+ the controler consists of 2 joysticks 
  each (3axis up/down , left/right and turn clockwize/anticlockwise analog
  with a top button) 
  and 10 individual push buttons (momentory push to make)
- provision is provided for 2 additional analog pots 
+ provision is provided for 2 optional analog pots , but commented out
+ in the code as there currently not implimented by the host software
 
  the analog values are scailed to the range  0 to 8 with 4 beeing center 
  0 =  -4
@@ -37,20 +46,71 @@ the controler consists of 2 joysticks
  ie:-
  [4,4,4],[4,4,4],[............]
  
- analog values in range 0 to 8 with 4 beening the normal 0 center
+ analog values in range 0 to 8 with 4 beening the normal center position
  switch states . = off   X = on
  
- or optionaly in the form
-  
-"[j1x,j1y,j1z],[t1p],[j2x,j2y,j2z],[t2p],[js1,js2,b1,b2,b3,b4,b5,b6,b7,
-b8,b9,b10]/nl"
+ optionaly if pots for t1 and t2 are used (commented out in the code)
+ the ouput data can be in the form :-  
+ "[x1p,y1p,z1p],[t1p],[x2p,y2p,z2p],[t2p],[js1,js2,b1,b2,b3,b4,b5,b6,b7,
+ b8,b9,b10]/nl"
+   ie:-
+ [4,4,4],[4],[4,4,4],[4],[............]))
 
- if pots for t1 and t2 are used (commented out in the code)
-  ie:-
- [4,4,4],[4],[4,4,4],[4],[............]
+ NOTE this extended format allows for an extra axis or 2 extra analog
+ pots , there function is not defined in the current leggie rpi code 
 
-pinouts 
---------
+the joysticks are configured as follows in the leggie rpi3 code
+
+left stick :-  
+    xy          =   main body tilt 
+    z           =   body height
+    top button  =   set level ** 
+
+    ** note :-
+         sets current xy body tilt as ref level center  
+         this function also issues a #9 read status for all legs
+         that is echoed to the console for calibration & diagnostics 
+
+right stick :-
+    xy          =   walk direction 
+    z           =   turn (rotate body)
+    top button  =   button function shift 
+
+buttons :-
+    1   =   stance normal  
+    2   =   stance narrow (crab) leg 1,4 front/back
+    3   =   stance narrow (crab) leg 2,5 front/back
+    4   =   stance narrow (crab) leg 3,6 front/back
+    5   =   home , move legs to home position 
+    6   =   curl up , as home but legs folded in on hips
+    7   =   highest standing, max height hold position  
+    8   =   high walking
+    9   =   normal  walking 
+    10  =   wide and low (fastest walking position)
+
+    buttons function shift 
+    1   =   foot lift height low  ( for flat ground ) 50mm leg lift
+    2   =   foot lift height mid  ( for garden lawns ) 150 mm leg lift
+    3   =   foot lift height high  ( for rough ground ) 250 mm leg lift 
+    4   =   foot lift height extreme ( stair climb mode ) 350mm leg lift
+    5   =   seq shy pose
+    6   =   seq pull back  wave legs 1&2
+    7   =   seq wave odd legs  
+    8   =   seq wave even legs
+    9   =   seq bob side to side 
+    10  =   seq wave leg 6
+
+    optional
+    pot 1 /js1t  =  undefined / not currently implimented
+    pot 2 /js2t  =  undefined / not currently implimented
+
+any rx data over serial from the rpi is disregarded 
+
+
+  arduino nano pinouts
+------------------------
+
+          usb connector end
 d13  j2 button       j1  button    d12
 3v3                  button10      d11
 ref                  button9       d10
@@ -66,6 +126,7 @@ a7   pot2            button1       d2
 rst                                rst
 gnd                  host tx data  rx0
 vin                  host rx data  tx1
+
 
 
 all button inputs need a 4k7 resistor to ground (pulldown)
@@ -190,14 +251,14 @@ void loop()
     Serial.print("],[");
     delay(2);
     // read pot 1 value , scail and send to serial
-  
-    //t1 = analogRead(pot1);
-    //t1p = map(t1, 0, 1023, 0, 9);
-    //if (t1p == 9) { t1p = 8; }
-    //Serial.print(t1p);
-    //Serial.print("],[");
-    //delay(2);
-  
+    /*
+    t1 = analogRead(pot1);
+    t1p = map(t1, 0, 1023, 0, 9);
+    if (t1p == 9) { t1p = 8; }   // scale may need setting 
+    Serial.print(t1p);
+    Serial.print("],[");
+    delay(2);
+    */
     // read joystick 2 x value , scail and send to serial
     x2 = analogRead(j2_x);
     x2p = map(x2, 0, 1023, 0, 9);
@@ -220,13 +281,13 @@ void loop()
     Serial.print("],[");
     delay(2);
     // read pot 1 value , scail and send to serial
-  
-    //t2 = analogRead(pot2);
-    //t2p = map(t2, 0, 1023, 0, 9);
-    //if (t2p == 9) { t2p = 8; }
-    //Serial.print(t2p);
-    //Serial.print("],[");
-
+    /*
+    t2 = analogRead(pot2);
+    t2p = map(t2, 0, 1023, 0, 9);
+    if (t2p == 9) { t2p = 8; }   // scale may need setting
+    Serial.print(t2p);
+    Serial.print("],[");
+    */
     //read joystick 1 button and send to serial
     js1 = digitalRead(button11);
     if (js1 == HIGH) 
