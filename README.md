@@ -2,37 +2,37 @@
 
 a hexapod robot
 
-still work in progress not all code completed yet :
+.    still work in progress not all code completed yet 
 
 # progress:-
 
 
 hardware build and 3d printed parts :-
 
-scad & stl files for 3d printed parts printed =version 1.0a not yet final
+.    scad & stl files for 3d printed parts printed =version 1.0a not yet final
 
 
 # code status :-
 
 arduino nano  joystick code :-
 
-   done tested and working
+.    done tested and working
 
-   USBjoystick1.ino       = version 1.0b  first release
+.    USBjoystick1.ino       = version 1.0b  first release
 
 arduino nano  leg drive control code :- 
 
-   work in progress
+.   work in progress
 
-   leggie_arduino_pid.ino = version 1.0a  alpha not final
+.   leggie_arduino_pid.ino = version 1.0a  alpha not final
 
-   partialy functional 
+.   partialy functional 
 
 
 raspberry pi3  main control code  :-
 
-   work in progress ( not uploaded yet )
+.   work in progress ( not uploaded yet )
 
-   not yet functional
+.   not yet functional
 
 
