@@ -1,22 +1,47 @@
 # leggie
 
-hexapod robot
+a hexapod robot
 
-still work in progress not all code compleated yet :
+still work in progress not all code completed yet :
 
 progress:-
 
-scad files for 3d printed parts       :- done exported to stl
 
-stl files for parts                   :- printed , it all fits together
+hardware build and 3d printed parts :-
 
-ardruino nano  joystick code          :- done tested and working
+---------------------------------------
 
-ardruino nano  leg drive control code :- work in progress
+scad / stl files for 3d printed parts :- 
 
-raspberry pi3 code                    :- not yet started
+  done 
 
-picture of leggie v1.0 
-https://drive.google.com/file/d/1JOmX1tFKtqB2a8Q7nXeF4LjW7pb6mfzs/view?usp=sharing
+  printed , it all fits together
+
+
+code status :-
+
+--------------
+
+
+arduino nano  joystick code :-
+
+   done tested and working
+
+   USBjoystick1.ino       = version 1.0b  first release
+
+arduino nano  leg drive control code :- 
+
+   work in progress
+
+   leggie_arduino_pid.ino = version 1.0a  alpha not final
+
+   partialy functional 
+
+
+raspberry pi3  main control code  :-
+
+   work in progress ( not uploaded yet )
+
+   not yet functional
 
 
