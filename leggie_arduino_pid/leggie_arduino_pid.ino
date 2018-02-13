@@ -61,7 +61,8 @@ vin                  srl rx data   tx1
 // TODO:-  FIXME:- (high prioraty)
 //
 // 1/. sort out pwm pll lock , should lock all servos in start positions
-// from power up , hardware fail ,currently awating fix 
+// from power up 
+// on hold because of hardware fail ,currently awating replacment parts  
 //   
 //
 // TODO:- (low prioraty)  :-
@@ -69,12 +70,14 @@ vin                  srl rx data   tx1
 // (aditional features)
 //  define the serial command functions for :-
 //    #7                    = pose
-//           //format  #7[posenos] 
-//           // where pose nos is in the range 0 to 9
-//           // causes the legs to move to some preset positions 
-//           // 
+//            format  #7[posenos] 
+//            where:- pose nos is in the range 0 to 9
+//            causes the legs to move to some preset positions 
+//  note this feature is on hold as is not realy appropriate here and
+//  should realy be in the host rpi3 code 
+//             
 //    #8                    = not yet defined
-//    #9                    = not yet defined
+//
 //  and sort out the code for them 
 //
 //  i/o signal pins d2 , d4 , d12  are defined but not used as there
@@ -97,7 +100,7 @@ vin                  srl rx data   tx1
 //
 //    f[leg,d,tag,hip,leg,knee]       = new foot down detected
 //    f[leg,u,tag]                    = new foot up detected
-//    k[leg,tag]                      = ack command recived 
+//    k[#comm((,data,...if any..))]   = ack command recived 
 //    l[leg,r,tag]                    = leg reached hold pos and ready
 //
 //  cal/test mode output format ( all on one line )
@@ -111,28 +114,47 @@ vin                  srl rx data   tx1
 //
 //    #0                    = home
 //            stops current moves/holds and moves legs to home position
+//            responce = > k[#0]
 // 
 //    #1[n,t,hhh,lll,kkk]   = set new
 //            preloads hip leg knee and tag values for leg n
+//            responce = > k[#1,n,t]
 //
 //    #2                    = next
 //            last preload values to current values for all legs
+//            responce = > k[#2]
 //
 //    #3                    = stop
 //            current leg positions current hold positions
+//            responce = > k[#3]
 //
 //    #4                    = next odd
 //            last preload values to current values for odd legs
+//            responce = > k[#4]
 //
 //    #5                    = next even
 //            last preload values to current values for even legs
+//            responce = > k[#5]
 //
 //    #6[n]                 = next individual
 //            last preload values to current values for leg n
+//            responce = > k[#6,n]
 //
 //    #7                    = not yet defined
+//
 //    #8                    = not yet defined
-//    #9                    = not yet defined
+//
+//    #9                    = leg status
+//            serial sends current legs and position status
+//            responce = 
+//                k[#9,[n,hhh,lll,kkk,f,s],[n,hhh,lll,kkk,f,s]]
+//                where:-
+//                        n   = leg nos 
+//                        hhh = hip pos scaled adc value
+//                        lll = leg pos scaled adc value
+//                        kkk = knee pos scaled adc value
+//                        f   = foot status ( u = up or d = down)
+//                        s   = lock status ( l= lock or m= moving)
 //
 // **********************************************************************
 //                                 includes
@@ -1070,9 +1092,9 @@ void loop()
     
     if (Serial.available())       
       {
-        inByte = (char)Serial.read();    //** fixme ** string decode not working
+        inByte = (char)Serial.read();    
         buff   = String(buff + inByte);
-        if (inByte=="#")   // start of new command line
+        if (inByte=="#")   
           {
             buff = String( "#");
           }
@@ -1319,10 +1341,72 @@ void loop()
                     buff ="";              
                     error=0;
                   }
-                if (buff.substring(1,2) == "9")  // not yet defined
+                if (buff.substring(1,2) == "9")  // leg status
                   {
-                    // TODO:- 
-                  
+                    // return leg status for both legs 
+                    // format:-
+                    // k[#9,[n,hhh,lll,kkk,f,s],[n,hhh,lll,kkk,f,s]
+                    // where:-
+                    //      n   = leg nos 
+                    //      hhh = hip pos
+                    //      lll = leg pos
+                    //      kkk = knee pos
+                    //      f   = foot status ( u = up or d = down)
+                    //      s   = lock status ( l= lock or m= moving)
+                    Serial.print("k[#9,[");
+                    Serial.print(leg1);
+                    Serial.print(",");
+                    Serial.print(hip1_pos_s);                                        
+                    Serial.print(",");
+                    Serial.print(leg1_pos_s);                                      
+                    Serial.print(",");
+                    Serial.print(knee1_pos_s);
+                    Serial.print(",");
+                    if (foot1_pos > 520) 
+                      { 
+                        Serial.print("d");
+                      } 
+                    else
+                      {
+                        Serial.print("u");
+                      }
+                    Serial.print(",");  
+                    if (hip1_lock==true&&leg1_lock==true&&knee1_lock==true)
+                      {  
+                        Serial.print("l");
+                      }
+                    else
+                      {
+                        Serial.print("m");  
+                      }
+                    Serial.print("],");
+                    Serial.print("[");
+                    Serial.print(leg2);
+                    Serial.print(",");
+                    Serial.print(hip2_pos_s); 
+                    Serial.print(",");
+                    Serial.print(leg2_pos_s);
+                    Serial.print(",");
+                    Serial.print(knee2_pos_s); 
+                    Serial.print(",");
+                    if (foot2_pos > 520) 
+                      { 
+                        Serial.print("d");
+                      } 
+                      else
+                      {
+                        Serial.print("u");
+                      }
+                    Serial.print(",");  
+                    if (hip2_lock==true&&leg2_lock==true&&knee2_lock==true)
+                      {  
+                        Serial.print("l");
+                      }
+                    else
+                      {
+                        Serial.print("m");  
+                      }                      
+                    Serial.println("]]");                 
 
                     buff ="";              
                     error=0;
