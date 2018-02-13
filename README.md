@@ -4,24 +4,15 @@ a hexapod robot
 
 still work in progress not all code completed yet :
 
-progress:-
+# progress:-
 
 
 hardware build and 3d printed parts :-
 
----------------------------------------
-
-scad / stl files for 3d printed parts :- 
-
-  done 
-
-  printed , it all fits together
+scad & stl files for 3d printed parts printed =version 1.0a not yet final
 
 
-code status :-
-
---------------
-
+# code status :-
 
 arduino nano  joystick code :-
 
