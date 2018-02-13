@@ -37,7 +37,7 @@ the controler consists of 2 joysticks
  ie:-
  [4,4,4],[4,4,4],[............]
  
- analog values in range 0 to 8 with 4 beening the nromal 0 center
+ analog values in range 0 to 8 with 4 beening the normal 0 center
  switch states . = off   X = on
  
  or optionaly in the form
@@ -77,13 +77,6 @@ notes :- the led l1 on the ardunio lights when js2 button is pressed
  this is as it shares the same i/o pin
  
 */
-
-//
-// TODO :-
-// add output code so it sends data to both serial ports 
-// so support for rf remote (by extra module ) option
-//
-
 // **********************************************************************
 //                                 varibles
 // **********************************************************************
@@ -172,152 +165,189 @@ void setup() {
 // **********************************************************************
 //                              main code loop
 // **********************************************************************
-void loop() {
-  // read joystick 1 x value , scail and send to serial 
-  x1 = analogRead(j1_x);
-  x1p = map(x1, 0, 1023, 0, 9);
-  if (x1p == 9) { x1p = 8; }
-  Serial.print("[");
-  Serial.print(x1p);
-  Serial.print(",");
-  delay(2);
-  // read joystick 1 y value , scail and send to serial
-  y1 = analogRead(j1_y);
-  y1p = map(y1, 0, 1023, 0, 9);
+void loop() 
+  {
+    // read joystick 1 x value , scail and send to serial 
+    x1 = analogRead(j1_x);
+    x1p = map(x1, 0, 1023, 0, 9);
+    if (x1p == 9) { x1p = 8; }
+    Serial.print("[");
+    Serial.print(x1p);
+    Serial.print(",");
+    delay(2);
+    // read joystick 1 y value , scail and send to serial
+    y1 = analogRead(j1_y);
+    y1p = map(y1, 0, 1023, 0, 9);
     if (y1p == 9) { y1p = 8; }
-  Serial.print(y1p);
-  Serial.print(",");
-  delay(2);
-  // read joystick 1 z value , scail and send to serial
-  z1 = analogRead(j1_z);
-  z1p = map(z1, 0, 1023, 0, 9);
-  if (z1p == 9) { z1p = 8; }
-  Serial.print(z1p);
-  Serial.print("],[");
-  delay(2);
-  // read pot 1 value , scail and send to serial
+    Serial.print(y1p);
+    Serial.print(",");
+    delay(2);
+    // read joystick 1 z value , scail and send to serial
+    z1 = analogRead(j1_z);
+    z1p = map(z1, 0, 1023, 0, 9);
+    if (z1p == 9) { z1p = 8; }
+    Serial.print(z1p);
+    Serial.print("],[");
+    delay(2);
+    // read pot 1 value , scail and send to serial
   
-  //t1 = analogRead(pot1);
-  //t1p = map(t1, 0, 1023, 0, 9);
-  //if (t1p == 9) { t1p = 8; }
-  //Serial.print(t1p);
-  //Serial.print("],[");
-  //delay(2);
+    //t1 = analogRead(pot1);
+    //t1p = map(t1, 0, 1023, 0, 9);
+    //if (t1p == 9) { t1p = 8; }
+    //Serial.print(t1p);
+    //Serial.print("],[");
+    //delay(2);
   
-  // read joystick 2 x value , scail and send to serial
-  x2 = analogRead(j2_x);
-  x2p = map(x2, 0, 1023, 0, 9);
-  if (x2p == 9) { x2p = 8; }
-  Serial.print(x2p);
-  Serial.print(",");
-  delay(2);
-  // read joystick 2 y value , scail and send to serial
-  y2 = analogRead(j2_y);
-  y2p = map(y2, 0, 1023, 0, 9);
-  if (y2p == 9) { y2p = 8; }
-  Serial.print(y2p);
-  Serial.print(",");
-  delay(2);
-  // read joystick 2 z value , scail and send to serial
-  z2 = analogRead(j2_z);
-  z2p = map(z2, 0, 1023, 0, 9);
-  if (z2p == 9) { z2p = 8; }
-  Serial.print(z2p);
-  Serial.print("],[");
-  delay(2);
-  // read pot 1 value , scail and send to serial
+    // read joystick 2 x value , scail and send to serial
+    x2 = analogRead(j2_x);
+    x2p = map(x2, 0, 1023, 0, 9);
+    if (x2p == 9) { x2p = 8; }
+    Serial.print(x2p);
+    Serial.print(",");
+    delay(2);
+    // read joystick 2 y value , scail and send to serial
+    y2 = analogRead(j2_y);
+    y2p = map(y2, 0, 1023, 0, 9);
+    if (y2p == 9) { y2p = 8; }
+    Serial.print(y2p);
+    Serial.print(",");
+    delay(2);
+    // read joystick 2 z value , scail and send to serial
+    z2 = analogRead(j2_z);
+    z2p = map(z2, 0, 1023, 0, 9);
+    if (z2p == 9) { z2p = 8; }
+    Serial.print(z2p);
+    Serial.print("],[");
+    delay(2);
+    // read pot 1 value , scail and send to serial
   
-  //t2 = analogRead(pot2);
-  //t2p = map(t2, 0, 1023, 0, 9);
-  //if (t2p == 9) { t2p = 8; }
-  //Serial.print(t2p);
-  //Serial.print("],[");
+    //t2 = analogRead(pot2);
+    //t2p = map(t2, 0, 1023, 0, 9);
+    //if (t2p == 9) { t2p = 8; }
+    //Serial.print(t2p);
+    //Serial.print("],[");
 
-  //read joystick 1 button and send to serial
-  js1 = digitalRead(button11);
-  if (js1 == HIGH) {
-    Serial.print("X");
-  } else {
-     Serial.print(".");
+    //read joystick 1 button and send to serial
+    js1 = digitalRead(button11);
+    if (js1 == HIGH) 
+      {
+        Serial.print("X");
+      } 
+    else 
+      {
+        Serial.print(".");
+      }
+    //read joystick 2 button and send to serial
+    js2 = digitalRead(button12);
+    if (js2 == HIGH)  
+      {
+        Serial.print("X");
+      } 
+    else 
+      {
+        Serial.print(".");
+      }
+    //read button 1 and send to serial
+    b1 = digitalRead(button1);
+    if (b1 == HIGH)  
+      {
+        Serial.print("X");
+      } 
+    else 
+      {
+        Serial.print(".");
+      }
+    //read button 2 and send to serial
+    b2 = digitalRead(button2);
+    if (b2 == HIGH)  
+      {
+        Serial.print("X");
+      } 
+    else 
+      {
+        Serial.print(".");
+      }
+    //read button 3 and send to serial
+    b3 = digitalRead(button3);
+    if (b3 == HIGH)  
+      {
+        Serial.print("X");
+      } 
+    else 
+      {
+        Serial.print(".");
+      }
+    //read button 4 and send to serial
+    b4 = digitalRead(button4);
+    if (b4 == HIGH)  
+      {
+        Serial.print("X");
+      } 
+    else 
+      {
+        Serial.print(".");
+      }
+    //read button 5 and send to serial
+    b5 = digitalRead(button5);
+    if (b5 == HIGH)  
+      {
+        Serial.print("X");
+      } 
+    else 
+      {
+        Serial.print(".");
+      }
+    //read button 6 and send to serial
+    b6 = digitalRead(button6);
+    if (b6 == HIGH)  
+      {
+        Serial.print("X");
+      } 
+    else 
+      {
+        Serial.print(".");
+      }
+    //read button 7 and send to serial
+    b7 = digitalRead(button7);
+    if (b7 == HIGH)  
+      {
+        Serial.print("X");
+      } 
+    else 
+      {
+        Serial.print(".");
+      }
+    //read button 8 and send to serial
+    b8 = digitalRead(button8);
+    if (b8 == HIGH)  
+      {
+        Serial.print("X");
+      } 
+    else 
+      {
+        Serial.print(".");
+      }
+    //read button 9 and send to serial
+    b9 = digitalRead(button9);
+    if (b9 == HIGH)  
+      {
+        Serial.print("X");
+      } 
+    else 
+      {
+        Serial.print(".");
+      }
+    //read button 10 and send to serial
+    b10 = digitalRead(button10);
+    if (b10 == HIGH)  
+      {
+        Serial.print("X");
+      } 
+    else 
+      {
+        Serial.print(".");
+      }
+    Serial.print("]\n");
+    // 150 ms delay 
+    delay(150);
   }
-  //read joystick 2 button and send to serial
-  js2 = digitalRead(button12);
-  if (js2 == HIGH) {
-    Serial.print("X");
-  } else {
-     Serial.print(".");
-  }
-  //read button 1 and send to serial
-  b1 = digitalRead(button1);
-  if (b1 == HIGH) {
-    Serial.print("X");
-  } else {
-     Serial.print(".");
-  }
-  //read button 2 and send to serial
-  b2 = digitalRead(button2);
-  if (b2 == HIGH) {
-    Serial.print("X");
-  } else {
-     Serial.print(".");
-  }
-  //read button 3 and send to serial
-  b3 = digitalRead(button3);
-  if (b3 == HIGH) {
-    Serial.print("X");
-  } else {
-     Serial.print(".");
-  }
-  //read button 4 and send to serial
-  b4 = digitalRead(button4);
-  if (b4 == HIGH) {
-    Serial.print("X");
-  } else {
-     Serial.print(".");
-  }
-  //read button 5 and send to serial
-  b5 = digitalRead(button5);
-  if (b5 == HIGH) {
-    Serial.print("X");
-  } else {
-     Serial.print(".");
-  }
-  //read button 6 and send to serial
-  b6 = digitalRead(button6);
-  if (b6 == HIGH) {
-    Serial.print("X");
-  } else {
-     Serial.print(".");
-  }
-  //read button 7 and send to serial
-  b7 = digitalRead(button7);
-  if (b7 == HIGH) {
-    Serial.print("X");
-  } else {
-     Serial.print(".");
-  }
-  //read button 8 and send to serial
-  b8 = digitalRead(button8);
-  if (b8 == HIGH) {
-    Serial.print("X");
-  } else {
-     Serial.print(".");
-  }
-  //read button 9 and send to serial
-  b9 = digitalRead(button9);
-  if (b9 == HIGH) {
-    Serial.print("X");
-  } else {
-     Serial.print(".");
-  }
-  //read button 10 and send to serial
-  b10 = digitalRead(button10);
-  if (b10 == HIGH) {
-    Serial.print("X");
-  } else {
-     Serial.print(".");
-  }
-  Serial.println("]");
-  // 150 ms delay 
-  delay(150);
-}
