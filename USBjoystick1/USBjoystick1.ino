@@ -427,21 +427,9 @@ void loop()
     if (Serial.available())       
       {
         inByte = (char)Serial.read();    
-        buff   = String(buff + inByte);
-        if (inByte=="\n")         
+        if (inByte=="#")         
           {
-            if (buff.substring(0,1) == "#")
-              {
-                Serial.println("k[joystick]");
-              }
-          }
-        if (inByte=="#")   
-          {
-            buff = String( "#"); // valid command start detected 
-          }
-        else
-          {
-            buff = String("?"); // trim buffer invalid chars
+            Serial.println("k[joystick]");
           }
       }
   }
