@@ -34,7 +34,7 @@ called leggie in the git folder
     and you should see the values change with the moment
     of the joysticks and the state of the buttons
 
-6/. power down the rpi , remove keyboad, mouse hdmi and
+6/. power down the rpi , remove keyboard, mouse hdmi and
     joystick
     power up and connect to it using vnc ,you will need
     to set the display resolution on the pi to be at least
@@ -43,21 +43,37 @@ called leggie in the git folder
 
 7/. you  can mount the rpi on the robot and connect up the 
     3 servo control arduinos  , you should now see them as 
-    dev/ttyUSBsrl0 1 and 2 in the ardruino ide
+    dev/ttyUSB0 1 and 2 in the ardruino ide
     in the ide set the board type as arduino nano and the
     programmer type as arduino as ISP
     
 8/. load the file leggie_ardruino_pid in the ide and compile
-    select port dev/ttyUSBsrl0 and upload
-    wait for it to complete  then select port  dev/ttyUSBsrl1
-    upload and wait , and the same for dev/ttyUSBsrl2
+    select port dev/ttyUSB0 and upload
+    wait for it to complete  then select port  dev/ttyUSB1
+    upload and wait , and the same for dev/ttyUSB2
     you now should have all 3 arduinos programmed 
     you can check by selecting them by there serial port
     and opening the serial monitor in the arduino ide
     where you should see status messages by pressing the foot
-    sence switchs on the legs connected to it 
+    switches on the legs connected to it 
     
-9/. if you are wanting to use the joystick wired to thr robot
+9/. if you are wanting to use the joystick wired to the robot
     then the joystick to the rpi via the remaining usb port
-    ( this should make it /dev/ttyUSBsrl3) but it may not
-     
+    ( this should make it /dev/ttyUSB3) but it may not be in 
+    that order , not that it matters the code sorts it 
+    
+10/. with robot servo power off but the pi3 and arduino nanos 
+    powered , though vnc to the pi cd to 
+    ~/Documents/git/leggie/rpi3_code in a console and type
+    > python srlpy.py  
+    this should run the serial test program  you should get an 
+    output from all leg controlers , by pressing the foot switch
+    of each leg in any order and if connected a stream of data
+    from the joystick that changes when you move the sticks
+    or press buttons 
+    if so all is good so far
+    
+    
+    
+    
+    
