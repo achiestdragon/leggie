@@ -13,6 +13,7 @@ hardware build and 3d printed parts :-
 
 .    see README.txt for hardware and printing progress status and notes
 
+![pic1](https://lh3.googleusercontent.com/-5JN2nPmkK0I/WoS32gn13_I/AAAAAAAABls/yhc50X_s0GkQThyo7ScWCl8HOlUzFeV-QCL0BGAs/w530-d-h298-n-rw/20180210_155444.jpeg)
 
 # code status :-
 
