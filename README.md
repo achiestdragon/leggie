@@ -11,6 +11,8 @@ hardware build and 3d printed parts :-
 
 .    scad & stl files for 3d printed parts printed =version 1.0a not yet final
 
+.    see README.txt for hardware and printing progress status and notes
+
 
 # code status :-
 
@@ -35,4 +37,4 @@ raspberry pi3  main control code  :-      (python)
 
 .   only serial test script currently 
 
-
+see config_guide.txt for software setup and configuration notes

@@ -11,6 +11,10 @@ most of  the documentation so far is in the comments in the code
 ------------------------
   intended for printing on a tevo delta 3d printer
   or one that is able to print 340mm dia 
+  
+  the prototype was printed with 20% infill and no supports i used slow 
+  print speed settings so the print time in total is a lot longer than
+  it should be 
 
   Note :- current gcode has some prity rough settings that may need tweeking
   depending on your filament , its probablay better to recreate them from the
@@ -95,15 +99,16 @@ NOTES :-
     
      parts list for the electronics and hardware
      
-TODO:-  most are to sort out in genaral for next version
+TODO:-  to sort out in genaral for beta version print files
 
-   do some documentation for the project , assembly instructions , programming
-   and setup guide, operating guide , fix spellings
+   do some documentation for the project , assembly instructions , 
+   operating guide , fix spellings
    
-   draw a schematic wireing diagram for it
+   draw a schematic diagram for it
    
-   camera pan and  tilt brackets 3d printable parts  ( once its decided
-   what camera / sensors to use
+   the lower leg sections may need to be a bit shorter by about 40mm as they
+   don't allow the robot to sit body down and feet up as intended ,although 
+   it does look more in proportion as is 
 
    extra support braceing on 3d printable parts where needed , and tidy up 
    part looks 
@@ -114,8 +119,9 @@ TODO:-  most are to sort out in genaral for next version
    better wireing loom method (make it  easyer) include leg loom connectors
    so a leg wireing can be disconnected if removing a leg for service/repair
    and making assembley easyer,
- 
-   mountings for regulators,
+   
+   look at making it easyer to service and repair currently this involves
+   removing quite a lot of nuts and bolts to gain access to parts 
 
    sort out a better method of power distribution to servos and sensors
 
@@ -130,8 +136,16 @@ TODO:-  most are to sort out in genaral for next version
 
    joystick top plate add holes for usb cable tie  , and 
    mountings for additional pots 1 and 2  (optional) 
-   and add mounting for a power led  
-
+   and add mounting hole for a power led  
+   
+   look at ways of making the parts lighter but stronger 
+   
+   the nuts have a habit of working lose should use locking nuts 
+   as appropriate 
+   
+   foot switch  make this easyer to assemble and allow for locking 
+   nuts to be used , spring centering hole size is a bit big 
+   
    other stuff as it becomes apparent 
    
  
