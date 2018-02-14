@@ -33,9 +33,8 @@ import serial
 
 
 def worker(num):
-    """thread seral read worker function"""
-    print 'Serial Read Worker: %s' % num
     if num == 0:
+        print 'Serial Read Worker: 1 port = /dev/ttyUSB0'
         ser0 = serial.Serial(
          port='/dev/ttyUSB0',
          baudrate = 9600,
@@ -50,6 +49,7 @@ def worker(num):
           print x0  
         return
     if num == 1:
+        print 'Serial Read Worker: 2 port = /dev/ttyUSB1'
         ser1 = serial.Serial(
          port='/dev/ttyUSB1',
          baudrate = 9600,
@@ -64,6 +64,7 @@ def worker(num):
           print x1  
         return
     if num == 2:
+        print 'Serial Read Worker: 3 port = /dev/ttyUSB2'
         ser2 = serial.Serial(
          port='/dev/ttyUSB2',
          baudrate = 9600,
@@ -78,6 +79,7 @@ def worker(num):
           print x2  
         return
     if num == 3:
+        print 'Serial Read Worker: 4 port = /dev/ttyUSB3'
         ser3 = serial.Serial(
          port='/dev/ttyUSB3',
          baudrate = 9600,
