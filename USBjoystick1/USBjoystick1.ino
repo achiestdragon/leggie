@@ -106,7 +106,7 @@ buttons :-
     pot 1 /js1t  =  undefined / not currently implimented
     pot 2 /js2t  =  undefined / not currently implimented
 
-if a # is recived over serial it will transmit the last read data
+if a "#" is recived over serial it will respond with :- "k[joystick]"
 other rx data over serial from the rpi is disregarded 
 
 
