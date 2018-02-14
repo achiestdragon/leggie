@@ -20,7 +20,13 @@ arduino nano  joystick code :-            (c++)
 
 .    done tested and working
 
-.    USBjoystick1.ino       = version 1.0b  first release
+.    USBjoystick1.ino       = version 1.1b  release
+
+... changed -  only outputs on new stick positions or button changes
+
+... responds to # over serial with #[joystick] for identification
+
+... response times is faster and less serial traffic 
 
 arduino nano  leg drive control code :-   (c++)
 
