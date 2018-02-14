@@ -2,7 +2,7 @@
 // **********************************************************************
 // * leggie  dual USB joystick hexapod robot controler (ardunio nano)   *
 // **********************************************************************
-// * version 1.0b                                    date  3 feb 2018   *
+// * version 1.1b                                    date  3 feb 2018   *
 // **********************************************************************
 // *        (c) 2018 by david powell  (aka AchiestDragon)               *
 // **********************************************************************
@@ -13,7 +13,8 @@
 //    13 feb 2018 - version number bumped up from 1.0a to 1.0b
 //                  first release 
 //
-
+//    14 feb 2018 - updated - only output data when new states detected
+//                  added - responce to #/n input over serial 
 /*
 discription :-
 
@@ -42,7 +43,8 @@ discription :-
  
 "[x1p,y1p,z1p],[x2p,y2p,z2p],[js1,js2,b1,b2,b3,b4,b5,b6,b7,b8,b9,b10]/nl"
  
- over usb serial in ascii text at 9600 baud approximatly every 150 ms
+ over usb serial in ascii text at 9600 baud approximatly every 50 ms
+ if the state of the inputs have changed
  ie:-
  [4,4,4],[4,4,4],[............]
  
@@ -104,7 +106,8 @@ buttons :-
     pot 1 /js1t  =  undefined / not currently implimented
     pot 2 /js2t  =  undefined / not currently implimented
 
-any rx data over serial from the rpi is disregarded 
+if a # is recived over serial it will transmit the last read data
+other rx data over serial from the rpi is disregarded 
 
 
   arduino nano pinouts
@@ -201,6 +204,10 @@ int y2p = 0;
 int z2p = 0;
 int t2p = 0;
 
+String outstring_new;
+String outstring_old;
+String inByte;
+String buff;
 // **********************************************************************
 //                                 initalization 
 // **********************************************************************
@@ -232,183 +239,209 @@ void loop()
     x1 = analogRead(j1_x);
     x1p = map(x1, 0, 1023, 0, 9);
     if (x1p == 9) { x1p = 8; }
-    Serial.print("[");
-    Serial.print(x1p);
-    Serial.print(",");
+    outstring_new = "[";
+    outstring_new = outstring_new + x1p;
+    outstring_new = outstring_new + ",";
     delay(2);
     // read joystick 1 y value , scail and send to serial
     y1 = analogRead(j1_y);
     y1p = map(y1, 0, 1023, 0, 9);
     if (y1p == 9) { y1p = 8; }
-    Serial.print(y1p);
-    Serial.print(",");
+    outstring_new = outstring_new + y1p;
+    outstring_new = outstring_new + ",";
     delay(2);
     // read joystick 1 z value , scail and send to serial
     z1 = analogRead(j1_z);
     z1p = map(z1, 0, 1023, 0, 9);
     if (z1p == 9) { z1p = 8; }
-    Serial.print(z1p);
-    Serial.print("],[");
+    outstring_new = outstring_new + z1p;
+    outstring_new = outstring_new + "],[";
     delay(2);
     // read pot 1 value , scail and send to serial
     /*
     t1 = analogRead(pot1);
     t1p = map(t1, 0, 1023, 0, 9);
     if (t1p == 9) { t1p = 8; }   // scale may need setting 
-    Serial.print(t1p);
-    Serial.print("],[");
+    outstring_new = outstring_new + t1p;
+    outstring_new = outstring_new + "],[";
     delay(2);
     */
     // read joystick 2 x value , scail and send to serial
     x2 = analogRead(j2_x);
     x2p = map(x2, 0, 1023, 0, 9);
     if (x2p == 9) { x2p = 8; }
-    Serial.print(x2p);
-    Serial.print(",");
+    outstring_new = outstring_new + x2p;
+    outstring_new = outstring_new + ",";
     delay(2);
     // read joystick 2 y value , scail and send to serial
     y2 = analogRead(j2_y);
     y2p = map(y2, 0, 1023, 0, 9);
     if (y2p == 9) { y2p = 8; }
-    Serial.print(y2p);
-    Serial.print(",");
+    outstring_new = outstring_new + y2p;
+    outstring_new = outstring_new + ",";
     delay(2);
     // read joystick 2 z value , scail and send to serial
     z2 = analogRead(j2_z);
     z2p = map(z2, 0, 1023, 0, 9);
     if (z2p == 9) { z2p = 8; }
-    Serial.print(z2p);
-    Serial.print("],[");
+    outstring_new = outstring_new + z2p;
+    outstring_new = outstring_new + "],[";
     delay(2);
     // read pot 1 value , scail and send to serial
     /*
     t2 = analogRead(pot2);
     t2p = map(t2, 0, 1023, 0, 9);
     if (t2p == 9) { t2p = 8; }   // scale may need setting
-    Serial.print(t2p);
-    Serial.print("],[");
+    outstring_new = outstring_new + t2p;
+    outstring_new = outstring_new + "],[";
     */
     //read joystick 1 button and send to serial
     js1 = digitalRead(button11);
     if (js1 == HIGH) 
       {
-        Serial.print("X");
+        outstring_new = outstring_new + "X";
       } 
     else 
       {
-        Serial.print(".");
+        outstring_new = outstring_new + ".";
       }
     //read joystick 2 button and send to serial
     js2 = digitalRead(button12);
     if (js2 == HIGH)  
       {
-        Serial.print("X");
+        outstring_new = outstring_new + "X";
       } 
     else 
       {
-        Serial.print(".");
+        outstring_new = outstring_new + ".";
       }
     //read button 1 and send to serial
     b1 = digitalRead(button1);
     if (b1 == HIGH)  
       {
-        Serial.print("X");
+        outstring_new = outstring_new + "X";
       } 
     else 
       {
-        Serial.print(".");
+        outstring_new = outstring_new + ".";
       }
     //read button 2 and send to serial
     b2 = digitalRead(button2);
     if (b2 == HIGH)  
       {
-        Serial.print("X");
+        outstring_new = outstring_new + "X";
       } 
     else 
       {
-        Serial.print(".");
+        outstring_new = outstring_new + ".";
       }
     //read button 3 and send to serial
     b3 = digitalRead(button3);
     if (b3 == HIGH)  
       {
-        Serial.print("X");
+        outstring_new = outstring_new + "X";
       } 
     else 
       {
-        Serial.print(".");
+        outstring_new = outstring_new + ".";
       }
     //read button 4 and send to serial
     b4 = digitalRead(button4);
     if (b4 == HIGH)  
       {
-        Serial.print("X");
+        outstring_new = outstring_new + "X";
       } 
     else 
       {
-        Serial.print(".");
+        outstring_new = outstring_new + ".";
       }
     //read button 5 and send to serial
     b5 = digitalRead(button5);
     if (b5 == HIGH)  
       {
-        Serial.print("X");
+        outstring_new = outstring_new + "X";
       } 
     else 
       {
-        Serial.print(".");
+        outstring_new = outstring_new + ".";
       }
     //read button 6 and send to serial
     b6 = digitalRead(button6);
     if (b6 == HIGH)  
       {
-        Serial.print("X");
+        outstring_new = outstring_new + "X";
       } 
     else 
       {
-        Serial.print(".");
+        outstring_new = outstring_new + ".";
       }
     //read button 7 and send to serial
     b7 = digitalRead(button7);
     if (b7 == HIGH)  
       {
-        Serial.print("X");
+        outstring_new = outstring_new + "X";
       } 
     else 
       {
-        Serial.print(".");
+        outstring_new = outstring_new + ".";
       }
     //read button 8 and send to serial
     b8 = digitalRead(button8);
     if (b8 == HIGH)  
       {
-        Serial.print("X");
+        outstring_new = outstring_new + "X";
       } 
     else 
       {
-        Serial.print(".");
+        outstring_new = outstring_new + ".";
       }
     //read button 9 and send to serial
     b9 = digitalRead(button9);
     if (b9 == HIGH)  
       {
-        Serial.print("X");
+        outstring_new = outstring_new + "X";
       } 
     else 
       {
-        Serial.print(".");
+        outstring_new = outstring_new + ".";
       }
     //read button 10 and send to serial
     b10 = digitalRead(button10);
     if (b10 == HIGH)  
       {
-        Serial.print("X");
+        outstring_new = outstring_new + "X";
       } 
     else 
       {
-        Serial.print(".");
+        outstring_new = outstring_new + ".";
       }
-    Serial.print("]\n");
-    // 150 ms delay 
-    delay(150);
+    outstring_new = outstring_new + "]";
+
+    if ( outstring_new != outstring_old )
+      {
+        Serial.println(outstring_new);
+        outstring_old = outstring_new;
+        outstring_new ="";
+      }
+    // is there new serial input if so decode and respond
+    if (Serial.available())       
+      {
+        inByte = (char)Serial.read();    
+        buff   = String(buff + inByte);
+        if (inByte=="\n")         
+          {
+            if (buff.substring(0,1) == "#")
+              {
+                Serial.println("k[joystick]");
+              }
+          }
+        if (inByte=="#")   
+          {
+            buff = String( "#"); // valid command start detected 
+          }
+        else
+          {
+            buff = String("?"); // trim buffer invalid chars
+          }
+      }
   }
