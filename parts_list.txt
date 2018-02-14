@@ -6,22 +6,25 @@ quant  part
  1x    raspberry pi 3 (with 16gb microsd card for software)
  4x    arduino nano 
  18x   10k 6mm potentiometer with D shaft 
- 6x    5v 3A switching regulator bec modules
+ 1x    5v 3A switching regulator bec module
  2x    3 axis joysticks
  10x   push button switches momentary  (12mm dia hole)
  1x    10a single pole single throw on/off toggle switch
  3x    short usb a to mini b  cables
  1x    1.5m long usb a to mini b cable for joystick 
+ 1x    20A or 25A bridge rectifier 
+ 
 as needed some servo extension leads
 
-as needed signal wire
+as needed signal wire in a number of colors
 
 bag of cable ties (that will fit though 3mm dia holes)
 
-1x bag of 100 M3 bolts
+1x bag of 100 M3 bolts x 18mm long
 1x bag of 100 M3 nuts
+1x bag of 100 M3 locking nuts
 1x bag of 100 M3 washers
-6x 150mm lenths of M3 threaded bar
+6x 150mm lengths of M3 threaded bar
 
 7.4v 4000mha lipo with deans connector (and suitable charger)
 
@@ -66,8 +69,5 @@ leds led drivers and wireing
 some sort of speaker / sounder for the onboard pi3 as it needs some way
 of giving status feedback without having a display connected
 
-future upgrades /extras 
-
-2x mg996r servos for camera pan tilt 
 
  
