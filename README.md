@@ -16,31 +16,12 @@ hardware build and 3d printed parts :-
 
 # code status :-
 
-arduino nano  joystick code :-            (c++)
+arduino nano  joystick code :-             USBjoystick1.ino       (c++)= v 1.1b  release
 
-.    done tested and working
+arduino nano  leg drive control code :-    leggie_arduino_pid.ino (c++)= v 1.0a  alpha in progress
 
-.    USBjoystick1.ino       = version 1.1b  release
+rpi3 serial concurrent test read script :- srlpy.py (python) v 1.0a  working alpha
 
-... changed -  only outputs on new stick positions or button changes
-
-... responds to # over serial with #[joystick] for identification
-
-... response times is faster and less serial traffic 
-
-arduino nano  leg drive control code :-   (c++)
-
-.   work in progress
-
-.   leggie_arduino_pid.ino = version 1.0a  alpha not final
-
-.   partialy functional 
-
-
-raspberry pi3  main control code  :-      (python)
-
-.   work in progress 
-
-.   only serial test script currently 
+raspberry pi3  main control code  :-      ... (python) not yet up loaded, in progress
 
 see config_guide.txt for software setup and configuration notes
