@@ -14,13 +14,13 @@ hardware build and 3d printed parts :-
 
 # code status :-
 
-arduino nano  joystick code :-
+arduino nano  joystick code :-            (c++)
 
 .    done tested and working
 
 .    USBjoystick1.ino       = version 1.0b  first release
 
-arduino nano  leg drive control code :- 
+arduino nano  leg drive control code :-   (c++)
 
 .   work in progress
 
@@ -29,10 +29,10 @@ arduino nano  leg drive control code :-
 .   partialy functional 
 
 
-raspberry pi3  main control code  :-
+raspberry pi3  main control code  :-      (python)
 
-.   work in progress ( not uploaded yet )
+.   work in progress 
 
-.   not yet functional
+.   only serial test script currently 
 
 
