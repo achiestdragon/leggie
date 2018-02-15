@@ -1,23 +1,45 @@
 #!/usr/bin/env python
 #
 # ****************************************************************************
-# * main.py    main robot control program for leggie hexapod                 *
+# * main.py      main robot control program for leggie hexapod               *
 # ****************************************************************************
-# * version  1.0b                                              15th feb 2018 *
+# * version  1.0a                                              15th feb 2018 *
 # ****************************************************************************
 # *      (c)2018 & written by  David Powell  (A.K.A AchiestDragon)           *
 # ****************************************************************************
 #  license  GPL v3 
 #
+#     !!!!!!!!!!!!!!! THIS IS ALPHA CODE AND NOT COMPLETE !!!!!!!!!!!!!!!!
+#
 # description :-
 #
-#  WORK IN PROGRESS NOT YET FUNCIONAL OR COMPLEATE 
+#  WORK IN PROGRESS NOT YET FUNCIONAL 
 #
 # TODO:-   almost everything
 #
+#   1. add serial stream decode check and code to sort out whats
+#      on what port  
+#   
+#   2. add code for leg position data ie current positions and
+#      next position walking sequence buffers and exceptions
+#
+#   3. add code for calculating direction movements to new footing
+#      positions and calculate the walking gate sequence from 
+#      direction inputs to feed into the walking sequence buffers
+#
+#   4. fixed sequence movements and other sequencing code    
+#
+#   5. ...all the other things 
+#
 # FIXME:- 
-#   1. get ardruino nanos to respond to #n commands from this code
-#      the joystick responds but they dont 
+#
+#   1. get arduino nanos to respond to #n commands from this code
+#      the joystick responds but they are not doing 
+#
+#   2. seems the attempt to trap port not found fails to trap and
+#      the program errors out 
+#
+#   
 #
 
 import threading
@@ -88,6 +110,11 @@ def Main():
     global ser1
     global ser2
     global ser3
+    
+    #
+    # config serial ports
+    #
+    
     ser0 = serial.Serial(
         port='/dev/ttyUSB0',
         baudrate = 9600,
@@ -121,13 +148,23 @@ def Main():
         stopbits=serial.STOPBITS_ONE,
         bytesize=serial.EIGHTBITS,
         timeout=1000
-    )"""               
+    )""" 
+    
+    #
+    # start serial read threads 
+    #
+    
     srl_in_q = Queue.Queue()
     threads = []
     for i in range(3):
         t = threading.Thread(target=worker, args=(i,srl_in_q))
         threads.append(t)
         t.start()
+        
+    #
+    # serial write #9 to get status of each device attached
+    #
+    
     portnos=0 
     data= "#9"
     srl_write(portnos,data)
@@ -141,7 +178,17 @@ def Main():
     data= "#9"
     srl_write(portnos,data)
     while 1:    
+        # just output serial messages here for now while testing this bit
         print srl_in_q.get()
     return
+# ****************************************************************************
+#
+# code starts running here 
+#
 
 Main()
+
+#
+# end of file
+#
+# ****************************************************************************
