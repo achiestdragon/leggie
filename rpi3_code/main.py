@@ -202,22 +202,22 @@ def Main():
             data= "#9"
             srl_write(portnos,data)
             srl_data_in = srl_in_q.get()
-            #if srl_data_in startswith "k[#9,[1"
+            #if srl_data_in startswith "k[#9,[1"    #FIXME:- correct this
                 leg1_port = 0
                 leg2_port = 0
                 config = 1
                 i = 4
-            #if srl_data_in startswith "k[#9,[3"                
+            #if srl_data_in startswith "k[#9,[3"      #FIXME:- correct this              
                 leg3_port = 0
                 leg4_port = 0
                 config = 1
                 i = 4
-            #if srl_data_in startswith "k[#9,[5"
+            #if srl_data_in startswith "k[#9,[5"    #FIXME:- correct this
                 leg5_port = 0
                 leg6_port = 0
                 config = 1
                 i = 4
-            #if srl_data_in startswith "k[joystick]" 
+            #if srl_data_in startswith "k[joystick]"     #FIXME:- correct this
                 joystick_port = 0
                 config = 1
                 i = 4
@@ -231,22 +231,22 @@ def Main():
             data= "#9"
             srl_write(portnos,data)
             srl_data_in = srl_in_q.get()
-            #if srl_data_in startswith "k[#9,[1"
+            #if srl_data_in startswith "k[#9,[1"    #FIXME:- correct this
                 leg1_port = 1
                 leg2_port = 1
                 config = 1
                 i = 4
-            #if srl_data_in startswith "k[#9,[3"                
+            #if srl_data_in startswith "k[#9,[3"     #FIXME:- correct this               
                 leg3_port = 1
                 leg4_port = 1
                 config = 1
                 i = 4
-            #if srl_data_in startswith "k[#9,[5"
+            #if srl_data_in startswith "k[#9,[5"    #FIXME:- correct this
                 leg5_port = 1
                 leg6_port = 1
                 config = 1
                 i = 4
-            #if srl_data_in startswith "k[joystick]" 
+            #if srl_data_in startswith "k[joystick]"    #FIXME:- correct this 
                 joystick_port = 1
                 config = 1
                 i = 4 
@@ -260,22 +260,22 @@ def Main():
             data= "#9"
             srl_write(portnos,data)
             srl_data_in = srl_in_q.get()
-            #if srl_data_in startswith "k[#9,[1"
+            #if srl_data_in startswith "k[#9,[1"    #FIXME:- correct this
                 leg1_port = 2
                 leg2_port = 2
                 config = 1
                 i = 4
-            #if srl_data_in startswith "k[#9,[3"                
+            #if srl_data_in startswith "k[#9,[3"     #FIXME:- correct this               
                 leg3_port = 2
                 leg4_port = 2
                 config = 1
                 i = 4
-            #if srl_data_in startswith "k[#9,[5"
+            #if srl_data_in startswith "k[#9,[5"    #FIXME:- correct this
                 leg5_port = 2
                 leg6_port = 2
                 config = 1
                 i = 4
-            #if srl_data_in startswith "k[joystick]" 
+            #if srl_data_in startswith "k[joystick]"    #FIXME:- correct this 
                 joystick_port = 2
                 config = 1
                 i = 4
