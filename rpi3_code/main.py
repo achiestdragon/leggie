@@ -39,7 +39,12 @@
 #   2. seems the attempt to trap port not found fails to trap and
 #      the program errors out 
 #
-#   
+#
+
+#
+# ****************************************************************************
+# *                               imports                                    *
+# ****************************************************************************
 #
 
 import threading
@@ -47,7 +52,12 @@ import time
 import serial
 import Queue
 
-def worker(num , srl_in_q ):
+#
+# ****************************************************************************
+# *                         serial read worker                               *
+# ****************************************************************************
+#
+def srl_worker(num , srl_in_q ):
     if num == 0:
         print 'Started Serial Read Worker:1 on port : /dev/ttyUSB0'
         counter0=0
@@ -89,6 +99,11 @@ def worker(num , srl_in_q ):
             slr_in_q.put('E[ser3]')                
         return    
 
+#
+# ****************************************************************************
+# *                               serial write                               *
+# ****************************************************************************
+#
 def srl_write(portnos,data):
     if portnos ==0 :
         ser0.write('/n')        
@@ -102,19 +117,31 @@ def srl_write(portnos,data):
         ser2.write('/n')
         ser2.write(data)
         ser2.write('/n')
-    #if portnos ==3 :
+    #if portnos ==3 :       # commented out as no device causes error
+    #    ser3.write('/n')
     #    ser3.write(data)        
+    #    ser3.write('/n')
     
+    
+#
+# ****************************************************************************
+# *                                                                          *
+# ****************************************************************************
+#
+ 
+#
+# ****************************************************************************
+# *                           Main program startup                           *
+# ****************************************************************************
+# 
 def Main():
     global ser0
     global ser1
     global ser2
     global ser3
-    
-    #
+
     # config serial ports
-    #
-    
+ 
     ser0 = serial.Serial(
         port='/dev/ttyUSB0',
         baudrate = 9600,
@@ -140,7 +167,10 @@ def Main():
         bytesize=serial.EIGHTBITS,
         timeout=1000
     )
-    """
+    """  # commented out as theres nothing on this port  
+    #    # as the joystick is not connected on the test robot
+    #    # and the in program error handler fails to catch it
+    #    # so the program quits
     ser3 = serial.Serial(
         port='/dev/ttyUSB3',
         baudrate = 9600,
@@ -148,47 +178,164 @@ def Main():
         stopbits=serial.STOPBITS_ONE,
         bytesize=serial.EIGHTBITS,
         timeout=1000
-    )""" 
+    )
+    """ #**************************
     
-    #
     # start serial read threads 
-    #
-    
+  
     srl_in_q = Queue.Queue()
     threads = []
-    for i in range(3):
-        t = threading.Thread(target=worker, args=(i,srl_in_q))
+    for i in range(3):    # this should be set to 4 if joystick used 
+        t = threading.Thread(target=srl_worker, args=(i,srl_in_q))
         threads.append(t)
         t.start()
-        
-    #
-    # serial write #9 to get status of each device attached
-    #
+
+    # serial write #9 to each port for status of each serial device 
+    # ports /dev/ttyUSB0 to 3 and set the leg<n>_port address varibles
+    # it also sets the joystick_port varible 
     
-    portnos=0 
-    data= "#9"
-    srl_write(portnos,data)
-    portnos=1 
-    data= "#9"
-    srl_write(portnos,data)
-    portnos=2 
-    data= "#9"
-    srl_write(portnos,data)
-    portnos=3 
-    data= "#9"
-    srl_write(portnos,data)
-    while 1:    
-        # just output serial messages here for now while testing this bit
-        print srl_in_q.get()
+    config = 0
+    while config == 0 :
+        i = 0
+        while i <= 4 :
+            portnos=0 
+            data= "#9"
+            srl_write(portnos,data)
+            srl_data_in = srl_in_q.get()
+            #if srl_data_in startswith "k[#9,[1"
+                leg1_port = 0
+                leg2_port = 0
+                config = 1
+                i = 4
+            #if srl_data_in startswith "k[#9,[3"                
+                leg3_port = 0
+                leg4_port = 0
+                config = 1
+                i = 4
+            #if srl_data_in startswith "k[#9,[5"
+                leg5_port = 0
+                leg6_port = 0
+                config = 1
+                i = 4
+            #if srl_data_in startswith "k[joystick]" 
+                joystick_port = 0
+                config = 1
+                i = 4
+            i = i + 1
+            
+    config = 0
+    while config == 0 :
+        i = 0
+        while i <= 4 :
+            portnos=1 
+            data= "#9"
+            srl_write(portnos,data)
+            srl_data_in = srl_in_q.get()
+            #if srl_data_in startswith "k[#9,[1"
+                leg1_port = 1
+                leg2_port = 1
+                config = 1
+                i = 4
+            #if srl_data_in startswith "k[#9,[3"                
+                leg3_port = 1
+                leg4_port = 1
+                config = 1
+                i = 4
+            #if srl_data_in startswith "k[#9,[5"
+                leg5_port = 1
+                leg6_port = 1
+                config = 1
+                i = 4
+            #if srl_data_in startswith "k[joystick]" 
+                joystick_port = 1
+                config = 1
+                i = 4 
+            i = i + 1
+            
+    config = 0
+    while config == 0 :
+        i = 0
+        while i <= 4 :
+            portnos=2 
+            data= "#9"
+            srl_write(portnos,data)
+            srl_data_in = srl_in_q.get()
+            #if srl_data_in startswith "k[#9,[1"
+                leg1_port = 2
+                leg2_port = 2
+                config = 1
+                i = 4
+            #if srl_data_in startswith "k[#9,[3"                
+                leg3_port = 2
+                leg4_port = 2
+                config = 1
+                i = 4
+            #if srl_data_in startswith "k[#9,[5"
+                leg5_port = 2
+                leg6_port = 2
+                config = 1
+                i = 4
+            #if srl_data_in startswith "k[joystick]" 
+                joystick_port = 2
+                config = 1
+                i = 4
+            i = i + 1
+            
+    config = 0
+    while config == 0 :
+        i = 0
+        while i <= 4 :
+            portnos=3 
+            data= "#9"
+            srl_write(portnos,data)
+            srl_data_in = srl_in_q.get()
+            #if srl_data_in startswith "k[#9,[1"    #FIXME:- correct this
+                leg1_port = 3
+                leg2_port = 3
+                config = 1
+                i = 4
+            #if srl_data_in startswith "k[#9,[3"    #FIXME:- correct this                
+                leg3_port = 3
+                leg4_port = 3
+                config = 1
+                i = 4
+            #if srl_data_in startswith "k[#9,[5"    #FIXME:- correct this
+                leg5_port = 3
+                leg6_port = 3
+                config = 1
+                i = 4
+            #if srl_data_in startswith "k[joystick]"    #FIXME:- correct this 
+                joystick_port = 3
+                config = 1
+                i = 4                
+            i = i + 1
+            
+    
+    # just output serial messages here and loop ,while testing the code 
+    #while 1:    
+    #    print srl_in_q.get()
+        
+    # should have responce from serial devices and the ports should be set
+    # so check there correct or rather fix above so they cannot be incorrect
+    # ie cant have 2 legs  0&1 etc
+    #  
+    # so we need to setup the serial write threads to read the leg<N>.Queue
+    # appropriate to whats connected
+    
+        
+        
+        
     return
-# ****************************************************************************
+
 #
-# code starts running here 
+# ****************************************************************************
+# *                       code starts running here                           *
+# ****************************************************************************
 #
 
 Main()
 
 #
-# end of file
-#
+# ****************************************************************************
+# *                              end of file                                 *
 # ****************************************************************************
