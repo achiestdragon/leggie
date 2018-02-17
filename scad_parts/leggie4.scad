@@ -59,7 +59,7 @@ ah =0;
 
 //legasm();          // no print assembled leg parts        
 
-//lower_leg();       // print black pla 6 off           ...leg(1of)
+lower_leg();       // print black pla 6 off           ...leg(1of)
 //legr();            // print black pla 6 off           ...leg(1of)
 //legl();            // print black pla 6 off           ...leg(1of)
 //legsup();          // print black pla 12 off          ...leg(2of)
@@ -879,25 +879,25 @@ module lower_leg()
     {
       union()
       {
-      translate([0,32.5,-10]){cube([40,4,60],center=true);} 
+      translate([0,32.5,-10]){cube([40,2,60],center=true);} 
       translate([18,38,-10]){cube([4,10,60],center=true);}
       translate([-18,38,-10]){cube([4,10,60],center=true);} 
       translate([15,38,-139]){rotate([0,2,0])cube([5,10,200],center=true);}
       translate([-15,38,-139]){rotate([0,-2,0])cube([5,10,200],center=true);}
-      translate([0,32.5,-139]){cube([40,4,200],center=true);} 
+      translate([0,32.5,-139]){cube([40,2,200],center=true);} 
       }
-      translate([0,54.5,-139]){rotate([-2,0,0])cube([40,27,232],center=true);}
+      translate([0,52.5,-130]){rotate([-3,0,0])cube([40,27,232],center=true);}
       translate([0,54.5,0]){rotate([4,0,0])cube([50,27,232],center=true);}
-      translate([20.5,50,-139]){rotate([0,2,0])cube([8,59.5,202],center=true);}
-      translate([-20.5,50,-139]){rotate([0,-2,0])cube([8,60,202],center=true);}
-      translate([-0,50,-170]){rotate([90,90,0])cylinder(h=60,r=9,center=true,$fn=6);}  
+      translate([20.5,50,-120]){rotate([0,2,0])cube([8,59.5,202],center=true);}
+      translate([-20.5,50,-120]){rotate([0,-2,0])cube([8,60,202],center=true);}
+      translate([-0,50,-235]){rotate([90,90,0])cube([90,60,60],center=true);} 
       translate([-0,50,-140]){rotate([90,90,0])cylinder(h=60,r=10,center=true,$fn=6);}
     translate([-0,50,-110]){rotate([90,90,0])cylinder(h=60,r=11,center=true,$fn=6);}  
     translate([-0,50,-80]){rotate([90,90,0])cylinder(h=60,r=12,center=true,$fn=6);}  
     translate([-0,50,-50]){rotate([90,90,0])cylinder(h=60,r=13,center=true,$fn=6);}  
     //foot mounts
-    translate([-0,50,-210]){rotate([90,90,0])cylinder(h=60,d=4.2,center=true,$fn=60);}
-    translate([-0,50,-230]){rotate([90,90,0])cylinder(h=60,d=4.2,center=true,$fn=60);} 
+    translate([-0,50,-160]){rotate([90,90,0])cylinder(h=60,d=4.2,center=true,$fn=60);}
+    translate([-0,50,-180]){rotate([90,90,0])cylinder(h=60,d=4.2,center=true,$fn=60);} 
     //hip mounts
     translate([0,0,0]){
           translate([12.5,40,-12.5]){rotate([90,0,0]){cylinder(h=50,d=3.5,center=true,$fn=60);}}
