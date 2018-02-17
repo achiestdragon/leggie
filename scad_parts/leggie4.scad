@@ -32,6 +32,7 @@ ah =0;
 
 //*****************************************************************************
 // Code module calls :-
+// ** = no longer used (print if you want but you may be left over) 
 // printable parts assembly position 
 //module                    material                     print gcode name
 //---------               -------------                  ----------------
@@ -40,14 +41,14 @@ ah =0;
 //base_sup();        // print  black pla 1 off           base_sup
 
 //top();             // print  orange pla 2 off          top
-//top1();            // print  black pla 1 off           top1
+//top1();      **      // print  black pla 1 off           top1
 //top2();            // print  black pla 1 off           top2
-//top3();            // print  black pla 1 off           top3
-//top4();            // print  black pla 1 off           top4
+//top3();      **      // print  black pla 1 off           top3
+//top4();      **      // print  black pla 1 off           top4
 //bottom();          // print  orange pla 2 off          top
 //bottom1();         // print  black pla 1 off           bottom1
-//camtower();        // print  orange pla 6 off          camtower(6of)
-//camp();            // no print cam tower assembled
+//camtower();  **      // print  orange pla 6 off          camtower(6of)
+//camp();      **      // no print cam tower assembled
 //hipasm(ah);        // no print all hips assmbled        
 //topasm();          // no print bottom t&b assembled
 //hipa();            // print  orange pla 18 off        ...hip(3of)
@@ -59,7 +60,7 @@ ah =0;
 
 //legasm();          // no print assembled leg parts        
 
-lower_leg();       // print black pla 6 off           ...leg(1of)
+//lower_leg();       // print black pla 6 off (v2)      ...leg(1of)
 //legr();            // print black pla 6 off           ...leg(1of)
 //legl();            // print black pla 6 off           ...leg(1of)
 //legsup();          // print black pla 12 off          ...leg(2of)
@@ -78,16 +79,12 @@ lower_leg();       // print black pla 6 off           ...leg(1of)
 //  base top       black pla     1x       4hr30                  4hr30
 //  base bottom    black pla     1x       4hr17                  4hr17
 //  base supp      black pla     1x       4hr15                  4hr15 
-//  top /(bottom)  orange pla    4x       4hr21                 17hr24
-//  top1           black pla     1x       2hr07                  2hr07
+//  top / bottom   orange pla    2x       4hr21                  8hr42
 //  top2 (feet)    black pla     1x       2hr50 est              2hr50
-//  top3 (ring)    black pla     1x          42                     42
-//  top4 (cam)     black pla     1x 
-//  camtower set   orange pla    1x       1hr40                  
 //  bottom1 (bat)  black pla     1x       2hr07                  2hr07
 //  hip and knee   orange pla    6x       5hr07                 30hr32
-//  leg            black pla     6x       4hr45                 28hr30
-//  foot           orange pla    6x       1hr51                 11hr06
+//  leg set        black pla     6x       4hr45                 28hr30
+//  foot set       orange pla    6x       1hr51                 11hr06
 //  foot pad       black flex    6x          40                  4hr00
 //  logo           black pla     1x          20 est                 20
 //
