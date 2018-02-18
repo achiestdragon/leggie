@@ -194,6 +194,7 @@ def Main():
     # ports /dev/ttyUSB0 to 3 and set the leg<n>_port address varibles
     # it also sets the joystick_port varible 
     
+    # this is broken 
     config = 0
     while config == 0 :
         i = 0
@@ -202,6 +203,7 @@ def Main():
             data= "#9"
             srl_write(portnos,data)
             srl_data_in = srl_in_q.get()
+            print 'loop1  port0 #9    responce =',srl_data_in
             if srl_data_in.startswith('k[#9,[1')==True :  
                 leg1_port = 0
                 leg2_port = 0
@@ -231,6 +233,7 @@ def Main():
             data= "#9"
             srl_write(portnos,data)
             srl_data_in = srl_in_q.get()
+            print 'loop2  port1 #9    responce =',srl_data_in
             if srl_data_in.startswith('k[#9,[1')==True :
                 leg1_port = 1
                 leg2_port = 1
@@ -260,6 +263,7 @@ def Main():
             data= "#9"
             srl_write(portnos,data)
             srl_data_in = srl_in_q.get()
+            print 'loop3  port2 #9    responce =',srl_data_in
             if srl_data_in.startswith('k[#9,[1')==True :
                 leg1_port = 2
                 leg2_port = 2
@@ -289,6 +293,7 @@ def Main():
             data= "#9"
             srl_write(portnos,data)
             srl_data_in = srl_in_q.get()
+            print 'loop3  port4 #9    responce =',srl_data_in
             if srl_data_in.startswith('k[#9,[1')==True :
                 leg1_port = 3
                 leg2_port = 3
