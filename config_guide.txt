@@ -72,7 +72,17 @@ called leggie in the git folder
     from the joystick that changes when you move the sticks
     or press buttons 
     if so all is good so far
-    
+
+11/. while still connected in the console 
+     ctrl+z to exit srlpy.py and type
+     > python main.py
+     the robot main code should start 
+     
+     at present this code is not complete but should correctly 
+     detect the serial ports and connected devices , and provide
+     status messages 
+     
+     
     
     
     

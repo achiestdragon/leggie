@@ -21,8 +21,8 @@ arduino nano  joystick code :-             USBjoystick1.ino       (c++)= v 1.1b 
 
 arduino nano  leg drive control code :-    leggie_arduino_pid.ino (c++)= v 1.0a  alpha in progress
 
-rpi3 serial concurrent test read script :- srlpy.py (python) v 1.0a  working alpha
+rpi3 serial concurrent test read script :- srlpy.py (python) v 1.0a  a rough but working alpha
 
-raspberry pi3  main control code  :-      ... (python) not yet up loaded, in progress
+raspberry pi3  main control code  :-      main.py (python) v 0.9 in progress not complete
 
 see config_guide.txt for software setup and configuration notes
