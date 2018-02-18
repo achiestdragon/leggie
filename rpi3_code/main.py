@@ -140,10 +140,11 @@ def Main():
     global ser2
     global ser3
 
-    global ser0_av
-    global ser1_av
-    global ser2_av
-    global ser3_av
+    global ser0_av =0
+    global ser1_av =0
+    global ser2_av =0
+    global ser3_av =0
+    
     
     # config serial ports
     try:
