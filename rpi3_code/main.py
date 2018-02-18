@@ -106,21 +106,21 @@ def srl_worker(num , srl_in_q ):
 #
 def srl_write(portnos,data):
     if portnos ==0 :
-        ser0.write('/n')        
+        data=data + chr(10)        
         ser0.write(data)
-        ser0.write('/n')
+        
     if portnos ==1 :
-        ser1.write('/n')
+        data=data + chr(10)
         ser1.write(data)
-        ser1.write('/n')        
+                
     if portnos ==2 :
-        ser2.write('/n')
+        data=data + chr(10)
         ser2.write(data)
-        ser2.write('/n')
-    #if portnos ==3 :       # commented out as no device causes error
-    #    ser3.write('/n')
-    #    ser3.write(data)        
-    #    ser3.write('/n')
+
+    if portnos ==3 :       
+        data=data + chr(10)
+        ser3.write(data)        
+
     
     
 #
@@ -141,36 +141,40 @@ def Main():
     global ser3
 
     # config serial ports
- 
-    ser0 = serial.Serial(
-        port='/dev/ttyUSB0',
-        baudrate = 9600,
-        parity=serial.PARITY_NONE,
-        stopbits=serial.STOPBITS_ONE,
-        bytesize=serial.EIGHTBITS,
-        timeout=1000
-    )
-    ser1 = serial.Serial(
-        port='/dev/ttyUSB1',
-        baudrate = 9600,
-        parity=serial.PARITY_NONE,
-        stopbits=serial.STOPBITS_ONE,
-        bytesize=serial.EIGHTBITS,
-        timeout=1000
-    )
-
-    ser2 = serial.Serial(
-        port='/dev/ttyUSB2',
-        baudrate = 9600,
-        parity=serial.PARITY_NONE,
-        stopbits=serial.STOPBITS_ONE,
-        bytesize=serial.EIGHTBITS,
-        timeout=1000
-    )
-    """  # commented out as theres nothing on this port  
-    #    # as the joystick is not connected on the test robot
-    #    # and the in program error handler fails to catch it
-    #    # so the program quits
+    try:
+        ser0 = serial.Serial(
+            port='/dev/ttyUSB0',
+            baudrate = 9600,
+            parity=serial.PARITY_NONE,
+            stopbits=serial.STOPBITS_ONE,
+            bytesize=serial.EIGHTBITS,
+            timeout=1000
+        )
+    except Exception, e:
+        print ' error /dev/ttyUSB0  not found '
+    try:
+        ser1 = serial.Serial(
+            port='/dev/ttyUSB1',
+            baudrate = 9600,
+            parity=serial.PARITY_NONE,
+            stopbits=serial.STOPBITS_ONE,
+            bytesize=serial.EIGHTBITS,
+            timeout=1000
+        )
+    except Exception, e:
+        print ' error /dev/ttyUSB1  not found '
+    try:
+        ser2 = serial.Serial(
+            port='/dev/ttyUSB2',
+            baudrate = 9600,
+            parity=serial.PARITY_NONE,
+            stopbits=serial.STOPBITS_ONE,
+            bytesize=serial.EIGHTBITS,
+            timeout=1000
+        )
+    except Exception, e:
+        print ' error /dev/ttyUSB2  not found '
+    
     ser3 = serial.Serial(
         port='/dev/ttyUSB3',
         baudrate = 9600,
@@ -179,7 +183,8 @@ def Main():
         bytesize=serial.EIGHTBITS,
         timeout=1000
     )
-    """ #**************************
+    except Exception, e:
+        print ' error /dev/ttyUSB3  not found '
     
     # start serial read threads 
   
