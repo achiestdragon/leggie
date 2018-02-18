@@ -480,7 +480,7 @@ def Main():
 
     # start the serial write thread 
     
-    srl_out_q = Queue.Queue()  
+    srl_out_q = Queue1.Queue()  
     t = threading.Thread(target=srl_write_queue_worker, args=(srl_out_q))
     threads.append(t)
     t.start()
