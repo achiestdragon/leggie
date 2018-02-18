@@ -160,17 +160,17 @@ def srl_write_queue_worker( srl_out_q ):
                 wp2 = leg3_port             # also  leg4_port
                 wp3 = leg5_port             # also  leg6_port
             if d.startswith('#1')==True :   # data to individual leg port
-                if d.startswith('#1[1')
+                if d.startswith('#1[1'):
                     wp1 = leg1_port
-                if d.startswith('#1[2')
+                if d.startswith('#1[2'):
                     wp1 = leg2_port
-                if d.startswith('#1[3')
+                if d.startswith('#1[3'):
                     wp1 = leg3_port
-                if d.startswith('#1[4')
+                if d.startswith('#1[4'):
                     wp1 = leg4_port
-                if d.startswith('#1[5')
+                if d.startswith('#1[5'):
                     wp1 = leg5_port
-                if d.startswith('#1[6')
+                if d.startswith('#1[6'):
                     wp1 = leg6_port
             if d.startswith('#2')==True :   # data to all leg ports
                 wp1 = leg1_port             # also  leg2_port
@@ -189,17 +189,17 @@ def srl_write_queue_worker( srl_out_q ):
                 wp2 = leg4_port
                 wp3 = leg6_port
             if d.startswith('#6')==True :   # data to individual leg port
-                if d.startswith('#1[1')
+                if d.startswith('#1[1'):
                     wp1 = leg1_port
-                if d.startswith('#1[2')
+                if d.startswith('#1[2'):
                     wp1 = leg2_port
-                if d.startswith('#1[3')
+                if d.startswith('#1[3'):
                     wp1 = leg3_port
-                if d.startswith('#1[4')
+                if d.startswith('#1[4'):
                     wp1 = leg4_port
-                if d.startswith('#1[5')
+                if d.startswith('#1[5'):
                     wp1 = leg5_port
-                if d.startswith('#1[6')
+                if d.startswith('#1[6'):
                     wp1 = leg6_port                
             if d.startswith('#7')==True :   # data to all leg ports
                 wp1 = leg1_port             # also  leg2_port
