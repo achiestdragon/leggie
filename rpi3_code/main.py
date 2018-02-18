@@ -392,14 +392,12 @@ def Main():
     # appropriate to whats connected
     
     srl_out_q = Queue.Queue()  
-    
- 
- 
+
     # for now just output serial messages here and loop ,while testing the code 
     
-    while 1:    
+    while 1 :
         print srl_in_q.get() 
-    # but should start  Main_Loop()       
+        # but main loop should be here       
         
     return
 
