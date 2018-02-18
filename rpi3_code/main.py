@@ -101,38 +101,120 @@ def srl_worker(num , srl_in_q ):
 # *                           direct raw serial write                        *
 # ****************************************************************************
 # 
-# used for initial port setup
+# used for initial port routing setup only
+# sends data to port portnos
 
 def srl_write(portnos,data):
     if portnos ==0 :
-        data=data + chr(10)        
-        ser0.write(data)
-        
+        data=data + chr(10)   
+        try :
+            ser0.write(data)
+        except Exception ,e:
+            print' port write to /dev/ttyUSB0 device not present'
     if portnos ==1 :
         data=data + chr(10)
-        ser1.write(data)
-                
+        try :
+            ser1.write(data)
+        except Exception ,e:
+            print' port write to /dev/ttyUSB1 device not present'
     if portnos ==2 :
         data=data + chr(10)
-        ser2.write(data)
-
+        try :
+            ser2.write(data)
+        except Exception ,e:
+            print' port write to /dev/ttyUSB2 device not present'
     if portnos ==3 :       
         data=data + chr(10)
-        ser3.write(data)        
+        try :
+            ser3.write(data)
+        except Exception ,e:
+            print' port write to /dev/ttyUSB3 device not present'        
 
     
     
 #
 # ****************************************************************************
-# *                     serial write command queue router                    *
+# *                   serial write command queue and router                  *
 # ****************************************************************************
 #
+
+# reads command queue , and directs data to appropriate port
+
 def srl_write_queue_worker( srl_out_q ):
     while 1 :
         d = srl_out_q.get()
-        d = d + chr(10)
-        #if d.startswith('#0')==True :
-               
+        wp1 = 99
+        wp2 = 99
+        wp3 = 99
+        if d != '' :
+            d = d + chr(10)
+            if d.startswith('#0')==True :  # data to all leg ports
+                wp1 = leg1_port             # also  leg2_port
+                wp2 = leg3_port             # also  leg4_port
+                wp3 = leg5_port              # also  leg6_port
+            if d.startswith('#1')==True :  # data to individual leg port
+                if d.startswith('#1[1')
+                    wp1 = leg1_port
+                if d.startswith('#1[2')
+                    wp1 = leg2_port
+                if d.startswith('#1[3')
+                    wp1 = leg3_port
+                if d.startswith('#1[4')
+                    wp1 = leg4_port
+                if d.startswith('#1[5')
+                    wp1 = leg5_port
+                if d.startswith('#1[6')
+                    wp1 = leg6_port
+            if d.startswith('#2')==True :  # data to all leg ports
+                wp1 = leg1_port             # also  leg2_port
+                wp2 = leg3_port             # also  leg4_port
+                wp3 = leg5_port             # also  leg6_port
+            if d.startswith('#3')==True :  # data to all leg ports
+                wp1 = leg1_port             # also  leg2_port
+                wp2 = leg3_port             # also  leg4_port
+                wp3 = leg5_port             # also  leg6_port
+            if d.startswith('#4')==True :  # data to all odd leg ports
+                wp1 = leg1_port
+                wp2 = leg3_port
+                wp3 = leg5_port
+            if d.startswith('#5')==True :  # data to all even leg ports
+                wp1 = leg2_port
+                wp2 = leg4_port
+                wp3 = leg6_port
+            if d.startswith('#6')==True :  # data to individual leg port
+                if d.startswith('#1[1')
+                    wp1 = leg1_port
+                if d.startswith('#1[2')
+                    wp1 = leg2_port
+                if d.startswith('#1[3')
+                    wp1 = leg3_port
+                if d.startswith('#1[4')
+                    wp1 = leg4_port
+                if d.startswith('#1[5')
+                    wp1 = leg5_port
+                if d.startswith('#1[6')
+                    wp1 = leg6_port                
+            if d.startswith('#7')==True :  # data to all leg ports
+                wp1 = leg1_port             # also  leg2_port
+                wp2 = leg3_port             # also  leg4_port
+                wp3 = leg5_port             # also  leg6_port
+            if d.startswith('#8')==True :  # data to all leg ports
+                wp1 = leg1_port             # also  leg2_port
+                wp2 = leg3_port             # also  leg4_port
+                wp3 = leg5_port             # also  leg6_port
+            if d.startswith('#9')==True :  # data to all leg ports
+                wp1 = leg1_port             # also  leg2_port
+                wp2 = leg3_port             # also  leg4_port
+                wp3 = leg5_port             # also  leg6_port
+
+            if wp1 == 0  or wp2 == 0 or wp3 == 0 : # if data for /dev/ttyUSB0
+                ser0.write(d)
+            if wp1 == 1  or wp2 == 1 or wp3 == 1 : # if data for /dev/ttyUSB1
+                ser1.write(d)
+            if wp1 == 2  or wp2 == 2 or wp3 == 2 : # if data for /dev/ttyUSB2
+                ser2.write(d)
+            if wp1 == 3  or wp2 == 3 or wp3 == 3 : # if data for /dev/ttyUSB3
+                ser3.write(d)
 #
 # ****************************************************************************
 # *                           Main program startup                           *
@@ -358,18 +440,7 @@ def Main():
                     i = 4                
                 i = i + 1
                 
-    #print results  ****  for debug
-    print 'leg1 port = ',leg1_port
-    print 'leg2 port = ',leg2_port
-    print 'leg3 port = ',leg3_port
-    print 'leg4 port = ',leg4_port  
-    print 'leg5 port = ',leg5_port
-    print 'leg6 port = ',leg6_port
-    print 'joystick port = ',joystick_port
- 
-    # should now have response from serial devices and the ports should be set
-    # so check there correct
-    
+    # print status for serial devices found
     config = 0
     if leg1_port == 99 :
         print 'ERROR :- leg1 & 2 arduino not found'
@@ -379,19 +450,17 @@ def Main():
         print 'ERROR :- leg5 & 6 arduino not found'
     if leg1_port < 50 and leg3_port < 50 and leg5_port :
         config = 1
-        if joystick_port < 50 :
+        if joystick_port == 99 :
             print 'leg configuration ok , no local serial joystick'
         else :
             print 'leg configuration ok '
             print 'serial joystick connected ok'
 
-            
-    
-    #  
     # so we need to setup the serial write threads to read the leg<N>.Queue
     # appropriate to whats connected
     
     srl_out_q = Queue.Queue()  
+
 
     # for now just output serial messages here and loop ,while testing the code 
     
