@@ -8,21 +8,21 @@ leggie robot raspberry pi 3 configuration
 3/. configure vnc so you can remotely access the pi over wifi
     for this you will need ether a pc , laptop, or other rpi
     and a local wifi network , that should have internet access
-    be shure to setup a password other than the pi default one
+    be sure to setup a password other than the pi default one
 
 4/. install the arduino ide on the rpi , this will let you
     program the arduino nanos from the on board rpi using vnc
-    remotely so you dont have to connect programming cables
+    remotely so you don't have to connect programming cables
     each time 
 
 5/. create a directory(folder) in /home/pi/Documents  called
-    git ,  and open a teminal
+    git ,  and open a terminal
 
 > cd Doc*
 > cd git
 > git clone https://github.com/achiestdragon/leggie.git
 
-this should coppy all the needed leggie files to a folder
+this should copy all the needed leggie files to a folder
 called leggie in the git folder
 
 6/. now is as good a time as any to program the joystick
@@ -30,7 +30,7 @@ called leggie in the git folder
     to the pi by usb , start the ardruino ide set the 
     board and programmer type  load the file USBjoystick1
     and upload it to the nano
-    when done goto the serial monitor in the arduino ide
+    when done go to the serial monitor in the arduino ide
     and you should see the values change with the moment
     of the joysticks and the state of the buttons
 
@@ -62,12 +62,12 @@ called leggie in the git folder
     ( this should make it /dev/ttyUSB3) but it may not be in 
     that order , not that it matters the code sorts it 
     
-10/. with robot servo power off but the pi3 and arduino nanos 
+10/. with robot servo power off but the pi3 and arduino nano's 
     powered , though vnc to the pi cd to 
     ~/Documents/git/leggie/rpi3_code in a console and type
     > python srlpy.py  
     this should run the serial test program  you should get an 
-    output from all leg controlers , by pressing the foot switch
+    output from all leg controllers , by pressing the foot switch
     of each leg in any order and if connected a stream of data
     from the joystick that changes when you move the sticks
     or press buttons 
