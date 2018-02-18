@@ -174,15 +174,15 @@ def Main():
         )
     except Exception, e:
         print ' error /dev/ttyUSB2  not found '
-    
-    ser3 = serial.Serial(
-        port='/dev/ttyUSB3',
-        baudrate = 9600,
-        parity=serial.PARITY_NONE,
-        stopbits=serial.STOPBITS_ONE,
-        bytesize=serial.EIGHTBITS,
-        timeout=1000
-    )
+    try:
+        ser3 = serial.Serial(
+            port='/dev/ttyUSB3',
+            baudrate = 9600,
+            parity=serial.PARITY_NONE,
+            stopbits=serial.STOPBITS_ONE,
+            bytesize=serial.EIGHTBITS,
+            timeout=1000
+        )
     except Exception, e:
         print ' error /dev/ttyUSB3  not found '
     
