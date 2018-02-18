@@ -371,11 +371,11 @@ def Main():
     # so check there correct
     
     config = 0
-    if leg1_port = 99
+    if leg1_port == 99
         print 'ERROR :- leg1 & 2 arduino not found'
-    if leg1_port = 99
+    if leg1_port == 99
         print 'ERROR :- leg3 & 4 arduino not found'        
-    if leg1_port = 99
+    if leg1_port == 99
         print 'ERROR :- leg5 & 6 arduino not found'
     if leg1_port < 50 and leg3_port < 50 and leg5_port :
         config = 1
