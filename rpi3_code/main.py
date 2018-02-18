@@ -68,7 +68,7 @@ def srl_worker(num , srl_in_q ):
         if ser1.isOpen():
             while 1:
                 x1=ser1.readline()
-                if x0 != '':                # ** if not empty line ?
+                if x1 != '':                # ** if not empty line ?
                     srl_in_q.put(x1)
         else:
             slr_in_q.put('E[ser1]')                
@@ -79,7 +79,7 @@ def srl_worker(num , srl_in_q ):
         if ser2.isOpen():
             while 1:
                 x2=ser2.readline()
-                if x0 != '':                # ** if not empty line ?
+                if x2 != '':                # ** if not empty line ?
                     srl_in_q.put(x2)
         else:
             slr_in_q.put('E[ser0]')                
@@ -90,7 +90,7 @@ def srl_worker(num , srl_in_q ):
         if ser3.isOpen():
             while 1:
                 x3=ser3.readline()
-                if x0 != '':                # ** if not empty line ?
+                if x3 != '':                # ** if not empty line ?
                     srl_in_q.put(x0)
         else:
             slr_in_q.put('E[ser3]')                
