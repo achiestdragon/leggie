@@ -40,6 +40,9 @@
 # ****************************************************************************
 #
 
+import sys
+import tty
+import termios
 import threading
 import time
 import serial
@@ -55,10 +58,11 @@ def srl_worker(num , srl_in_q ):
         print 'Started Serial Read Worker:1 on port : /dev/ttyUSB0'
         counter0=0
         if ser0.isOpen():
-            while 1:
+            while exit != 1 :
                 x0=ser0.readline()
                 if x0 != '':                # ** if not empty line ?
                     srl_in_q.put(x0)
+            print 'Serial Read Worker:1 exit'
         else:
             slr_in_q.put('E[ser0]')
         return 
@@ -66,10 +70,11 @@ def srl_worker(num , srl_in_q ):
         print 'Started Serial Read Worker:2 on port : /dev/ttyUSB1'
         counter1=0
         if ser1.isOpen():
-            while 1:
+            while exit != 1 :
                 x1=ser1.readline()
                 if x1 != '':                # ** if not empty line ?
                     srl_in_q.put(x1)
+            print 'Serial Read Worker:2 exit'        
         else:
             slr_in_q.put('E[ser1]')                
         return
@@ -77,10 +82,11 @@ def srl_worker(num , srl_in_q ):
         print 'Started Serial Read Worker:3 on port : /dev/ttyUSB2'
         counter=0
         if ser2.isOpen():
-            while 1:
+            while exit != 1 :
                 x2=ser2.readline()
                 if x2 != '':                # ** if not empty line ?
                     srl_in_q.put(x2)
+            print 'Serial Read Worker:3 exit'
         else:
             slr_in_q.put('E[ser0]')                
         return
@@ -88,10 +94,11 @@ def srl_worker(num , srl_in_q ):
         print 'Started Serial Read Worker:4 on port : /dev/ttyUSB3'
         counter=0
         if ser3.isOpen():
-            while 1:
+            while exit != 1 :
                 x3=ser3.readline()
                 if x3 != '':                # ** if not empty line ?
                     srl_in_q.put(x0)
+            print 'Serial Read Worker:4 exit'
         else:
             slr_in_q.put('E[ser3]')                
         return    
@@ -141,7 +148,7 @@ def srl_write(portnos,data):
 # reads command queue , and directs data to appropriate port
 
 def srl_write_queue_worker( srl_out_q ):
-    while 1 :
+    while exit != 1 :
         d = srl_out_q.get()
         wp1 = 99
         wp2 = 99
@@ -215,16 +222,17 @@ def srl_write_queue_worker( srl_out_q ):
                 ser2.write(d)
             if wp1 == 3  or wp2 == 3 or wp3 == 3 : # if data for /dev/ttyUSB3
                 ser3.write(d)
-                
+    print 'Serial write Worker: exit'
 #
 # ****************************************************************************
 # *                          walk main worker thread                         *
 # ****************************************************************************
 #                 
 def walk_main_worker(srl_out_q,srl_in_q):
-    while 1 :
+    while exit != 1 :
         # for now just output serial messages here and loop  
-        print srl_in_q.get()   
+        print srl_in_q.get()
+    print 'walk main Worker: exit'
             
 #
 # ****************************************************************************
@@ -234,6 +242,7 @@ def walk_main_worker(srl_out_q,srl_in_q):
 def Main():
     
     # ok so there be global's here
+    global exit
     
     global ser0
     global ser1
@@ -251,6 +260,7 @@ def Main():
     global leg6_port
     global joystick_port
 
+    exit = 0
     ser0_av =0
     ser1_av =0
     ser2_av =0
@@ -265,7 +275,7 @@ def Main():
             parity=serial.PARITY_NONE,
             stopbits=serial.STOPBITS_ONE,
             bytesize=serial.EIGHTBITS,
-            timeout=1000
+            timeout=10
         )
         ser0_av=1
     except Exception, e:
@@ -277,7 +287,7 @@ def Main():
             parity=serial.PARITY_NONE,
             stopbits=serial.STOPBITS_ONE,
             bytesize=serial.EIGHTBITS,
-            timeout=1000
+            timeout=10
         )
         ser1_av=1
     except Exception, e:
@@ -289,7 +299,7 @@ def Main():
             parity=serial.PARITY_NONE,
             stopbits=serial.STOPBITS_ONE,
             bytesize=serial.EIGHTBITS,
-            timeout=1000
+            timeout=10
         )
         ser2_av=1
     except Exception, e:
@@ -301,7 +311,7 @@ def Main():
             parity=serial.PARITY_NONE,
             stopbits=serial.STOPBITS_ONE,
             bytesize=serial.EIGHTBITS,
-            timeout=1000
+            timeout=100
         )
         ser3_av=1
     except Exception, e:
@@ -500,20 +510,20 @@ def Main():
     # console commands just get put into ser_out_q and may clash with 
     # the main walking sequence by joystick control 
     # there provided for debug where the joystick is not connected
-    # should fix this later
-    exit = 0
+    # should fix this 
+    
     while exit != 1 :
         # main console loop 
-        
+        kbd_in = raw_input(">>>")
+        if kbd_in == 'q':
+            exit = 1
     
     
     
     # exit program properly   
     # FIXME:- stop all threads and exit gracefully ?
-    
-    for t in enumerate():
-        if (thread.isAlive()):
-            t._Thread_stop()   
+    exit = 1 # just to make sure 
+ 
     return
 
 #
