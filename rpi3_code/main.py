@@ -131,7 +131,7 @@ def srl_write_queue_worker( srl_out_q ):
     while 1 :
         d = srl_out_q.get()
         d = d + chr(10)
-        if d.startswith('#0')==True :
+        #if d.startswith('#0')==True :
                
 #
 # ****************************************************************************
