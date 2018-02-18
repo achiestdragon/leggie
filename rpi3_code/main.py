@@ -148,11 +148,11 @@ def srl_write_queue_worker( srl_out_q ):
         wp3 = 99
         if d != '' :
             d = d + chr(10)
-            if d.startswith('#0')==True :  # data to all leg ports
+            if d.startswith('#0')==True :   # data to all leg ports
                 wp1 = leg1_port             # also  leg2_port
                 wp2 = leg3_port             # also  leg4_port
-                wp3 = leg5_port              # also  leg6_port
-            if d.startswith('#1')==True :  # data to individual leg port
+                wp3 = leg5_port             # also  leg6_port
+            if d.startswith('#1')==True :   # data to individual leg port
                 if d.startswith('#1[1')
                     wp1 = leg1_port
                 if d.startswith('#1[2')
@@ -165,23 +165,23 @@ def srl_write_queue_worker( srl_out_q ):
                     wp1 = leg5_port
                 if d.startswith('#1[6')
                     wp1 = leg6_port
-            if d.startswith('#2')==True :  # data to all leg ports
+            if d.startswith('#2')==True :   # data to all leg ports
                 wp1 = leg1_port             # also  leg2_port
                 wp2 = leg3_port             # also  leg4_port
                 wp3 = leg5_port             # also  leg6_port
-            if d.startswith('#3')==True :  # data to all leg ports
+            if d.startswith('#3')==True :   # data to all leg ports
                 wp1 = leg1_port             # also  leg2_port
                 wp2 = leg3_port             # also  leg4_port
                 wp3 = leg5_port             # also  leg6_port
-            if d.startswith('#4')==True :  # data to all odd leg ports
+            if d.startswith('#4')==True :   # data to all odd leg ports
                 wp1 = leg1_port
                 wp2 = leg3_port
                 wp3 = leg5_port
-            if d.startswith('#5')==True :  # data to all even leg ports
+            if d.startswith('#5')==True :   # data to all even leg ports
                 wp1 = leg2_port
                 wp2 = leg4_port
                 wp3 = leg6_port
-            if d.startswith('#6')==True :  # data to individual leg port
+            if d.startswith('#6')==True :   # data to individual leg port
                 if d.startswith('#1[1')
                     wp1 = leg1_port
                 if d.startswith('#1[2')
@@ -194,15 +194,15 @@ def srl_write_queue_worker( srl_out_q ):
                     wp1 = leg5_port
                 if d.startswith('#1[6')
                     wp1 = leg6_port                
-            if d.startswith('#7')==True :  # data to all leg ports
+            if d.startswith('#7')==True :   # data to all leg ports
                 wp1 = leg1_port             # also  leg2_port
                 wp2 = leg3_port             # also  leg4_port
                 wp3 = leg5_port             # also  leg6_port
-            if d.startswith('#8')==True :  # data to all leg ports
+            if d.startswith('#8')==True :   # data to all leg ports
                 wp1 = leg1_port             # also  leg2_port
                 wp2 = leg3_port             # also  leg4_port
                 wp3 = leg5_port             # also  leg6_port
-            if d.startswith('#9')==True :  # data to all leg ports
+            if d.startswith('#9')==True :   # data to all leg ports
                 wp1 = leg1_port             # also  leg2_port
                 wp2 = leg3_port             # also  leg4_port
                 wp3 = leg5_port             # also  leg6_port
@@ -215,6 +215,17 @@ def srl_write_queue_worker( srl_out_q ):
                 ser2.write(d)
             if wp1 == 3  or wp2 == 3 or wp3 == 3 : # if data for /dev/ttyUSB3
                 ser3.write(d)
+                
+#
+# ****************************************************************************
+# *                          walk main worker thread                         *
+# ****************************************************************************
+#                 
+def walk_main_worker(srl_out_q,srl_in_q):
+    while 1 :
+        # for now just output serial messages here and loop  
+        print srl_in_q.get()   
+            
 #
 # ****************************************************************************
 # *                           Main program startup                           *
@@ -441,6 +452,7 @@ def Main():
                 i = i + 1
                 
     # print status for serial devices found
+    
     config = 0
     if leg1_port == 99 :
         print 'ERROR :- leg1 & 2 arduino not found'
@@ -456,18 +468,52 @@ def Main():
             print 'leg configuration ok '
             print 'serial joystick connected ok'
 
-    # so we need to setup the serial write threads to read the leg<N>.Queue
-    # appropriate to whats connected
+    # start the serial write thread 
     
     srl_out_q = Queue.Queue()  
+    t = threading.Thread(target=srl_write_queue_worker, args=(srl_out_q))
+    threads.append(t)
+    t.start()
 
-
-    # for now just output serial messages here and loop ,while testing the code 
+    # initalize robot to known positions
+    print ' initializing all legs to home positions'
+    init_data_command = '#0'
+    ser_out_q.put(init_data_command)
+    old_time = time()
+    for c in range(5): # do this 6 more times with 1 second delay between each 
+        waiting = 1
+        while waiting == 1:
+            if time() - old_time > 1:
+                old_time = time()
+                ser_out_q.put(init_data_command)
+                waiting = 0
+    # all robots legs should now be in home position
+    print ' all robot legs should now be in home position '
     
-    while 1 :
-        print srl_in_q.get() 
-        # but main loop should be here       
+    # start walk main thread 
+    t = threading.Thread(target=walk_main_worker, args=(srl_out_q,srl_in_q))
+    threads.append(t)
+    t.start() 
+    #
+
+
+    # console commands just get put into ser_out_q and may clash with 
+    # the main walking sequence by joystick control 
+    # there provided for debug where the joystick is not connected
+    # should fix this later
+    exit = 0
+    while exit != 1 :
+        # main console loop 
         
+    
+    
+    
+    # exit program properly   
+    # FIXME:- stop all threads and exit gracefully ?
+    
+    for t in enumerate():
+        if (thread.isAlive()):
+            t._Thread_stop()   
     return
 
 #
