@@ -62,20 +62,15 @@ vin                  srl rx data   tx1
 //
 // 1/. sort out pwm pll lock , should lock all servos in start positions
 // from power up 
-// on hold because of hardware fail ,currently awating replacment parts  
 //   
 //
 // TODO:- (low prioraty)  :-
 //
 // (aditional features)
 //  define the serial command functions for :-
-//    #7                    = pose
-//            format  #7[posenos] 
-//            where:- pose nos is in the range 0 to 9
-//            causes the legs to move to some preset positions 
-//  note this feature is on hold as is not realy appropriate here and
-//  should realy be in the host rpi3 code 
-//             
+//
+//    #7                    = not yet defined
+//               
 //    #8                    = not yet defined
 //
 //  and sort out the code for them 
@@ -378,9 +373,9 @@ const int knee_a = 0 ;  // 0=normal / 1=invert  adc in value
 const int backlash_range  = 6 ;  //default backlash value 
 
 // servo home positions  startup position values
-const int hip_home = 70  ;
-const int leg_home = 70  ;
-const int knee_home = 20  ;
+const int hip_home = 91  ;
+const int leg_home = 1  ;
+const int knee_home = 18  ;
 
 //
 // **********************************************************************

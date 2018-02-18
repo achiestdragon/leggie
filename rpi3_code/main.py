@@ -13,31 +13,24 @@
 #
 # description :-
 #
-#  WORK IN PROGRESS NOT YET FUNCIONAL 
+#  WORK IN PROGRESS NOT YET FUNCTIONAL 
 #
 # TODO:-   almost everything
 #
-#   1. add serial stream decode check and code to sort out whats
-#      on what port  
 #   
-#   2. add code for leg position data ie current positions and
-#      next position walking sequence buffers and exceptions
+#   1. add code for leg position data ie current positions and
+#      next position walking sequence buffers and movement exception handlers
 #
-#   3. add code for calculating direction movements to new footing
+#   2. add code for calculating direction movements to new footing
 #      positions and calculate the walking gate sequence from 
 #      direction inputs to feed into the walking sequence buffers
 #
-#   4. fixed sequence movements and other sequencing code    
+#   3. fixed sequence movements and other sequencing code    
 #
-#   5. ...all the other things 
+#   4. ...all the other things 
 #
 # FIXME:- 
 #
-#   1. get arduino nanos to respond to #n commands from this code
-#      the joystick responds but they are not doing 
-#
-#   2. seems the attempt to trap port not found fails to trap and
-#      the program errors out 
 #
 #
 
@@ -64,7 +57,8 @@ def srl_worker(num , srl_in_q ):
         if ser0.isOpen():
             while 1:
                 x0=ser0.readline()
-                srl_in_q.put(x0)
+                if x0 != '':                # ** if not empty line ?
+                    srl_in_q.put(x0)
         else:
             slr_in_q.put('E[ser0]')
         return 
@@ -74,7 +68,8 @@ def srl_worker(num , srl_in_q ):
         if ser1.isOpen():
             while 1:
                 x1=ser1.readline()
-                srl_in_q.put(x1)
+                if x0 != '':                # ** if not empty line ?
+                    srl_in_q.put(x1)
         else:
             slr_in_q.put('E[ser1]')                
         return
@@ -84,7 +79,8 @@ def srl_worker(num , srl_in_q ):
         if ser2.isOpen():
             while 1:
                 x2=ser2.readline()
-                srl_in_q.put(x2)
+                if x0 != '':                # ** if not empty line ?
+                    srl_in_q.put(x2)
         else:
             slr_in_q.put('E[ser0]')                
         return
@@ -94,16 +90,19 @@ def srl_worker(num , srl_in_q ):
         if ser3.isOpen():
             while 1:
                 x3=ser3.readline()
-                srl_in_q.put(x0)
+                if x0 != '':                # ** if not empty line ?
+                    srl_in_q.put(x0)
         else:
             slr_in_q.put('E[ser3]')                
         return    
 
 #
 # ****************************************************************************
-# *                               serial write                               *
+# *                           direct raw serial write                        *
 # ****************************************************************************
-#
+# 
+# used for initial port setup
+
 def srl_write(portnos,data):
     if portnos ==0 :
         data=data + chr(10)        
@@ -125,33 +124,47 @@ def srl_write(portnos,data):
     
 #
 # ****************************************************************************
-# *                                                                          *
+# *                     serial write command queue router                    *
 # ****************************************************************************
 #
- 
+def srl_write_queue_worker( srl_out_q ):
+    while 1 :
+        d = srl_out_q.get()
+        d = d + chr(10)
+        if d.startswith('#0')==True :
+               
 #
 # ****************************************************************************
 # *                           Main program startup                           *
 # ****************************************************************************
 # 
 def Main():
+    
+    # ok so there be global's here
+    
     global ser0
     global ser1
     global ser2
     global ser3
-
     global ser0_av 
     global ser1_av 
     global ser2_av 
     global ser3_av 
-    
-    
+    global leg1_port
+    global leg2_port
+    global leg3_port
+    global leg4_port
+    global leg5_port
+    global leg6_port
+    global joystick_port
+
     ser0_av =0
     ser1_av =0
     ser2_av =0
     ser3_av =0    
     
-    # config serial ports
+    # configure serial ports
+    
     try:
         ser0 = serial.Serial(
             port='/dev/ttyUSB0',
@@ -163,7 +176,7 @@ def Main():
         )
         ser0_av=1
     except Exception, e:
-        print ' error /dev/ttyUSB0  not found '
+        print '/dev/ttyUSB0  not found '
     try:
         ser1 = serial.Serial(
             port='/dev/ttyUSB1',
@@ -175,7 +188,7 @@ def Main():
         )
         ser1_av=1
     except Exception, e:
-        print ' error /dev/ttyUSB1  not found '
+        print '/dev/ttyUSB1  not found '
     try:
         ser2 = serial.Serial(
             port='/dev/ttyUSB2',
@@ -187,7 +200,7 @@ def Main():
         )
         ser2_av=1
     except Exception, e:
-        print ' error /dev/ttyUSB2  not found '
+        print '/dev/ttyUSB2  not found '
     try:
         ser3 = serial.Serial(
             port='/dev/ttyUSB3',
@@ -199,22 +212,23 @@ def Main():
         )
         ser3_av=1
     except Exception, e:
-        print ' error /dev/ttyUSB3  not found '
+        print '/dev/ttyUSB3  not found '
     
     # start serial read threads 
   
     srl_in_q = Queue.Queue()
     threads = []
-    for i in range(3):    # this should be set to 3 if joystick used 
+    for i in range(3):    
         t = threading.Thread(target=srl_worker, args=(i,srl_in_q))
         threads.append(t)
         t.start()
 
     # serial write #9 to each port for status of each serial device 
-    # ports /dev/ttyUSB0 to 3 and set the leg<n>_port address varibles
-    # it also sets the joystick_port varible 
+    # ports /dev/ttyUSB0 to 3, set the leg<n>_port address variables
+    # also set the joystick_port variable 
     
-    # default values for port not configured
+    # default values for ports not configured
+    
     leg1_port = 99
     leg2_port = 99
     leg3_port = 99
@@ -232,7 +246,7 @@ def Main():
                 data= "#9"
                 srl_write(portnos,data)
                 srl_data_in = srl_in_q.get()
-                print 'loop1  port0 #9    responce =',srl_data_in
+                print 'port0 #9 response =',srl_data_in
                 if srl_data_in.startswith('k[#9,[1')==True :  
                     leg1_port = 0
                     leg2_port = 0
@@ -262,7 +276,7 @@ def Main():
                 data= "#9"
                 srl_write(portnos,data)
                 srl_data_in = srl_in_q.get()
-                print 'loop2  port1 #9    responce =',srl_data_in
+                print 'port1 #9 response =',srl_data_in
                 if srl_data_in.startswith('k[#9,[1')==True :
                     leg1_port = 1
                     leg2_port = 1
@@ -292,7 +306,7 @@ def Main():
                 data= "#9"
                 srl_write(portnos,data)
                 srl_data_in = srl_in_q.get()
-                print 'loop3  port2 #9    responce =',srl_data_in
+                print 'port2 #9 response =',srl_data_in
                 if srl_data_in.startswith('k[#9,[1')==True :
                     leg1_port = 2
                     leg2_port = 2
@@ -322,7 +336,7 @@ def Main():
                 data= "#9"
                 srl_write(portnos,data)
                 srl_data_in = srl_in_q.get()
-                print 'loop3  port4 #9    responce =',srl_data_in
+                print 'port3 #9  response =',srl_data_in
                 if srl_data_in.startswith('k[#9,[1')==True :
                     leg1_port = 3
                     leg2_port = 3
@@ -343,29 +357,49 @@ def Main():
                     config = 1
                     i = 4                
                 i = i + 1
+                
+    #print results  ****  for debug
+    print 'leg1 port = ',leg1_port
+    print 'leg2 port = ',leg2_port
+    print 'leg3 port = ',leg3_port
+    print 'leg4 port = ',leg4_port  
+    print 'leg5 port = ',leg5_port
+    print 'leg6 port = ',leg6_port
+    print 'joystick port = ',joystick_port
+ 
+    # should now have response from serial devices and the ports should be set
+    # so check there correct
+    
+    config = 0
+    if leg1_port = 99
+        print 'ERROR :- leg1 & 2 arduino not found'
+    if leg1_port = 99
+        print 'ERROR :- leg3 & 4 arduino not found'        
+    if leg1_port = 99
+        print 'ERROR :- leg5 & 6 arduino not found'
+    if leg1_port < 50 and leg3_port < 50 and leg5_port :
+        config = 1
+        if joystick_port < 50 :
+            print 'leg configuration ok , no local serial joystick'
+        else :
+            print 'leg configuration ok '
+            print 'serial joystick connected ok'
 
-    print 'leg1 port = ',leg1_port,'/n'
-    print 'leg2 port = ',leg2_port,'/n/n'
-    print 'leg3 port = ',leg3_port,'/n'
-    print 'leg4 port = ',leg4_port,'/n/n'  
-    print 'leg5 port = ',leg5_port,'/n'
-    print 'leg6 port = ',leg6_port,'/n/n'
-    print 'joystick port = ',joystick_port,'/n'
+            
     
-    # just output serial messages here and loop ,while testing the code 
-    while 1:    
-        print srl_in_q.get()  
-    
-    
-    # should have responce from serial devices and the ports should be set
-    # so check there correct or rather fix above so they cannot be incorrect
-    # ie cant have 2 legs  0&1 etc
     #  
     # so we need to setup the serial write threads to read the leg<N>.Queue
     # appropriate to whats connected
     
-        
-        
+    srl_out_q = Queue.Queue()  
+    
+ 
+ 
+    # for now just output serial messages here and loop ,while testing the code 
+    
+    while 1:    
+        print srl_in_q.get() 
+    # but should start  Main_Loop()       
         
     return
 

@@ -95,8 +95,6 @@ NOTES :-
      is going to be done with joystick connected directly to the onboard 
      pi3 via usb
      
-     camera pan tilt mount still todo and camera / head sensors to sort
-    
      parts list for the electronics and hardware
      
 TODO:-  to sort out in genaral for beta version print files
@@ -106,10 +104,6 @@ TODO:-  to sort out in genaral for beta version print files
    
    draw a schematic diagram for it
    
-   the lower leg sections may need to be a bit shorter by about 40mm as they
-   don't allow the robot to sit body down and feet up as intended ,although 
-   it does look more in proportion as is 
-
    extra support braceing on 3d printable parts where needed , and tidy up 
    part looks 
 
