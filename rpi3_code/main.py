@@ -424,10 +424,13 @@ def Main():
     leg5_port = 99
     leg6_port = 99
     joystick_port = 99
-
+    print " initalizing ports "
     # configure whats on port dev/ttyUSB0
     
-    if ser0_av==1:    
+    if ser0_av==1:
+        portnos=0 
+        data= "#0"
+        srl_write(portnos,data)
         config = 0
         while config == 0 :
             i = 0
@@ -463,7 +466,10 @@ def Main():
                 
     # configure whats on port dev/ttyUSB1
     
-    if ser1_av==1:            
+    if ser1_av==1:
+        portnos=1 
+        data= "#0"
+        srl_write(portnos,data)
         config = 0
         while config == 0 :
             i = 0
@@ -499,7 +505,10 @@ def Main():
                 
     # configure whats on port dev/ttyUSB2
     
-    if ser2_av==1:            
+    if ser2_av==1:
+        portnos=2 
+        data= "#0"
+        srl_write(portnos,data)
         config = 0
         while config == 0 :
             i = 0
@@ -535,12 +544,15 @@ def Main():
                 
     # configure whats on port dev/ttyUSB3
     
-    if ser3_av==1:            
+    if ser3_av==1:
+        portnos=3     
+        data= "#0"
+        srl_write(portnos,data)
         config = 0
         while config == 0 :
             i = 0
             while i <= 4 :
-                portnos=3     # need to check if ports available
+                portnos=3 
                 data= "#9"
                 srl_write(portnos,data)
                 srl_data_in = srl_in_q.get()
@@ -573,11 +585,11 @@ def Main():
     config = 0
     if leg1_port == 99 :
         print 'ERROR :- leg1 & 2 arduino not found'   # FIXME :- add force exit gracefully for this
-    if leg1_port == 99 :
+    if leg3_port == 99 :
         print 'ERROR :- leg3 & 4 arduino not found'   # FIXME :- add force exit gracefully for this    
-    if leg1_port == 99 :
+    if leg5_port == 99 :
         print 'ERROR :- leg5 & 6 arduino not found'   # FIXME :- add force exit gracefully for this
-    if leg1_port < 50 and leg3_port < 50 and leg5_port :
+    if leg1_port < 6 and leg3_port < 6 and leg5_port < 6:
         config = 1
         if joystick_port == 99 :
             print 'leg configuration ok , no local serial joystick found'
