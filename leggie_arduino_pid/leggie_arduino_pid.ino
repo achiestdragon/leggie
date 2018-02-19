@@ -354,9 +354,9 @@ const int pot_max    = 930;  // 850 for 180 degree servos
 
 // change if pwm out values need inverting
  
-const int hip_d = 1  ;  // 0=normal / 1=invert  pwm out value
+const int hip_d = 0  ;  // 0=normal / 1=invert  pwm out value
 const int leg_d = 0  ;  // 0=normal / 1=invert  pwm out value
-const int knee_d = 1 ;  // 0=normal / 1=invert  pwm out value
+const int knee_d = 0 ;  // 0=normal / 1=invert  pwm out value
 
 // change if read adc values need inverting
 
@@ -605,19 +605,22 @@ void loop()
             Serial.print(",");
             Serial.print(knee1_pos_s);
             Serial.println("]");
-            hip1_hold  = hip1_pos_s  ;
-            leg1_hold  = leg1_pos_s  ;
-            knee1_hold = knee1_pos_s ;
-            hip1_rdy   = false ;
-            leg1_rdy   = false ;
-            knee1_rdy  = false ;
-            rdy1       = true ;
-            hip1_lock  = true ;
-            leg1_lock  = true ;
-            knee1_lock = true ;
-            hip1_pwm   = hip1_hold  ;
-            leg1_pwm   = leg1_hold  ;
-            knee1_pwm  = knee1_hold ;
+            if ( tag1_hold >=5 ) // then we need to stop 
+              {
+                hip1_hold  = hip1_pos_s  ;
+                leg1_hold  = leg1_pos_s  ;
+                knee1_hold = knee1_pos_s ;
+                hip1_rdy   = false ;
+                leg1_rdy   = false ;
+                knee1_rdy  = false ;
+                rdy1       = true ;
+                hip1_lock  = true ;
+                leg1_lock  = true ;
+                knee1_lock = true ;
+                hip1_pwm   = hip1_hold  ;
+                leg1_pwm   = leg1_hold  ;
+                knee1_pwm  = knee1_hold ;
+              }
           }
       } 
     else
@@ -873,19 +876,22 @@ void loop()
             Serial.print(",");
             Serial.print(knee2_pos_s);
             Serial.println("]");
-            hip2_hold  = hip2_pos_s  ; 
-            leg2_hold  = leg2_pos_s  ;
-            knee2_hold = knee2_pos_s ;
-            hip2_rdy   = false ;
-            leg2_rdy   = false ;
-            knee2_rdy  = false ;
-            rdy2       = true ;
-            hip2_lock  = true ; 
-            leg2_lock  = true ;
-            knee2_lock = true ;
-            hip2_pwm   = hip2_hold  ; 
-            leg2_pwm   = leg2_hold  ;
-            knee2_pwm  = knee2_hold ;
+            if ( tag2_hold >=5 ) // then we need to stop 
+              {
+                hip2_hold  = hip2_pos_s  ; 
+                leg2_hold  = leg2_pos_s  ;
+                knee2_hold = knee2_pos_s ;
+                hip2_rdy   = false ;
+                leg2_rdy   = false ;
+                knee2_rdy  = false ;
+                rdy2       = true ;
+                hip2_lock  = true ; 
+                leg2_lock  = true ;
+                knee2_lock = true ;
+                hip2_pwm   = hip2_hold  ; 
+                leg2_pwm   = leg2_hold  ;
+                knee2_pwm  = knee2_hold ;
+              }
           }
       } 
     else
