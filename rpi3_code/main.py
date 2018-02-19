@@ -31,9 +31,11 @@
 #
 # FIXME:- 
 #
-#   on startup seems to wait for a response over serial before sending 
-#   initialize string #9 to devices 
+#   1. on startup seems to wait for a response over serial before sending 
+#      initialize string #9 to devices 
 #
+#   2. should exit if leg ports are not configured , but for the time leave
+#      this while debugging 
 #
 
 #
@@ -55,6 +57,7 @@ import Queue
 # *                         serial read worker                               *
 # ****************************************************************************
 #
+
 def srl_worker(num , srl_in_q ):
     if num == 0:
         print 'Started Serial Read Worker:1 on port : /dev/ttyUSB0'
@@ -62,7 +65,7 @@ def srl_worker(num , srl_in_q ):
         if ser0.isOpen():
             while exit != 1 :
                 x0=ser0.readline()
-                if x0 != '':                # ** if not empty line ?
+                if x0 != '':               
                     if x0.startswith('E[1')==True : 
                         print "CRITICAL serial com sync error, from :- /dev/ttyUSB0" 
                     if x0.startswith('E[2')==True :
@@ -81,7 +84,7 @@ def srl_worker(num , srl_in_q ):
                     if x0.startswith('&')== True :
                         print "CRITICAL device in calibration mode from :-/dev/ttyUSB0 "
                         print "with:-" , x0
-                    if x0.startswith('[')== True :  #joystick
+                    if x0.startswith('[')== True :  
                         srl_in_q.put(x0)
                     
             print 'Serial Read Worker:1 exit'
@@ -94,7 +97,7 @@ def srl_worker(num , srl_in_q ):
         if ser1.isOpen():
             while exit != 1 :
                 x1=ser1.readline()
-                if x1 != '':                # ** if not empty line ?
+                if x1 != '':               
                     if x1.startswith('E[1')==True :
                         print "CRITICAL serial com sync error, from :- /dev/ttyUSB1" 
                     if x1.startswith('E[2')==True :
@@ -113,7 +116,7 @@ def srl_worker(num , srl_in_q ):
                     if x1.startswith('&')== True :
                         print "CRITICAL device in calibration mode from :-/dev/ttyUSB1 "
                         print "with:-" , x1
-                    if x1.startswith('[')== True :  #joystick
+                    if x1.startswith('[')== True : 
                         srl_in_q.put(x1)                    
 
             print 'Serial Read Worker:2 exit'        
@@ -126,7 +129,7 @@ def srl_worker(num , srl_in_q ):
         if ser2.isOpen():
             while exit != 1 :
                 x2=ser2.readline()
-                if x2 != '':                # ** if not empty line ?
+                if x2 != '':                
                     if x2.startswith('E[1')==True :
                         print "CRITICAL serial com sync error, from :- /dev/ttyUSB2" 
                     if x2.startswith('E[2')==True :
@@ -145,7 +148,7 @@ def srl_worker(num , srl_in_q ):
                     if x2.startswith('&')== True :
                         print "CRITICAL device in calibration mode from :-/dev/ttyUSB2 "
                         print "with :- " , x2
-                    if x2.startswith('[')== True :  #joystick
+                    if x2.startswith('[')== True : 
                         srl_in_q.put(x2)                    
 
             print 'Serial Read Worker:3 exit'
@@ -158,7 +161,7 @@ def srl_worker(num , srl_in_q ):
         if ser3.isOpen():
             while exit != 1 :
                 x3=ser3.readline()
-                if x3 != '':                # ** if not empty line ?
+                if x3 != '':                
                     if x3.startswith('E[1')==True :
                         print "CRITICAL serial com sync error, from :- /dev/ttyUSB3" 
                     if x3.startswith('E[2')==True :
@@ -177,7 +180,7 @@ def srl_worker(num , srl_in_q ):
                     if x3.startswith('&')== True :
                         print "CRITICAL device in calibration mode from :-/dev/ttyUSB3 "
                         print "with:-" , x3
-                    if x3.startswith('[')== True :  #joystick
+                    if x3.startswith('[')== True : 
                         srl_in_q.put(x3)
 
             print 'Serial Read Worker:4 exit'
@@ -305,11 +308,13 @@ def srl_write_queue_worker( srl_out_q ):
             if wp1 == 3  or wp2 == 3 or wp3 == 3 : # if data for /dev/ttyUSB3
                 ser3.write(d)
     print 'Serial write Worker: exit'
+    
 #
 # ****************************************************************************
 # *                          walk main worker thread                         *
 # ****************************************************************************
-#                 
+# 
+
 def walk_main_worker(srl_out_q,srl_in_q):
     while exit != 1 :
         # for now just output serial messages here and loop  
@@ -689,7 +694,6 @@ def Main():
     
     print ' exiting  , threads closing '
     # exit program properly   
-    # FIXME:- stop all threads and exit gracefully ?
     
     # just to make sure 
     exit = 1 
