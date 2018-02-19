@@ -147,7 +147,7 @@ def srl_write(portnos,data):
 
 # reads command queue , and directs data to appropriate port
 
-def srl_write_queue_worker( srl_out_q ):
+def srl_write_queue_worker( exit ):
     while exit != 1 :
         d = srl_out_q.get()
         wp1 = 99
@@ -480,8 +480,8 @@ def Main():
 
     # start the serial write thread 
     
-    srl_out_q = Queue1.Queue()  
-    t = threading.Thread(target=srl_write_queue_worker, args=(srl_out_q))
+    srl_out_q = Queue.Queue()  
+    t = threading.Thread(target=srl_write_queue_worker, args=(exit))
     threads.append(t)
     t.start()
 
