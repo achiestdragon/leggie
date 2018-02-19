@@ -425,6 +425,7 @@ def Main():
     leg6_port = 99
     joystick_port = 99
     print " initalizing ports "
+    
     # configure whats on port dev/ttyUSB0
     while not srl_in_q.empty():
         try:
@@ -465,8 +466,17 @@ def Main():
             if config == 0 :
                 print " /dev/ttyUSB0 device not configured (got bad/no response)"
                 config = 1
-                
+
+    # wait 1 second
+    
+    waiting = 1
+    while waiting == 1:
+        if time.time() - old_time > 1:
+            old_time = time.time()
+            waiting = 0 
+ 
     # configure whats on port dev/ttyUSB1
+    
     while not srl_in_q.empty():
         try:
             srl_in_q.get(False)
@@ -506,8 +516,17 @@ def Main():
             if config == 0 :
                 print " /dev/ttyUSB1 device not configured (got bad/no response)"
                 config = 1
-                
+
+    # wait 1 second
+    
+    waiting = 1
+    while waiting == 1:
+        if time.time() - old_time > 1:
+            old_time = time.time()
+            waiting = 0 
+            
     # configure whats on port dev/ttyUSB2
+    
     while not srl_in_q.empty():
         try:
             srl_in_q.get(False)
@@ -548,7 +567,16 @@ def Main():
                 print " /dev/ttyUSB2 device not configured (got bad/no response)"
                 config = 1 
                 
+    # wait 1 second
+    
+    waiting = 1
+    while waiting == 1:
+        if time.time() - old_time > 1:
+            old_time = time.time()
+            waiting = 0  
+            
     # configure whats on port dev/ttyUSB3
+    
     while not srl_in_q.empty():
         try:
             srl_in_q.get(False)
