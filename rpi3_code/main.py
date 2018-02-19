@@ -61,7 +61,27 @@ def srl_worker(num , srl_in_q ):
             while exit != 1 :
                 x0=ser0.readline()
                 if x0 != '':                # ** if not empty line ?
-                    srl_in_q.put(x0)
+                    if x0.startswith('E[1')==True : 
+                        print "CRITICAL serial com sync error, from :- /dev/ttyUSB0" 
+                    if x0.startswith('E[2')==True :
+                        print "CRITICAL serial com buffer overrun , from :-/dev/ttyUSB0"
+                    if x0.startswith('E[W')==True :
+                        print "CRITICAL WTF error , from :-/dev/ttyUSB0 with:-" , x0
+                    if x0.startswith('E[3,')==True :
+                        print "ERROR pwm pll lock loss , from :- /dev/ttyUSB0 with :-" , x0
+                        srl_in_q.put(x0)
+                    if x0.startswith('K[')== True :
+                        srl_in_q.put(x0)
+                    if x0.startswith('f[')== True :
+                        srl_in_q.put(x0)
+                    if x0.startswith('l[')== True :
+                        srl_in_q.put(x0)
+                    if x0.startswith('&')== True :
+                        print "CRITICAL device in calibration mode from :-/dev/ttyUSB0 "
+                        print "with:-" , x0
+                    if x0.startswith('[')== True :  //joystick
+                        srl_in_q.put(x0)
+                    
             print 'Serial Read Worker:1 exit'
         else:
             slr_in_q.put('E[ser0]')
@@ -73,7 +93,27 @@ def srl_worker(num , srl_in_q ):
             while exit != 1 :
                 x1=ser1.readline()
                 if x1 != '':                # ** if not empty line ?
-                    srl_in_q.put(x1)
+                    if x1.startswith('E[1')==True :
+                        print "CRITICAL serial com sync error, from :- /dev/ttyUSB1" 
+                    if x1.startswith('E[2')==True :
+                        print "CRITICAL serial com buffer overrun , from :-/dev/ttyUSB1"
+                    if x1.startswith('E[W')==True :
+                        print "CRITICAL WTF error , from :-/dev/ttyUSB1 with:-" , x1
+                    if x1.startswith('E[3,')==True :
+                        print "ERROR pwm pll lock loss , from :- /dev/ttyUSB1 with :-" , x1
+                        srl_in_q.put(x1)
+                    if x1.startswith('K[')== True :
+                        srl_in_q.put(x1)
+                    if x1.startswith('f[')== True :
+                        srl_in_q.put(x1)
+                    if x1.startswith('l[')== True :
+                        srl_in_q.put(x1)
+                    if x1.startswith('&')== True :
+                        print "CRITICAL device in calibration mode from :-/dev/ttyUSB1 "
+                        print "with:-" , x1
+                    if x1.startswith('[')== True :  //joystick
+                        srl_in_q.put(x1)                    
+
             print 'Serial Read Worker:2 exit'        
         else:
             slr_in_q.put('E[ser1]')                
@@ -85,7 +125,27 @@ def srl_worker(num , srl_in_q ):
             while exit != 1 :
                 x2=ser2.readline()
                 if x2 != '':                # ** if not empty line ?
-                    srl_in_q.put(x2)
+                    if x2.startswith('E[1')==True :
+                        print "CRITICAL serial com sync error, from :- /dev/ttyUSB2" 
+                    if x2.startswith('E[2')==True :
+                        print "CRITICAL serial com buffer overrun , from :-/dev/ttyUSB2"
+                    if x2.startswith('E[W')==True :
+                        print "CRITICAL WTF error , from :-/dev/ttyUSB2 with:-" , x2
+                    if x2.startswith('E[3,')==True :
+                        print "ERROR pwm pll lock loss , from :- /dev/ttyUSB2 with :-" , x2
+                        srl_in_q.put(x2)
+                    if x2.startswith('K[')== True :
+                        srl_in_q.put(x2)
+                    if x2.startswith('f[')== True :
+                        srl_in_q.put(x2)
+                    if x2.startswith('l[')== True :
+                        srl_in_q.put(x2)
+                    if x2.startswith('&')== True :
+                        print "CRITICAL device in calibration mode from :-/dev/ttyUSB2 "
+                        print "with :- " , x2
+                    if x2.startswith('[')== True :  //joystick
+                        srl_in_q.put(x2)                    
+
             print 'Serial Read Worker:3 exit'
         else:
             slr_in_q.put('E[ser0]')                
@@ -97,7 +157,27 @@ def srl_worker(num , srl_in_q ):
             while exit != 1 :
                 x3=ser3.readline()
                 if x3 != '':                # ** if not empty line ?
-                    srl_in_q.put(x0)
+                    if x3.startswith('E[1')==True :
+                        print "CRITICAL serial com sync error, from :- /dev/ttyUSB3" 
+                    if x3.startswith('E[2')==True :
+                        print "CRITICAL serial com buffer overrun , from :-/dev/ttyUSB3"
+                    if x3.startswith('E[W')==True :
+                        print "CRITICAL WTF error , from :-/dev/ttyUSB3 with:-" , x3
+                    if x3.startswith('E[3,')==True :
+                        print "ERROR pwm pll lock loss , from :- /dev/ttyUSB3 with :-" , x3
+                        srl_in_q.put(x3)
+                    if x3.startswith('K[')== True :
+                        srl_in_q.put(x3)
+                    if x3.startswith('f[')== True :
+                        srl_in_q.put(x3)
+                    if x3.startswith('l[')== True :
+                        srl_in_q.put(x3)
+                    if x3.startswith('&')== True :
+                        print "CRITICAL device in calibration mode from :-/dev/ttyUSB3 "
+                        print "with:-" , x3
+                    if x3.startswith('[')== True :  //joystick
+                        srl_in_q.put(x3)
+
             print 'Serial Read Worker:4 exit'
         else:
             slr_in_q.put('E[ser3]')                
@@ -232,6 +312,7 @@ def walk_main_worker(srl_out_q,srl_in_q):
     while exit != 1 :
         # for now just output serial messages here and loop  
         print srl_in_q.get()
+
     print 'walk main Worker: exit'
             
 #
