@@ -275,7 +275,7 @@ def Main():
             parity=serial.PARITY_NONE,
             stopbits=serial.STOPBITS_ONE,
             bytesize=serial.EIGHTBITS,
-            timeout=10
+            timeout=2
         )
         ser0_av=1
     except Exception, e:
@@ -287,7 +287,7 @@ def Main():
             parity=serial.PARITY_NONE,
             stopbits=serial.STOPBITS_ONE,
             bytesize=serial.EIGHTBITS,
-            timeout=10
+            timeout=2
         )
         ser1_av=1
     except Exception, e:
@@ -299,7 +299,7 @@ def Main():
             parity=serial.PARITY_NONE,
             stopbits=serial.STOPBITS_ONE,
             bytesize=serial.EIGHTBITS,
-            timeout=10
+            timeout=2
         )
         ser2_av=1
     except Exception, e:
@@ -311,7 +311,7 @@ def Main():
             parity=serial.PARITY_NONE,
             stopbits=serial.STOPBITS_ONE,
             bytesize=serial.EIGHTBITS,
-            timeout=100
+            timeout=2
         )
         ser3_av=1
     except Exception, e:
@@ -519,14 +519,14 @@ def Main():
             exit = 1
     
     
-    
+    print ' exiting  , threads closing '
     # exit program properly   
     # FIXME:- stop all threads and exit gracefully ?
     
     # just to make sure 
     exit = 1 
     srl_out_q.put('exit') #send to write queue to get exit from write worker
-    
+    srl_in_q.put('exit') # get walker worker to exit 
     return
 
 #
