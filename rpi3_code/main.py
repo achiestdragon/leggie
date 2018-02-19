@@ -488,14 +488,14 @@ def Main():
     # initalize robot to known positions
     print ' initializing all legs to home positions'
     init_data_command = '#0'
-    ser_out_q.put(init_data_command)
+    srl_out_q.put(init_data_command)
     old_time = time()
     for c in range(5): # do this 6 more times with 1 second delay between each 
         waiting = 1
         while waiting == 1:
             if time() - old_time > 1:
                 old_time = time()
-                ser_out_q.put(init_data_command)
+                srl_out_q.put(init_data_command)
                 waiting = 0
     # all robots legs should now be in home position
     print ' all robot legs should now be in home position '
@@ -507,7 +507,7 @@ def Main():
     #
 
 
-    # console commands just get put into ser_out_q and may clash with 
+    # console commands just get put into srl_out_q and may clash with 
     # the main walking sequence by joystick control 
     # there provided for debug where the joystick is not connected
     # should fix this 
