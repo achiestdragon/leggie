@@ -425,7 +425,13 @@ def Main():
     leg6_port = 99
     joystick_port = 99
     print " initalizing ports "
-    
+    # wait 1 second
+    old_time = time.time()
+    waiting = 1
+    while waiting == 1:
+        if time.time() - old_time > 1:
+            old_time = time.time()
+            waiting = 0     
     # configure whats on port dev/ttyUSB0
     while not srl_in_q.empty():
         try:
@@ -468,7 +474,7 @@ def Main():
                 config = 1
 
     # wait 1 second
-    
+    old_time = time.time()
     waiting = 1
     while waiting == 1:
         if time.time() - old_time > 1:
@@ -518,7 +524,7 @@ def Main():
                 config = 1
 
     # wait 1 second
-    
+    old_time = time.time()
     waiting = 1
     while waiting == 1:
         if time.time() - old_time > 1:
@@ -568,7 +574,7 @@ def Main():
                 config = 1 
                 
     # wait 1 second
-    
+    old_time = time.time()
     waiting = 1
     while waiting == 1:
         if time.time() - old_time > 1:
