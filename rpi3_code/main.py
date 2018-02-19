@@ -481,7 +481,7 @@ def Main():
     # start the serial write thread 
     
     srl_out_q = Queue.Queue()  
-    t = threading.Thread(target=srl_write_queue_worker, args=(srl_out_q))
+    t = threading.Thread(target=srl_write_queue_worker, args=(srl_out_q,))
     threads.append(t)
     t.start()
 
@@ -522,8 +522,11 @@ def Main():
     
     # exit program properly   
     # FIXME:- stop all threads and exit gracefully ?
-    exit = 1 # just to make sure 
- 
+    
+    # just to make sure 
+    exit = 1 
+    srl_out_q.put('exit') #send to write queue to get exit from write worker
+    
     return
 
 #
