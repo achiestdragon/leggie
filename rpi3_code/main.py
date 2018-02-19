@@ -70,7 +70,7 @@ def srl_worker(num , srl_in_q ):
                     if x0.startswith('E[3,')==True :
                         print "ERROR pwm pll lock loss , from :- /dev/ttyUSB0 with :-" , x0
                         srl_in_q.put(x0)
-                    if x0.startswith('K[')== True :
+                    if x0.startswith('k[')== True :
                         srl_in_q.put(x0)
                     if x0.startswith('f[')== True :
                         srl_in_q.put(x0)
@@ -102,7 +102,7 @@ def srl_worker(num , srl_in_q ):
                     if x1.startswith('E[3,')==True :
                         print "ERROR pwm pll lock loss , from :- /dev/ttyUSB1 with :-" , x1
                         srl_in_q.put(x1)
-                    if x1.startswith('K[')== True :
+                    if x1.startswith('k[')== True :
                         srl_in_q.put(x1)
                     if x1.startswith('f[')== True :
                         srl_in_q.put(x1)
@@ -134,7 +134,7 @@ def srl_worker(num , srl_in_q ):
                     if x2.startswith('E[3,')==True :
                         print "ERROR pwm pll lock loss , from :- /dev/ttyUSB2 with :-" , x2
                         srl_in_q.put(x2)
-                    if x2.startswith('K[')== True :
+                    if x2.startswith('k[')== True :
                         srl_in_q.put(x2)
                     if x2.startswith('f[')== True :
                         srl_in_q.put(x2)
@@ -166,7 +166,7 @@ def srl_worker(num , srl_in_q ):
                     if x3.startswith('E[3,')==True :
                         print "ERROR pwm pll lock loss , from :- /dev/ttyUSB3 with :-" , x3
                         srl_in_q.put(x3)
-                    if x3.startswith('K[')== True :
+                    if x3.startswith('k[')== True :
                         srl_in_q.put(x3)
                     if x3.startswith('f[')== True :
                         srl_in_q.put(x3)
