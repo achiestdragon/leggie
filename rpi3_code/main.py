@@ -147,7 +147,7 @@ def srl_write(portnos,data):
 
 # reads command queue , and directs data to appropriate port
 
-def srl_write_queue_worker( exit ):
+def srl_write_queue_worker( srl_out_q ):
     while exit != 1 :
         d = srl_out_q.get()
         wp1 = 99
@@ -481,7 +481,7 @@ def Main():
     # start the serial write thread 
     
     srl_out_q = Queue.Queue()  
-    t = threading.Thread(target=srl_write_queue_worker, args=(exit))
+    t = threading.Thread(target=srl_write_queue_worker, args=(srl_out_q))
     threads.append(t)
     t.start()
 
@@ -489,7 +489,7 @@ def Main():
     print ' initializing all legs to home positions'
     init_data_command = '#0'
     srl_out_q.put(init_data_command)
-    old_time = time()
+    old_time = gmtime()
     for c in range(5): # do this 6 more times with 1 second delay between each 
         waiting = 1
         while waiting == 1:
