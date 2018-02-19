@@ -426,11 +426,13 @@ def Main():
     joystick_port = 99
     print " initalizing ports "
     # configure whats on port dev/ttyUSB0
-    
+    while not srl_in_q.empty():
+        try:
+            srl_in_q.get(False)
+        except Empty:
+            continue
+        srl_in_q.task_done()
     if ser0_av==1:
-        portnos=0 
-        data= "#0"
-        srl_write(portnos,data)
         config = 0
         while config == 0 :
             i = 0
@@ -465,11 +467,13 @@ def Main():
                 config = 1
                 
     # configure whats on port dev/ttyUSB1
-    
+    while not srl_in_q.empty():
+        try:
+            srl_in_q.get(False)
+        except Empty:
+            continue
+        srl_in_q.task_done()    
     if ser1_av==1:
-        portnos=1 
-        data= "#0"
-        srl_write(portnos,data)
         config = 0
         while config == 0 :
             i = 0
@@ -504,11 +508,13 @@ def Main():
                 config = 1
                 
     # configure whats on port dev/ttyUSB2
-    
+    while not srl_in_q.empty():
+        try:
+            srl_in_q.get(False)
+        except Empty:
+            continue
+        srl_in_q.task_done()    
     if ser2_av==1:
-        portnos=2 
-        data= "#0"
-        srl_write(portnos,data)
         config = 0
         while config == 0 :
             i = 0
@@ -543,11 +549,13 @@ def Main():
                 config = 1 
                 
     # configure whats on port dev/ttyUSB3
-    
+    while not srl_in_q.empty():
+        try:
+            srl_in_q.get(False)
+        except Empty:
+            continue
+        srl_in_q.task_done()   
     if ser3_av==1:
-        portnos=3     
-        data= "#0"
-        srl_write(portnos,data)
         config = 0
         while config == 0 :
             i = 0
