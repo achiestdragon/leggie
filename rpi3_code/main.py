@@ -31,6 +31,8 @@
 #
 # FIXME:- 
 #
+#   on startup seems to wait for a response over serial before sending 
+#   initialize string #9 to devices 
 #
 #
 
@@ -582,7 +584,14 @@ def Main():
         else :
             print 'leg configuration ok '
             print 'serial joystick connected ok'
-
+    # print leg port configuration
+    print "leg 1 on port  /dev/ttyUSB", leg1_port 
+    print "leg 2 on port  /dev/ttyUSB", leg2_port
+    print "leg 3 on port  /dev/ttyUSB", leg3_port
+    print "leg 4 on port  /dev/ttyUSB", leg4_port
+    print "leg 5 on port  /dev/ttyUSB", leg5_port
+    print "leg 6 on port  /dev/ttyUSB", leg6_port
+    print "joystick on port /dev/ttyUSB", joystick_port
     # start the serial write thread 
     
     srl_out_q = Queue.Queue()  
