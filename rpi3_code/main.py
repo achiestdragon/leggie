@@ -407,11 +407,13 @@ def Main():
         threads.append(t)
         t.start()
 
+    # setup serial routing and leg port allocations
+    
     # serial write #9 to each port for status of each serial device 
     # ports /dev/ttyUSB0 to 3, set the leg<n>_port address variables
     # also set the joystick_port variable 
     
-    # default values for ports not configured
+    # initial values for ports not configured
     
     leg1_port = 99
     leg2_port = 99
@@ -421,6 +423,8 @@ def Main():
     leg6_port = 99
     joystick_port = 99
 
+    # configure whats on port dev/ttyUSB0
+    
     if ser0_av==1:    
         config = 0
         while config == 0 :
@@ -451,6 +455,12 @@ def Main():
                     config = 1
                     i = 4
                 i = i + 1
+            if config == 0 :
+                print " /dev/ttyUSB0 device not configured (got bad/no response)"
+                config = 1
+                
+    # configure whats on port dev/ttyUSB1
+    
     if ser1_av==1:            
         config = 0
         while config == 0 :
@@ -481,6 +491,12 @@ def Main():
                     config = 1
                     i = 4 
                 i = i + 1
+            if config == 0 :
+                print " /dev/ttyUSB1 device not configured (got bad/no response)"
+                config = 1
+                
+    # configure whats on port dev/ttyUSB2
+    
     if ser2_av==1:            
         config = 0
         while config == 0 :
@@ -511,6 +527,12 @@ def Main():
                     config = 1
                     i = 4
                 i = i + 1
+            if config == 0 :
+                print " /dev/ttyUSB2 device not configured (got bad/no response)"
+                config = 1 
+                
+    # configure whats on port dev/ttyUSB3
+    
     if ser3_av==1:            
         config = 0
         while config == 0 :
@@ -541,20 +563,22 @@ def Main():
                     config = 1
                     i = 4                
                 i = i + 1
-                
+            if config == 0 :
+                print " /dev/ttyUSB3 device not configured (got bad/no response)"
+                config = 1                
     # print status for serial devices found
     
     config = 0
     if leg1_port == 99 :
-        print 'ERROR :- leg1 & 2 arduino not found'
+        print 'ERROR :- leg1 & 2 arduino not found'   # FIXME :- add force exit gracefully for this
     if leg1_port == 99 :
-        print 'ERROR :- leg3 & 4 arduino not found'        
+        print 'ERROR :- leg3 & 4 arduino not found'   # FIXME :- add force exit gracefully for this    
     if leg1_port == 99 :
-        print 'ERROR :- leg5 & 6 arduino not found'
+        print 'ERROR :- leg5 & 6 arduino not found'   # FIXME :- add force exit gracefully for this
     if leg1_port < 50 and leg3_port < 50 and leg5_port :
         config = 1
         if joystick_port == 99 :
-            print 'leg configuration ok , no local serial joystick'
+            print 'leg configuration ok , no local serial joystick found'
         else :
             print 'leg configuration ok '
             print 'serial joystick connected ok'
