@@ -79,7 +79,7 @@ def srl_worker(num , srl_in_q ):
                     if x0.startswith('&')== True :
                         print "CRITICAL device in calibration mode from :-/dev/ttyUSB0 "
                         print "with:-" , x0
-                    if x0.startswith('[')== True :  //joystick
+                    if x0.startswith('[')== True :  #joystick
                         srl_in_q.put(x0)
                     
             print 'Serial Read Worker:1 exit'
@@ -111,7 +111,7 @@ def srl_worker(num , srl_in_q ):
                     if x1.startswith('&')== True :
                         print "CRITICAL device in calibration mode from :-/dev/ttyUSB1 "
                         print "with:-" , x1
-                    if x1.startswith('[')== True :  //joystick
+                    if x1.startswith('[')== True :  #joystick
                         srl_in_q.put(x1)                    
 
             print 'Serial Read Worker:2 exit'        
@@ -143,7 +143,7 @@ def srl_worker(num , srl_in_q ):
                     if x2.startswith('&')== True :
                         print "CRITICAL device in calibration mode from :-/dev/ttyUSB2 "
                         print "with :- " , x2
-                    if x2.startswith('[')== True :  //joystick
+                    if x2.startswith('[')== True :  #joystick
                         srl_in_q.put(x2)                    
 
             print 'Serial Read Worker:3 exit'
@@ -175,7 +175,7 @@ def srl_worker(num , srl_in_q ):
                     if x3.startswith('&')== True :
                         print "CRITICAL device in calibration mode from :-/dev/ttyUSB3 "
                         print "with:-" , x3
-                    if x3.startswith('[')== True :  //joystick
+                    if x3.startswith('[')== True :  #joystick
                         srl_in_q.put(x3)
 
             print 'Serial Read Worker:4 exit'
