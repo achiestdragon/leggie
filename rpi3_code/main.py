@@ -489,12 +489,12 @@ def Main():
     print ' initializing all legs to home positions'
     init_data_command = '#0'
     srl_out_q.put(init_data_command)
-    old_time = gmtime()
+    old_time = time.time()
     for c in range(5): # do this 6 more times with 1 second delay between each 
         waiting = 1
         while waiting == 1:
-            if time() - old_time > 1:
-                old_time = time()
+            if time.time() - old_time > 1:
+                old_time = time.time()
                 srl_out_q.put(init_data_command)
                 waiting = 0
     # all robots legs should now be in home position
