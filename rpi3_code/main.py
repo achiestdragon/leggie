@@ -676,7 +676,7 @@ def Main():
         while waiting == 1:
             if time.time() - old_time > 1:
                 old_time = time.time()
-                print "counter " c
+                print "counter ", c
                 srl_out_q.put(init_data_command)
                 waiting = 0
     # all robots legs should now be in home position
