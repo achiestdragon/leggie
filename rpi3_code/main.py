@@ -711,6 +711,7 @@ def Main():
     
     print '\ninitializing all legs to home positions\n\n'
     init_data_command ="#0"
+    srl_out_q.put(init_data_command)
     old_time = time.time()
     for c in range(5): # do this with 1 second delay between each 
         waiting = 1
@@ -726,12 +727,11 @@ def Main():
                 progress = '\rprogress =['+dd+']'
                 sys.stdout.write( progress )
                 sys.stdout.flush()
-                srl_out_q.put(init_data_command)
                 waiting = 0
     
     # all robots legs should now be in home position
     
-    print '\n\n Status:- all robot legs should now be in home position\n '
+    print '\n\n Status:- all robot legs should now be in home position\n'
     
     # wait 1 second for serial queue to settle 
     
@@ -764,6 +764,9 @@ def Main():
     # there provided for debug where the joystick is not connected
     # should fix this 
     
+    print '\nrobot startup complete and robot is now active :-\n'
+    
+    
     while exit != 1 :
         # main console loop 
         kbd_in = raw_input(">>>")
@@ -771,7 +774,8 @@ def Main():
             exit = 1
     
     
-    print 'exiting  , threads closing '
+    print '\nUSER COMMAND EXIT ENTERED :- robot shutdown , threads closing \n'
+    print '\nremember to turn off robot servo power \n'
     # exit program properly   
     
     # just to make sure 
