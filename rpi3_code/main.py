@@ -363,7 +363,7 @@ def walk_main_worker(srl_out_q,srl_in_q):
             
             # joystick data decode
             # format [n,n,n],[n,n,n],[............]
-            #FIXME:-  in progress
+            # FIXME:-  in progress
             
             stsplit1 = srl_data_in.split('],[')
             sp1 = stsplit1[0].strip('[')
