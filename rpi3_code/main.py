@@ -365,11 +365,11 @@ def walk_main_worker(srl_out_q,srl_in_q):
             # format [n,n,n],[n,n,n],[............]
             #FIXME:-  in progress
             
-            stsplit1[] = srl_data_in.split('],[')
+            stsplit1 = srl_data_in.split('],[')
             sp1 = stsplit1[0].strip('[')
-            sp1b[] = sp1.split()
+            sp1b = sp1.split()
             sp2 = stsplit1[1].strip(']')
-            sp2b[] = sp2.split()
+            sp2b = sp2.split()
             sbl = stsplit1[2].strip(']')
             j1x = sp1b[0]
             j1y = sp1b[1]
