@@ -670,6 +670,7 @@ def Main():
 
     # initalize robot to known positions
     print 'initializing all legs to home positions'
+    init_data_command ="#0"
     old_time = time.time()
     for c in range(5): # do this 6 more times with 1 second delay between each 
         waiting = 1
