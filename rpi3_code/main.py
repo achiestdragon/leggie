@@ -449,12 +449,19 @@ def walk_main_worker(srl_out_q,srl_in_q):
             lll = lll.strip(' ')
             kkk = '0'+str(j2x)+'0'
             kkk = kkk.strip(' ')
-            srl_out_q.put('#1[1,6,',hhh,',',lll,',',kkk,']')
-            srl_out_q.put('#1[2,6,',hhh,',',lll,',',kkk,']')
-            srl_out_q.put('#1[3,6,',hhh,',',lll,',',kkk,']')
-            srl_out_q.put('#1[4,6,',hhh,',',lll,',',kkk,']')
-            srl_out_q.put('#1[5,6,',hhh,',',lll,',',kkk,']')
-            srl_out_q.put('#1[6,6,',hhh,',',lll,',',kkk,']')
+            
+            outstr = '#1[1,6,'+hhh+','+lll+','+kkk+']'
+            srl_out_q.put(outstr)
+            outstr = '#1[2,6,'+hhh+','+lll+','+kkk+']'
+            srl_out_q.put(outstr)
+            outstr = '#1[3,6,'+hhh+','+lll+','+kkk+']'
+            srl_out_q.put(outstr)
+            outstr = '#1[4,6,'+hhh+','+lll+','+kkk+']'
+            srl_out_q.put(outstr)
+            outstr = '#1[5,6,'+hhh+','+lll+','+kkk+']'
+            srl_out_q.put(outstr)
+            outstr = '#1[6,6,'+hhh+','+lll+','+kkk+']'
+            srl_out_q.put(outstr)
             srl_out_q.put('#2')
             
         #if srl_data_in.startswith('E[3'): # error leg pwm pll loss exception
