@@ -356,16 +356,16 @@ def Main():
     ser2_av =0
     ser3_av =0    
  
-    print '******************************************************************\n'
-    print '*                          L E G G I E                           *\n'
-    print '******************************************************************\n'
-    print '* Main control       written by David Powell A.k.a AchiestDragon *\n'
-    print '* version 1.0 alpha               revision date date 20 feb 2018 *\n'
-    print '******************************************************************\n'
-    print 'run time commands :-\n'
-    print '     q  = quit \n'
-    print ' ----------------------------------------------------------------\n'
-    print ' serial port configure :-\n'
+    print '******************************************************************'
+    print '*                          L E G G I E                           *'
+    print '******************************************************************'
+    print '* Main control       written by David Powell A.k.a AchiestDragon *'
+    print '* version 1.0 alpha               revision date date 20 feb 2018 *'
+    print '******************************************************************'
+    print 'run time commands :-'
+    print '     q  = quit '
+    print ' ----------------------------------------------------------------'
+    print ' serial port configure :-'
 
     
     # configure serial ports
@@ -444,7 +444,7 @@ def Main():
     leg6_port = 99
     joystick_port = 99
 
-    print 'initializing arduino nano leg control devices :-\n'
+    print '\ninitializing arduino nano leg control devices :-'
     # wait 1 second
     old_time = time.time()
     waiting = 1
@@ -644,7 +644,7 @@ def Main():
                 config = 1                
     # print status for serial devices found
 
-    print 'configure device data routing :-\n'
+    print '\nconfigure device data routing :-'
     config = 0
     if leg1_port == 99 :
         print 'ERROR :- leg1 & 2 arduino not found'   # FIXME :- add force exit gracefully for this
@@ -661,7 +661,18 @@ def Main():
             print 'leg configuration ok '
             print 'serial joystick connected ok'
     
+     
+    # wait 1 second for serial queue to settle 
+    
+    old_time = time.time()
+    waiting = 1
+    while waiting == 1:
+        if time.time() - old_time > 1:
+            old_time = time.time()
+            waiting = 0
+            
     # clear srl_in_q
+    
     while not srl_in_q.empty():
         try:
             srl_data_in = srl_in_q.get(False)
@@ -670,8 +681,10 @@ def Main():
             print "rx buffer empty"
             continue
         srl_in_q.task_done()
+        
     # print leg port configuration
-    print 'device routing patch allocations :-'
+    
+    print '\ndevice routing patch allocations :-\n'
     print "leg 1 on port  /dev/ttyUSB", leg1_port 
     print "leg 2 on port  /dev/ttyUSB", leg2_port
     print "leg 3 on port  /dev/ttyUSB", leg3_port
@@ -679,6 +692,7 @@ def Main():
     print "leg 5 on port  /dev/ttyUSB", leg5_port
     print "leg 6 on port  /dev/ttyUSB", leg6_port
     print "joystick on port /dev/ttyUSB", joystick_port
+    
     # start the serial write thread 
     
     srl_out_q = Queue.Queue()  
@@ -687,7 +701,8 @@ def Main():
     t.start()
 
     # initalize robot to known positions
-    print 'initializing all legs to home positions'
+    
+    print '\ninitializing all legs to home positions'
     init_data_command ="#0"
     old_time = time.time()
     for c in range(5): # do this 6 more times with 1 second delay between each 
@@ -699,9 +714,21 @@ def Main():
                 print "counter ", cd
                 srl_out_q.put(init_data_command)
                 waiting = 0
+    
     # all robots legs should now be in home position
-    print 'all robot legs should now be in home position '
+    
+    print '\n Status:- all robot legs should now be in home position '
+    
+    # wait 1 second for serial queue to settle 
+    
+    old_time = time.time()
+    waiting = 1
+    while waiting == 1:
+        if time.time() - old_time > 1:
+            old_time = time.time()
+            waiting = 0
     # clear srl_in_q
+    
     while not srl_in_q.empty():
         try:
             srl_data_in = srl_in_q.get(False)
@@ -709,8 +736,10 @@ def Main():
         except Empty:
             print "rx buffer empty"
             continue
-        srl_in_q.task_done()   
+        srl_in_q.task_done() 
+        
     # start walk main thread 
+    
     t = threading.Thread(target=walk_main_worker, args=(srl_out_q,srl_in_q))
     threads.append(t)
     t.start() 
