@@ -451,6 +451,7 @@ def walk_main_worker(srl_out_q,srl_in_q):
             kkk = kkk.strip(' ')
             
             outstr = '#1[1,6,'+hhh+','+lll+','+kkk+']'
+            print outstr
             srl_out_q.put(outstr)
             p = 1
             while p==1:
