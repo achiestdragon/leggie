@@ -64,7 +64,7 @@ import Queue
 # ****************************************************************************
 #
 
-def srl_worker(num , srl_in_q ):
+def srl_worker(num , srl_in_q ,exit, ):
     if num == 0:
         print 'Started Serial Read Worker:1 on port : /dev/ttyUSB0'
         counter0=0
@@ -483,7 +483,6 @@ def Main():
     global button9 
     global button10
     
-    # local vars
     exit = 0
     ser0_av =0
     ser1_av =0
