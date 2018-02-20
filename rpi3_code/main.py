@@ -64,7 +64,7 @@ import Queue
 # ****************************************************************************
 #
 
-def srl_worker(num , srl_in_q ,exit, ):
+def srl_worker(num , srl_in_q , ):
     if num == 0:
         print 'Started Serial Read Worker:1 on port : /dev/ttyUSB0'
         counter0=0
@@ -75,15 +75,15 @@ def srl_worker(num , srl_in_q ,exit, ):
                     if x0.startswith('E[1')==True : 
                         print "CRITICAL serial com sync error, from :- /dev/ttyUSB0 with :-",x0 
                         print "program EXIT forced "
-                        exit = 1
+                        exit(1)
                     if x0.startswith('E[2')==True :
                         print "CRITICAL serial com buffer overrun , from :-/dev/ttyUSB0 with :-",x0
                         print "program EXIT forced "
-                        exit = 1
+                        exit(1)
                     if x0.startswith('E[W')==True :
                         print "CRITICAL WTF error , from :-/dev/ttyUSB0 with:-" , x0
                         print "program EXIT forced "
-                        exit = 1
+                        exit(1)
                     if x0.startswith('E[3,')==True :
                         print "ERROR pwm pll lock loss , from :- /dev/ttyUSB0 with :-" , x0
                         srl_in_q.put(x0)
@@ -97,7 +97,7 @@ def srl_worker(num , srl_in_q ,exit, ):
                         print "CRITICAL device in calibration mode from :-/dev/ttyUSB0 "
                         print "with:-" , x0
                         print "program EXIT forced "
-                        exit = 1
+                        exit(1)
                     if x0.startswith('[')== True :  
                         srl_in_q.put(x0)
                     
@@ -115,15 +115,15 @@ def srl_worker(num , srl_in_q ,exit, ):
                     if x1.startswith('E[1')==True :
                         print "CRITICAL serial com sync error, from :- /dev/ttyUSB1 with:-",x1
                         print "program EXIT forced "
-                        exit = 1
+                        exit(1)
                     if x1.startswith('E[2')==True :
                         print "CRITICAL serial com buffer overrun , from :-/dev/ttyUSB1 with:-",x1
                         print "program EXIT forced "
-                        exit = 1
+                        exit(1)
                     if x1.startswith('E[W')==True :
                         print "CRITICAL WTF error , from :-/dev/ttyUSB1 with:-" , x1
                         print "program EXIT forced "
-                        exit = 1
+                        exit(1)
                     if x1.startswith('E[3,')==True :
                         print "ERROR pwm pll lock loss , from :- /dev/ttyUSB1 with :-" , x1
                         srl_in_q.put(x1)
@@ -137,7 +137,7 @@ def srl_worker(num , srl_in_q ,exit, ):
                         print "CRITICAL device in calibration mode from :-/dev/ttyUSB1 "
                         print "with:-" , x1
                         print "program EXIT forced "
-                        exit = 1
+                        exit(1)
                     if x1.startswith('[')== True : 
                         srl_in_q.put(x1)                    
 
@@ -155,15 +155,15 @@ def srl_worker(num , srl_in_q ,exit, ):
                     if x2.startswith('E[1')==True :
                         print "CRITICAL serial com sync error, from :- /dev/ttyUSB2 with:-",x2
                         print "program EXIT forced "
-                        exit = 1
+                        exit(1)
                     if x2.startswith('E[2')==True :
                         print "CRITICAL serial com buffer overrun , from :-/dev/ttyUSB2 with:-",x2
                         print "program EXIT forced "
-                        exit = 1
+                        exit(1)
                     if x2.startswith('E[W')==True :
                         print "CRITICAL WTF error , from :-/dev/ttyUSB2 with:-" , x2
                         print "program EXIT forced "
-                        exit = 1
+                        exit(1)
                     if x2.startswith('E[3,')==True :
                         print "ERROR pwm pll lock loss , from :- /dev/ttyUSB2 with :-" , x2
                         srl_in_q.put(x2)
@@ -177,7 +177,7 @@ def srl_worker(num , srl_in_q ,exit, ):
                         print "CRITICAL device in calibration mode from :-/dev/ttyUSB2 "
                         print "with :- " , x2
                         print "program EXIT forced "
-                        exit = 1
+                        exit(1)
                     if x2.startswith('[')== True : 
                         srl_in_q.put(x2)                    
 
@@ -195,15 +195,15 @@ def srl_worker(num , srl_in_q ,exit, ):
                     if x3.startswith('E[1')==True :
                         print "CRITICAL serial com sync error, from :- /dev/ttyUSB3 with:-",x3
                         print "program EXIT forced "
-                        exit = 1
+                        exit(1)
                     if x3.startswith('E[2')==True :
                         print "CRITICAL serial com buffer overrun , from :-/dev/ttyUSB3 with:-",x3
                         print "program EXIT forced "
-                        exit = 1
+                        exit(1)
                     if x3.startswith('E[W')==True :
                         print "CRITICAL WTF error , from :-/dev/ttyUSB3 with:-" , x3
                         print "program EXIT forced "
-                        exit = 1
+                        exit(1)
                     if x3.startswith('E[3,')==True :
                         print "ERROR pwm pll lock loss , from :- /dev/ttyUSB3 with :-" , x3
                         srl_in_q.put(x3)
@@ -217,7 +217,7 @@ def srl_worker(num , srl_in_q ,exit, ):
                         print "CRITICAL device in calibration mode from :-/dev/ttyUSB3 "
                         print "with:-" , x3
                         print "program EXIT forced "
-                        exit = 1
+                        exit(1)
                     if x3.startswith('[')== True : 
                         srl_in_q.put(x3)
 
@@ -270,7 +270,7 @@ def srl_write(portnos,data):
 
 # reads command queue , and directs data to appropriate port
 
-def srl_write_queue_worker( srl_out_q ):
+def srl_write_queue_worker( srl_out_q, ):
     print 'serial write router Worker : startup'
     while exit != 1 :
         d = srl_out_q.get()
@@ -369,9 +369,9 @@ def walk_main_worker(srl_out_q,srl_in_q):
             sp1 = stsplit[0].strip('[')
             sp2 = stsplit[1].strip(']')
             sbl = stsplit[2].strip(']')
-            j1x = sp1b[0]
-            j1y = sp1b[2]
-            j1z = sp1b[4]
+            j1x = sp1[0]
+            j1y = sp1[2]
+            j1z = sp1[4]
             #  for future use j1t  ** not yet implimented       
             j2x = sp2[0]
             j2y = sp2[2]
@@ -432,7 +432,15 @@ def walk_main_worker(srl_out_q,srl_in_q):
             
             
     print 'main walk Worker: exit'
-            
+
+#
+# ****************************************************************************
+# *                           error global update                            *
+# ****************************************************************************
+# 
+def exit(exit_val):
+    global exit
+    exit = exit_val
 #
 # ****************************************************************************
 # *                           Main program startup                           *
@@ -441,7 +449,6 @@ def walk_main_worker(srl_out_q,srl_in_q):
 def Main():
     
     # ok so there be global's here
-    global exit
     
     global ser0
     global ser1
@@ -481,7 +488,7 @@ def Main():
     global button9 
     global button10
     
-    exit = 0
+    exit(0)
     ser0_av =0
     ser1_av =0
     ser2_av =0
@@ -555,7 +562,7 @@ def Main():
     srl_in_q = Queue.Queue()
     threads = []
     for i in range(4):    
-        t = threading.Thread(target=srl_worker, args=(i,srl_in_q,exit,))
+        t = threading.Thread(target=srl_worker, args=(i,srl_in_q,))
         threads.append(t)
         t.start()
 
@@ -901,14 +908,14 @@ def Main():
         # main console loop 
         kbd_in = raw_input(">>>")
         if kbd_in == 'q':
-            exit = 1
+            exit(1)
 
     print '\nUSER COMMAND EXIT ENTERED :- robot shutdown , threads closing \n'
     print '\nremember to turn off robot servo power \n'
     # exit program properly   
     
-    # just to make sure 
-    exit = 1 
+    # send data to sleeping buffers to wake them and let them exit
+    
     srl_out_q.put('exit') #send to write queue to get exit from write worker
     srl_in_q.put('exit') # get walker worker to exit 
     return
