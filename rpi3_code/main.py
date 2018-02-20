@@ -365,7 +365,7 @@ def Main():
     print 'run time commands :-'
     print '     q  = quit '
     print ' ----------------------------------------------------------------'
-    print ' serial port configure :-'
+    print '\nserial port configure :-'
 
     
     # configure serial ports
@@ -444,7 +444,7 @@ def Main():
     leg6_port = 99
     joystick_port = 99
 
-    print '\ninitializing arduino nano leg control devices :-'
+    print '\ninitializing arduino nano leg control devices :-\n'
     # wait 1 second
     old_time = time.time()
     waiting = 1
@@ -676,23 +676,22 @@ def Main():
     while not srl_in_q.empty():
         try:
             srl_data_in = srl_in_q.get(False)
-            print "rx buffer data dumping ",srl_data_in
+            #print "rx buffer data dumping ",srl_data_in
         except Empty:
-            print "rx buffer empty"
             continue
         srl_in_q.task_done()
         
     # print leg port configuration
     
     print '\ndevice routing patch allocations :-\n'
-    print "leg 1 on port  /dev/ttyUSB", leg1_port 
-    print "leg 2 on port  /dev/ttyUSB", leg2_port
-    print "leg 3 on port  /dev/ttyUSB", leg3_port
-    print "leg 4 on port  /dev/ttyUSB", leg4_port
-    print "leg 5 on port  /dev/ttyUSB", leg5_port
-    print "leg 6 on port  /dev/ttyUSB", leg6_port
-    print "joystick on port /dev/ttyUSB", joystick_port
-    
+    print "leg 1    routed to port  /dev/ttyUSB", leg1_port 
+    print "leg 2    routed to port  /dev/ttyUSB", leg2_port
+    print "leg 3    routed to port  /dev/ttyUSB", leg3_port
+    print "leg 4    routed to port  /dev/ttyUSB", leg4_port
+    print "leg 5    routed to port  /dev/ttyUSB", leg5_port
+    print "leg 6    routed to port  /dev/ttyUSB", leg6_port
+    print "joystick routed to port  /dev/ttyUSB", joystick_port
+    print ''
     # start the serial write thread 
     
     srl_out_q = Queue.Queue()  
@@ -705,13 +704,20 @@ def Main():
     print '\ninitializing all legs to home positions'
     init_data_command ="#0"
     old_time = time.time()
-    for c in range(5): # do this 6 more times with 1 second delay between each 
+    for c in range(5): # do this with 1 second delay between each 
         waiting = 1
         while waiting == 1:
             if time.time() - old_time > 1:
                 old_time = time.time()
-                cd = 5 - c
-                print "counter ", cd
+                dd = ''
+                for cc in range(5):
+                   if cc <= c :
+                       dd = dd +'##'
+                   else :
+                       dd = dd +'..'
+                
+                progress = 'progress ['+dd+']'
+                print '\r'+ progress 
                 srl_out_q.put(init_data_command)
                 waiting = 0
     
@@ -732,9 +738,8 @@ def Main():
     while not srl_in_q.empty():
         try:
             srl_data_in = srl_in_q.get(False)
-            print "rx buffer data dumping ",srl_data_in
+            #print "rx buffer data dumping ",srl_data_in
         except Empty:
-            print "rx buffer empty"
             continue
         srl_in_q.task_done() 
         
