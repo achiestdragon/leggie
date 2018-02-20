@@ -717,7 +717,8 @@ def Main():
                        dd = dd +'..'
                 
                 progress = 'progress ['+dd+']'
-                print '\r\033'+ progress 
+                print '\r'+ progress 
+                sys.stdout.flush()
                 srl_out_q.put(init_data_command)
                 waiting = 0
     
