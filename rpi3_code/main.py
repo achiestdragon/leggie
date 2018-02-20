@@ -698,6 +698,14 @@ def Main():
     t = threading.Thread(target=srl_write_queue_worker, args=(srl_out_q,))
     threads.append(t)
     t.start()
+    
+    # wait for thread to start cleanly
+    old_time = time.time()
+    waiting = 1
+    while waiting == 1:
+        if time.time() - old_time > 1:
+            old_time = time.time()
+            waiting = 0
 
     # initalize robot to known positions
     
@@ -723,7 +731,7 @@ def Main():
     
     # all robots legs should now be in home position
     
-    print '\n Status:- all robot legs should now be in home position '
+    print '\n\n Status:- all robot legs should now be in home position\n '
     
     # wait 1 second for serial queue to settle 
     
@@ -763,7 +771,7 @@ def Main():
             exit = 1
     
     
-    print ' exiting  , threads closing '
+    print 'exiting  , threads closing '
     # exit program properly   
     
     # just to make sure 
