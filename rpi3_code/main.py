@@ -701,7 +701,7 @@ def Main():
 
     # initalize robot to known positions
     
-    print '\ninitializing all legs to home positions'
+    print '\ninitializing all legs to home positions\n\n'
     init_data_command ="#0"
     old_time = time.time()
     for c in range(5): # do this with 1 second delay between each 
@@ -717,7 +717,7 @@ def Main():
                        dd = dd +'..'
                 
                 progress = 'progress ['+dd+']'
-                print '\r'+ progress 
+                print '\r\033'+ progress 
                 srl_out_q.put(init_data_command)
                 waiting = 0
     
