@@ -448,8 +448,8 @@ def exit(exit_val):
 # 
 def Main():
     
-    # ok so there be global's here
-    
+    # global's
+    global exit
     global ser0
     global ser1
     global ser2
@@ -908,9 +908,10 @@ def Main():
         # main console loop 
         kbd_in = raw_input(">>>")
         if kbd_in == 'q':
+            print '\nUSER COMMAND EXIT ENTERED :- robot shutdown , threads closing \n'
             exit(1)
 
-    print '\nUSER COMMAND EXIT ENTERED :- robot shutdown , threads closing \n'
+    
     print '\nremember to turn off robot servo power \n'
     # exit program properly   
     
