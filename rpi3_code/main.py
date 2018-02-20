@@ -452,17 +452,47 @@ def walk_main_worker(srl_out_q,srl_in_q):
             
             outstr = '#1[1,6,'+hhh+','+lll+','+kkk+']'
             srl_out_q.put(outstr)
-            outstr = '#1[2,6,'+hhh+','+lll+','+kkk+']'
-            srl_out_q.put(outstr)
+            p = 1
+            while p==1:
+               srl_data_in = srl_in_q.get()
+               if srl_data_in.startswith("k[#1") == True:
+                   p = 0
             outstr = '#1[3,6,'+hhh+','+lll+','+kkk+']'
             srl_out_q.put(outstr)
-            outstr = '#1[4,6,'+hhh+','+lll+','+kkk+']'
-            srl_out_q.put(outstr)
+            p = 1
+            while p==1:
+               srl_data_in = srl_in_q.get()
+               if srl_data_in.startswith("k[#1") == True:
+                   p = 0            
             outstr = '#1[5,6,'+hhh+','+lll+','+kkk+']'
             srl_out_q.put(outstr)
+            p = 1
+            while p==1:
+               srl_data_in = srl_in_q.get()
+               if srl_data_in.startswith("k[#1") == True:
+                   p = 0            
+            outstr = '#1[2,6,'+hhh+','+lll+','+kkk+']'
+            srl_out_q.put(outstr)
+            p = 1
+            while p==1:
+               srl_data_in = srl_in_q.get()
+               if srl_data_in.startswith("k[#1") == True:
+                   p = 0            
+            outstr = '#1[4,6,'+hhh+','+lll+','+kkk+']'
+            srl_out_q.put(outstr)
+            p = 1
+            while p==1:
+               srl_data_in = srl_in_q.get()
+               if srl_data_in.startswith("k[#1") == True:
+                   p = 0            
             outstr = '#1[6,6,'+hhh+','+lll+','+kkk+']'
             srl_out_q.put(outstr)
-            srl_out_q.put('#2')
+            p = 1
+            while p==1:
+               srl_data_in = srl_in_q.get()
+               if srl_data_in.startswith("k[#1") == True:
+                   p = 0            
+            srl_out_q.put('#2') # move legs to new pos
             
         #if srl_data_in.startswith('E[3'): # error leg pwm pll loss exception
             
