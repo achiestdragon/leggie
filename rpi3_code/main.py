@@ -366,20 +366,16 @@ def walk_main_worker(srl_out_q,srl_in_q):
             # FIXME:-  in progress
             
             stsplit = srl_data_in.split('],[')
-            print "stsplit1 =",stsplit
             sp1 = stsplit[0].strip('[')
-            print "sp1 =",sp1
-            
             sp2 = stsplit[1].strip(']')
-            
             sbl = stsplit[2].strip(']')
-            j1x = sp1[0]
-            j1y = sp1[1]
-            j1z = sp1[2]
+            j1x = sp1b[0]
+            j1y = sp1b[2]
+            j1z = sp1b[4]
             #  for future use j1t  ** not yet implimented       
             j2x = sp2[0]
-            j2y = sp2[1]
-            j2z = sp2[2]
+            j2y = sp2[2]
+            j2z = sp2[4]
             #  for future use j2t  ** not yet implimented
             #js1b =
             #js2b =
