@@ -37,8 +37,8 @@
 #
 # FIXME:- 
 #
-#   1. on startup seems to wait for a response over serial before sending 
-#      initialize string #9 to devices 
+#   1. up serial baudrate to something faster (needs other files changing
+#      USBjoystick1.ino  and leggie_arduino_pid.ino to match this)  
 #
 #   2. should exit if leg ports are not configured , but for the time leave
 #      this while debugging 
