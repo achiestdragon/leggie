@@ -557,7 +557,7 @@ def Main():
     srl_in_q = Queue.Queue()
     threads = []
     for i in range(4):    
-        t = threading.Thread(target=srl_worker, args=(i,srl_in_q))
+        t = threading.Thread(target=srl_worker, args=(i,srl_in_q,exit,))
         threads.append(t)
         t.start()
 
