@@ -369,18 +369,17 @@ def walk_main_worker(srl_out_q,srl_in_q):
             print "stsplit1 =",stsplit
             sp1 = stsplit[0].strip('[')
             print "sp1 =",sp1
-            sp1b = sp1.split()
-            print "sp1b",sp1b
+            
             sp2 = stsplit[1].strip(']')
-            sp2b = sp2.split()
+            
             sbl = stsplit[2].strip(']')
-            j1x = sp1b[0]
-            j1y = sp1b[1]
-            j1z = sp1b[2]
+            j1x = sp1[0]
+            j1y = sp1[1]
+            j1z = sp1[2]
             #  for future use j1t  ** not yet implimented       
-            j2x = sp2b[0]
-            j2y = sp2b[1]
-            j2z = sp2b[2]
+            j2x = sp2[0]
+            j2y = sp2[1]
+            j2z = sp2[2]
             #  for future use j2t  ** not yet implimented
             #js1b =
             #js2b =
