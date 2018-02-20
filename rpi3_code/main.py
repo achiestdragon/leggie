@@ -439,6 +439,7 @@ def walk_main_worker(srl_out_q,srl_in_q):
 # ****************************************************************************
 # 
 def Exit(exit_val):
+    global exit
     exit = exit_val
 #
 # ****************************************************************************
@@ -448,7 +449,6 @@ def Exit(exit_val):
 def Main():
     
     # global's
-    global exit
     global ser0
     global ser1
     global ser2
@@ -925,7 +925,7 @@ def Main():
 # *                       code starts running here                           *
 # ****************************************************************************
 #
-exit = 0
+
 
 Main()
 
