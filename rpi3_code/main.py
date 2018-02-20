@@ -233,6 +233,7 @@ def srl_write(portnos,data):
 # reads command queue , and directs data to appropriate port
 
 def srl_write_queue_worker( srl_out_q ):
+    print 'serial write router Worker : startup'
     while exit != 1 :
         d = srl_out_q.get()
         wp1 = 99
@@ -307,7 +308,7 @@ def srl_write_queue_worker( srl_out_q ):
                 ser2.write(d)
             if wp1 == 3  or wp2 == 3 or wp3 == 3 : # if data for /dev/ttyUSB3
                 ser3.write(d)
-    print 'Serial write Worker: exit'
+    print 'Serial write router Worker: exit'
     
 #
 # ****************************************************************************
@@ -316,11 +317,12 @@ def srl_write_queue_worker( srl_out_q ):
 # 
 
 def walk_main_worker(srl_out_q,srl_in_q):
+    print 'main walk Worker: startup'
     while exit != 1 :
         # for now just output serial messages here and loop  
         print srl_in_q.get()
 
-    print 'walk main Worker: exit'
+    print 'main walk Worker: exit'
             
 #
 # ****************************************************************************
@@ -353,6 +355,18 @@ def Main():
     ser1_av =0
     ser2_av =0
     ser3_av =0    
+ 
+    print '******************************************************************\n'
+    print '*                          L E G G I E                           *\n'
+    print '******************************************************************\n'
+    print '* Main control       written by David Powell A.k.a AchiestDragon *\n'
+    print '* version 1.0 alpha               revision date date 20 feb 2018 *\n'
+    print '******************************************************************\n'
+    print 'run time commands :-\n'
+    print '     q  = quit \n'
+    print ' ----------------------------------------------------------------\n'
+    print ' serial port configure :-\n'
+
     
     # configure serial ports
     
@@ -429,7 +443,8 @@ def Main():
     leg5_port = 99
     leg6_port = 99
     joystick_port = 99
-    print "initalizing ports "
+
+    print 'initializing arduino nano leg control devices :-\n'
     # wait 1 second
     old_time = time.time()
     waiting = 1
@@ -628,7 +643,8 @@ def Main():
                 print "/dev/ttyUSB3 device not configured (got bad/no response)"
                 config = 1                
     # print status for serial devices found
-    
+
+    print 'configure device data routing :-\n'
     config = 0
     if leg1_port == 99 :
         print 'ERROR :- leg1 & 2 arduino not found'   # FIXME :- add force exit gracefully for this
@@ -639,7 +655,8 @@ def Main():
     if leg1_port < 6 and leg3_port < 6 and leg5_port < 6:
         config = 1
         if joystick_port == 99 :
-            print 'leg configuration ok , no local serial joystick found'
+            print 'leg configuration ok ' 
+            print 'no local serial joystick found'
         else :
             print 'leg configuration ok '
             print 'serial joystick connected ok'
@@ -654,6 +671,7 @@ def Main():
             continue
         srl_in_q.task_done()
     # print leg port configuration
+    print 'device routing patch allocations :-'
     print "leg 1 on port  /dev/ttyUSB", leg1_port 
     print "leg 2 on port  /dev/ttyUSB", leg2_port
     print "leg 3 on port  /dev/ttyUSB", leg3_port
@@ -677,12 +695,21 @@ def Main():
         while waiting == 1:
             if time.time() - old_time > 1:
                 old_time = time.time()
-                print "counter ", c
+                cd = 5 - c
+                print "counter ", cd
                 srl_out_q.put(init_data_command)
                 waiting = 0
     # all robots legs should now be in home position
     print 'all robot legs should now be in home position '
-    
+    # clear srl_in_q
+    while not srl_in_q.empty():
+        try:
+            srl_data_in = srl_in_q.get(False)
+            print "rx buffer data dumping ",srl_data_in
+        except Empty:
+            print "rx buffer empty"
+            continue
+        srl_in_q.task_done()   
     # start walk main thread 
     t = threading.Thread(target=walk_main_worker, args=(srl_out_q,srl_in_q))
     threads.append(t)
