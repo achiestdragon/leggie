@@ -17,6 +17,10 @@
 #
 # TODO:-   almost everything
 #
+#   1. add support for remote joystick serial connection over 
+#        a:-  serial over ip (wifi/ethernet) 
+#        b:-  bluetooth
+#        c:-  where the joystick has bluetooth dongle fitted
 #   
 #   1. add code for leg position data ie current positions and
 #      next position walking sequence buffers and movement exception handlers
@@ -28,6 +32,8 @@
 #   3. fixed sequence movements and other sequencing code    
 #
 #   4. ...all the other things 
+#
+#   5. a gui control interface ? (maybe someday)
 #
 # FIXME:- 
 #
@@ -67,11 +73,17 @@ def srl_worker(num , srl_in_q ):
                 x0=ser0.readline()
                 if x0 != '':               
                     if x0.startswith('E[1')==True : 
-                        print "CRITICAL serial com sync error, from :- /dev/ttyUSB0" 
+                        print "CRITICAL serial com sync error, from :- /dev/ttyUSB0 with :-",x0 
+                        print "program EXIT forced "
+                        exit = 1
                     if x0.startswith('E[2')==True :
-                        print "CRITICAL serial com buffer overrun , from :-/dev/ttyUSB0"
+                        print "CRITICAL serial com buffer overrun , from :-/dev/ttyUSB0 with :-",x0
+                        print "program EXIT forced "
+                        exit = 1
                     if x0.startswith('E[W')==True :
                         print "CRITICAL WTF error , from :-/dev/ttyUSB0 with:-" , x0
+                        print "program EXIT forced "
+                        exit = 1
                     if x0.startswith('E[3,')==True :
                         print "ERROR pwm pll lock loss , from :- /dev/ttyUSB0 with :-" , x0
                         srl_in_q.put(x0)
@@ -84,6 +96,8 @@ def srl_worker(num , srl_in_q ):
                     if x0.startswith('&')== True :
                         print "CRITICAL device in calibration mode from :-/dev/ttyUSB0 "
                         print "with:-" , x0
+                        print "program EXIT forced "
+                        exit = 1
                     if x0.startswith('[')== True :  
                         srl_in_q.put(x0)
                     
@@ -99,11 +113,17 @@ def srl_worker(num , srl_in_q ):
                 x1=ser1.readline()
                 if x1 != '':               
                     if x1.startswith('E[1')==True :
-                        print "CRITICAL serial com sync error, from :- /dev/ttyUSB1" 
+                        print "CRITICAL serial com sync error, from :- /dev/ttyUSB1 with:-",x1
+                        print "program EXIT forced "
+                        exit = 1
                     if x1.startswith('E[2')==True :
-                        print "CRITICAL serial com buffer overrun , from :-/dev/ttyUSB1"
+                        print "CRITICAL serial com buffer overrun , from :-/dev/ttyUSB1 with:-",x1
+                        print "program EXIT forced "
+                        exit = 1
                     if x1.startswith('E[W')==True :
                         print "CRITICAL WTF error , from :-/dev/ttyUSB1 with:-" , x1
+                        print "program EXIT forced "
+                        exit = 1
                     if x1.startswith('E[3,')==True :
                         print "ERROR pwm pll lock loss , from :- /dev/ttyUSB1 with :-" , x1
                         srl_in_q.put(x1)
@@ -116,6 +136,8 @@ def srl_worker(num , srl_in_q ):
                     if x1.startswith('&')== True :
                         print "CRITICAL device in calibration mode from :-/dev/ttyUSB1 "
                         print "with:-" , x1
+                        print "program EXIT forced "
+                        exit = 1
                     if x1.startswith('[')== True : 
                         srl_in_q.put(x1)                    
 
@@ -131,11 +153,17 @@ def srl_worker(num , srl_in_q ):
                 x2=ser2.readline()
                 if x2 != '':                
                     if x2.startswith('E[1')==True :
-                        print "CRITICAL serial com sync error, from :- /dev/ttyUSB2" 
+                        print "CRITICAL serial com sync error, from :- /dev/ttyUSB2 with:-",x2
+                        print "program EXIT forced "
+                        exit = 1
                     if x2.startswith('E[2')==True :
-                        print "CRITICAL serial com buffer overrun , from :-/dev/ttyUSB2"
+                        print "CRITICAL serial com buffer overrun , from :-/dev/ttyUSB2 with:-",x2
+                        print "program EXIT forced "
+                        exit = 1
                     if x2.startswith('E[W')==True :
                         print "CRITICAL WTF error , from :-/dev/ttyUSB2 with:-" , x2
+                        print "program EXIT forced "
+                        exit = 1
                     if x2.startswith('E[3,')==True :
                         print "ERROR pwm pll lock loss , from :- /dev/ttyUSB2 with :-" , x2
                         srl_in_q.put(x2)
@@ -148,6 +176,8 @@ def srl_worker(num , srl_in_q ):
                     if x2.startswith('&')== True :
                         print "CRITICAL device in calibration mode from :-/dev/ttyUSB2 "
                         print "with :- " , x2
+                        print "program EXIT forced "
+                        exit = 1
                     if x2.startswith('[')== True : 
                         srl_in_q.put(x2)                    
 
@@ -163,11 +193,17 @@ def srl_worker(num , srl_in_q ):
                 x3=ser3.readline()
                 if x3 != '':                
                     if x3.startswith('E[1')==True :
-                        print "CRITICAL serial com sync error, from :- /dev/ttyUSB3" 
+                        print "CRITICAL serial com sync error, from :- /dev/ttyUSB3 with:-",x3
+                        print "program EXIT forced "
+                        exit = 1
                     if x3.startswith('E[2')==True :
-                        print "CRITICAL serial com buffer overrun , from :-/dev/ttyUSB3"
+                        print "CRITICAL serial com buffer overrun , from :-/dev/ttyUSB3 with:-",x3
+                        print "program EXIT forced "
+                        exit = 1
                     if x3.startswith('E[W')==True :
                         print "CRITICAL WTF error , from :-/dev/ttyUSB3 with:-" , x3
+                        print "program EXIT forced "
+                        exit = 1
                     if x3.startswith('E[3,')==True :
                         print "ERROR pwm pll lock loss , from :- /dev/ttyUSB3 with :-" , x3
                         srl_in_q.put(x3)
@@ -180,6 +216,8 @@ def srl_worker(num , srl_in_q ):
                     if x3.startswith('&')== True :
                         print "CRITICAL device in calibration mode from :-/dev/ttyUSB3 "
                         print "with:-" , x3
+                        print "program EXIT forced "
+                        exit = 1
                     if x3.startswith('[')== True : 
                         srl_in_q.put(x3)
 
@@ -319,9 +357,82 @@ def srl_write_queue_worker( srl_out_q ):
 def walk_main_worker(srl_out_q,srl_in_q):
     print 'main walk Worker: startup'
     while exit != 1 :
-        # for now just output serial messages here and loop  
-        print srl_in_q.get()
+        # decode input data queue  
+        srl_data_in = srl_in_q.get()
+        if srl_data_in.startswith("[") == True:
+            
+            # joystick data decode
+            # format [n,n,n],[n,n,n],[............]
+            #FIXME:-  in progress
+            
+            stsplit1[] = srl_data_in.split('],[')
+            sp1 = stsplit1[0].strip('[')
+            sp1b[] = sp1.split()
+            sp2 = stsplit1[1].strip(']')
+            sp2b[] = sp2.split()
+            sbl = stsplit1[2].strip(']')
+            j1x = sp1b[0]
+            j1y = sp1b[1]
+            j1z = sp1b[2]
+            #  for future use j1t  ** not yet implimented       
+            j2x = sp2b[0]
+            j2y = sp2b[1]
+            j2z = sp2b[2]
+            #  for future use j2t  ** not yet implimented
+            #js1b =
+            #js2b =
+            #button1 =
+            #button2 =
+            #button3 =
+            #button4 =
+            #button5 =
+            #button6 =
+            #button7 =
+            #button8 =
+            #button9 =
+            #button10=
+            #test print of joystick decoded values
+            print ' x1= ',j1x,' y1= ',j1y,' z1= ',j1z,'; x2= ',j2x,' y2= ',j2y,' z2= ',j2z,' sbl = ',sbl
+            #call update walk gate function for fresh data 
+            
+           
+        #if srl_data_in.startswith('E[3'): # error leg pwm pll loss exception
+            
+            #TODO:- 
+            #ok so decode and set appropriate data and update exception status
+            # in this case a leg servo has moved out of its hold range so 
+            # something needs to be done to keep the robot balanced and stable
+            
+        #if srl_data_in.startswith('f['):  # footing state change update
+            
+            #TODO:-
+            # determine if foot up or down
+            #if down then theres extra data depending on if the tag value is 
+            #  >= or < 5  if greater then the leg will keep moving to the
+            # given position if less then a #3 stop command needs to be sent
+            # followed by a #9 position status
+            # the next positions can be calculated and updated so the robot 
+            # can continue but remember that the robot will try to lift
+            # idealy the command seq should be down till footing then stop 
+            # wait for all legs in that seq to get footing then down till needed
+            # lift height so the robot remains level  
 
+            #if up then it needs to check that a foot thats supposed to be 
+            # down has not slipped and lost its footing
+            # if so then this needs new sequence data to compensate
+            
+        #if srl_data_in.startswith('l['):  # leg moved and ready
+            
+            #TODO:-
+            # decode the leg , if all legs in that sequence are ready then
+            # issue a #2 followed by a preload
+            
+        #if srl_data_in.startswith('k[#'): # command ack
+            
+            #TODO:-
+            # flag appropriate sequence pipe task state 
+            
+            
     print 'main walk Worker: exit'
             
 #
@@ -350,6 +461,29 @@ def Main():
     global leg6_port
     global joystick_port
 
+    # global joystick data values
+    global j1x 
+    global j1y 
+    global j1z 
+    #global j1t  # reserved for future use not yet implimented
+    global j2x 
+    global j2y 
+    global j2z 
+    #global j2t  # reserved for future use not yet implimented
+    global js1b 
+    global js2b 
+    global button1 
+    global button2 
+    global button3 
+    global button4 
+    global button5 
+    global button6 
+    global button7 
+    global button8 
+    global button9 
+    global button10
+    
+    # local vars
     exit = 0
     ser0_av =0
     ser1_av =0
@@ -709,17 +843,17 @@ def Main():
 
     # initalize robot to known positions
     
-    print '\ninitializing all legs to home positions\n\n'
+    print '\ninitializing all legs to home positions\n'
     init_data_command ="#0"
     srl_out_q.put(init_data_command)
     old_time = time.time()
-    for c in range(5): # do this with 1 second delay between each 
+    for c in range(6): # do this with 1 second delay between each 
         waiting = 1
         while waiting == 1:
             if time.time() - old_time > 1:
                 old_time = time.time()
                 dd = ''
-                for cc in range(5):
+                for cc in range(6):
                    if cc <= c :
                        dd = dd +'##'
                    else :
@@ -765,15 +899,13 @@ def Main():
     # should fix this 
     
     print '\nrobot startup complete and robot is now active :-\n'
-    
-    
+   
     while exit != 1 :
         # main console loop 
         kbd_in = raw_input(">>>")
         if kbd_in == 'q':
             exit = 1
-    
-    
+
     print '\nUSER COMMAND EXIT ENTERED :- robot shutdown , threads closing \n'
     print '\nremember to turn off robot servo power \n'
     # exit program properly   
