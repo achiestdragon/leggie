@@ -369,13 +369,13 @@ def walk_main_worker(srl_out_q,srl_in_q):
             sp1 = stsplit[0].strip('[')
             sp2 = stsplit[1].strip(']')
             sbl = stsplit[2].strip(']\r\n')
-            j1x = sp1[0]
-            j1y = sp1[2]
-            j1z = sp1[4]
+            j1x = int(sp1[0])
+            j1y = int(sp1[2])
+            j1z = int(sp1[4])
             #  for future use j1t  ** not yet implimented       
-            j2x = sp2[0]
-            j2y = sp2[2]
-            j2z = sp2[4]
+            j2x = int(sp2[0])
+            j2y = int(sp2[2])
+            j2z = int(sp2[4])
             #  for future use j2t  ** not yet implimented
             if sbl.startswith('X'):
                 js1b = 1
