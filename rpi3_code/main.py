@@ -429,7 +429,7 @@ def Main():
     leg5_port = 99
     leg6_port = 99
     joystick_port = 99
-    print " initalizing ports "
+    print "initalizing ports "
     # wait 1 second
     old_time = time.time()
     waiting = 1
@@ -475,7 +475,7 @@ def Main():
                     i = 4
                 i = i + 1
             if config == 0 :
-                print " /dev/ttyUSB0 device not configured (got bad/no response)"
+                print "/dev/ttyUSB0 device not configured (got bad/no response)"
                 config = 1
 
     # wait 1 second
@@ -525,7 +525,7 @@ def Main():
                     i = 4 
                 i = i + 1
             if config == 0 :
-                print " /dev/ttyUSB1 device not configured (got bad/no response)"
+                print "/dev/ttyUSB1 device not configured (got bad/no response)"
                 config = 1
 
     # wait 1 second
@@ -575,7 +575,7 @@ def Main():
                     i = 4
                 i = i + 1
             if config == 0 :
-                print " /dev/ttyUSB2 device not configured (got bad/no response)"
+                print "/dev/ttyUSB2 device not configured (got bad/no response)"
                 config = 1 
                 
     # wait 1 second
@@ -625,7 +625,7 @@ def Main():
                     i = 4                
                 i = i + 1
             if config == 0 :
-                print " /dev/ttyUSB3 device not configured (got bad/no response)"
+                print "/dev/ttyUSB3 device not configured (got bad/no response)"
                 config = 1                
     # print status for serial devices found
     
@@ -643,6 +643,16 @@ def Main():
         else :
             print 'leg configuration ok '
             print 'serial joystick connected ok'
+    
+    # clear srl_in_q
+    while not srl_in_q.empty():
+        try:
+            srl_data_in = srl_in_q.get(False)
+            print "rx buffer data dumping ",srl_data_in
+        except Empty:
+            print "rx buffer empty"
+            continue
+        srl_in_q.task_done()
     # print leg port configuration
     print "leg 1 on port  /dev/ttyUSB", leg1_port 
     print "leg 2 on port  /dev/ttyUSB", leg2_port
@@ -659,19 +669,18 @@ def Main():
     t.start()
 
     # initalize robot to known positions
-    print ' initializing all legs to home positions'
-    init_data_command = '#0'
-    srl_out_q.put(init_data_command)
+    print 'initializing all legs to home positions'
     old_time = time.time()
     for c in range(5): # do this 6 more times with 1 second delay between each 
         waiting = 1
         while waiting == 1:
             if time.time() - old_time > 1:
                 old_time = time.time()
+                print "counter " c
                 srl_out_q.put(init_data_command)
                 waiting = 0
     # all robots legs should now be in home position
-    print ' all robot legs should now be in home position '
+    print 'all robot legs should now be in home position '
     
     # start walk main thread 
     t = threading.Thread(target=walk_main_worker, args=(srl_out_q,srl_in_q))
