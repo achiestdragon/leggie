@@ -442,7 +442,21 @@ def walk_main_worker(srl_out_q,srl_in_q):
             print js1b , js2b , button1,button2,button3,button4,button5,button6,button7,button8,button9,button10
             #call update walk gate function for fresh data 
             
-           
+            #debug test servo movement, joystick to servo movement code
+            hhh = '0'+j1x+'0'
+            hhh = hhh.strip(' ')
+            lll = '0'+j1y+'0'
+            lll = lll,strip(' ')
+            kkk = '0'+j2x+'0'
+            kkk = kkk,strip(' ')
+            srl_out_q.put('#1[1,6,',hhh,',',lll,',',kkk,']')
+            srl_out_q.put('#1[2,6,',hhh,',',lll,',',kkk,']')
+            srl_out_q.put('#1[3,6,',hhh,',',lll,',',kkk,']')
+            srl_out_q.put('#1[4,6,',hhh,',',lll,',',kkk,']')
+            srl_out_q.put('#1[5,6,',hhh,',',lll,',',kkk,']')
+            srl_out_q.put('#1[6,6,',hhh,',',lll,',',kkk,']')
+            
+            
         #if srl_data_in.startswith('E[3'): # error leg pwm pll loss exception
             
             #TODO:- 
