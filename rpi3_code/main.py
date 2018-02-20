@@ -455,7 +455,7 @@ def walk_main_worker(srl_out_q,srl_in_q):
             srl_out_q.put('#1[4,6,',hhh,',',lll,',',kkk,']')
             srl_out_q.put('#1[5,6,',hhh,',',lll,',',kkk,']')
             srl_out_q.put('#1[6,6,',hhh,',',lll,',',kkk,']')
-            
+            srl_out_q.put('#2')
             
         #if srl_data_in.startswith('E[3'): # error leg pwm pll loss exception
             
