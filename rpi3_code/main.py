@@ -443,11 +443,11 @@ def walk_main_worker(srl_out_q,srl_in_q):
             #call update walk gate function for fresh data 
             
             #debug test servo movement, joystick to servo movement code
-            hhh = '0'+j1x+'0'
+            hhh = String('0'+j1x+'0')
             hhh = hhh.strip(' ')
-            lll = '0'+j1y+'0'
+            lll = String('0'+j1y+'0')
             lll = lll,strip(' ')
-            kkk = '0'+j2x+'0'
+            kkk = String('0'+j2x+'0')
             kkk = kkk,strip(' ')
             srl_out_q.put('#1[1,6,',hhh,',',lll,',',kkk,']')
             srl_out_q.put('#1[2,6,',hhh,',',lll,',',kkk,']')
