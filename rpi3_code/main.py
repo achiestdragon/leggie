@@ -368,7 +368,7 @@ def walk_main_worker(srl_out_q,srl_in_q):
             stsplit = srl_data_in.split('],[')
             sp1 = stsplit[0].strip('[')
             sp2 = stsplit[1].strip(']')
-            sbl = stsplit[2].strip(']')
+            sbl = stsplit[2].strip(']\r\n')
             j1x = sp1[0]
             j1y = sp1[2]
             j1z = sp1[4]
@@ -377,20 +377,69 @@ def walk_main_worker(srl_out_q,srl_in_q):
             j2y = sp2[2]
             j2z = sp2[4]
             #  for future use j2t  ** not yet implimented
-            #js1b =
-            #js2b =
-            #button1 =
-            #button2 =
-            #button3 =
-            #button4 =
-            #button5 =
-            #button6 =
-            #button7 =
-            #button8 =
-            #button9 =
-            #button10=
+            if sbl.startswith('X'):
+                js1b = 1
+            else:
+                js1b = 0
+            sbl = sbl[1:]
+            if sbl.startswith('X'):
+                js2b = 1
+            else:
+                js2b = 0
+            sbl = sbl[1:]
+            if sbl.startswith('X'):
+                button1 = 1
+            else:
+                button1 = 0
+            sbl = sbl[1:]
+            if sbl.startswith('X'):
+                button2 = 1
+            else:
+                button2 = 0
+            sbl = sbl[1:]
+            if sbl.startswith('X'):
+                button3 = 1
+            else:
+                button3 = 0
+            sbl = sbl[1:]
+            if sbl.startswith('X'):
+                button4 = 1
+            else:
+                button4 = 0
+            sbl = sbl[1:]
+            if sbl.startswith('X'):
+                button5 = 1
+            else:
+                button5 = 0
+            sbl = sbl[1:]
+            if sbl.startswith('X'):
+                button6 = 1
+            else:
+                button6 = 0
+            sbl = sbl[1:]
+            if sbl.startswith('X'):
+                button7 = 1
+            else:
+                button7 = 0
+            sbl = sbl[1:]
+            if sbl.startswith('X'):
+                button8 = 1
+            else:
+                button8 = 0
+            sbl = sbl[1:]
+            if sbl.startswith('X'):
+                button9 = 1
+            else:
+                button9 = 0
+            sbl = sbl[1:]
+            if sbl.startswith('X'):
+                button10 = 1
+            else:
+                button10 = 0
+            
             #test print of joystick decoded values
-            print ' x1= ',j1x,' y1= ',j1y,' z1= ',j1z,'; x2= ',j2x,' y2= ',j2y,' z2= ',j2z,' sbl = ',sbl
+            print ' x1= ',j1x,' y1= ',j1y,' z1= ',j1z,'; x2= ',j2x,' y2= ',j2y,' z2= ',j2z,' sbl = '
+            print js1b , js2b , button1,button2,button3,button4,button5,button6,button7,button8,button9,button10
             #call update walk gate function for fresh data 
             
            
