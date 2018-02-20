@@ -446,9 +446,9 @@ def walk_main_worker(srl_out_q,srl_in_q):
             hhh = '0'+str(j1x)+'0'
             hhh = hhh.strip(' ')
             lll = '0'+str(j1y)+'0'
-            lll = lll,strip(' ')
+            lll = lll.strip(' ')
             kkk = '0'+str(j2x)+'0'
-            kkk = kkk,strip(' ')
+            kkk = kkk.strip(' ')
             srl_out_q.put('#1[1,6,',hhh,',',lll,',',kkk,']')
             srl_out_q.put('#1[2,6,',hhh,',',lll,',',kkk,']')
             srl_out_q.put('#1[3,6,',hhh,',',lll,',',kkk,']')
