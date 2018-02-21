@@ -71,6 +71,7 @@ def srl_worker(num , srl_in_q , ):
         if ser0.isOpen():
             while exit != 1 :
                 x0=ser0.readline()
+                x0=x0.strip('\r\n')
                 if x0 != '':               
                     if x0.startswith('E[1')==True : 
                         print "CRITICAL serial com sync error, from :- /dev/ttyUSB0 with :-",x0 
@@ -111,6 +112,7 @@ def srl_worker(num , srl_in_q , ):
         if ser1.isOpen():
             while exit != 1 :
                 x1=ser1.readline()
+                x1=x1.strip('\r\n')
                 if x1 != '':               
                     if x1.startswith('E[1')==True :
                         print "CRITICAL serial com sync error, from :- /dev/ttyUSB1 with:-",x1
@@ -151,6 +153,7 @@ def srl_worker(num , srl_in_q , ):
         if ser2.isOpen():
             while exit != 1 :
                 x2=ser2.readline()
+                x2=x2.strip('\r\n')
                 if x2 != '':                
                     if x2.startswith('E[1')==True :
                         print "CRITICAL serial com sync error, from :- /dev/ttyUSB2 with:-",x2
@@ -191,6 +194,7 @@ def srl_worker(num , srl_in_q , ):
         if ser3.isOpen():
             while exit != 1 :
                 x3=ser3.readline()
+                x3=x3.strip('\r\n')
                 if x3 != '':                
                     if x3.startswith('E[1')==True :
                         print "CRITICAL serial com sync error, from :- /dev/ttyUSB3 with:-",x3
@@ -368,7 +372,7 @@ def walk_main_worker(srl_out_q,srl_in_q):
             stsplit = srl_data_in.split('],[')
             sp1 = stsplit[0].strip('[')
             sp2 = stsplit[1].strip(']')
-            sbl = stsplit[2].strip(']\r\n')
+            sbl = stsplit[2].strip(']')
             j1x = int(sp1[0])
             j1y = int(sp1[2])
             j1z = int(sp1[4])
@@ -452,46 +456,17 @@ def walk_main_worker(srl_out_q,srl_in_q):
             outstr = '#1[1,6,'+hhh+','+lll+','+kkk+']'
             print outstr
             srl_out_q.put(outstr)
-            #p = 1
-            #while p==1:
-            #   srl_data_in = srl_in_q.get()
-            #   if srl_data_in.startswith("k[#1") == True:
-            #       p = 0
             outstr = '#1[3,6,'+hhh+','+lll+','+kkk+']'
             srl_out_q.put(outstr)
-            #p = 1
-            #while p==1:
-            #   srl_data_in = srl_in_q.get()
-            #   if srl_data_in.startswith("k[#1") == True:
-            #       p = 0            
             outstr = '#1[5,6,'+hhh+','+lll+','+kkk+']'
             srl_out_q.put(outstr)
-            #p = 1
-            #while p==1:
-            #   srl_data_in = srl_in_q.get()
-            #   if srl_data_in.startswith("k[#1") == True:
-            #       p = 0            
             outstr = '#1[2,6,'+hhh+','+lll+','+kkk+']'
-            srl_out_q.put(outstr)
-            #p = 1
-            #while p==1:
-            #   srl_data_in = srl_in_q.get()
-            #   if srl_data_in.startswith("k[#1") == True:
-            #      p = 0            
+            srl_out_q.put(outstr)          
             outstr = '#1[4,6,'+hhh+','+lll+','+kkk+']'
-            srl_out_q.put(outstr)
-            #p = 1
-            #while p==1:
-            #   srl_data_in = srl_in_q.get()
-            #   if srl_data_in.startswith("k[#1") == True:
-            #       p = 0            
+            srl_out_q.put(outstr)          
             outstr = '#1[6,6,'+hhh+','+lll+','+kkk+']'
-            srl_out_q.put(outstr)
-            #p = 1
-            #while p==1:
-            #   srl_data_in = srl_in_q.get()
-            #   if srl_data_in.startswith("k[#1") == True:
-            #       p = 0            
+            srl_out_q.put(outstr)  
+            print '#2'
             srl_out_q.put('#2') # move legs to new pos
             
         #if srl_data_in.startswith('E[3'): # error leg pwm pll loss exception
@@ -946,7 +921,7 @@ def Main():
 
     # initalize robot to known positions
     
-    print '\ninitializing all legs to home positions\n'
+    print '\ninitializing all legs to home positions'
     init_data_command ="#0"
     srl_out_q.put(init_data_command)
     old_time = time.time()
@@ -968,7 +943,7 @@ def Main():
     
     # all robots legs should now be in home position
     
-    print '\n\n Status:- all robot legs should now be in home position\n'
+    print '\nDone:- all robot legs should now be in home position\n'
     
     # wait 1 second for serial queue to settle 
     
@@ -1007,11 +982,11 @@ def Main():
         # main console loop 
         kbd_in = raw_input(">>>")
         if kbd_in == 'q':
-            print '\nUSER COMMAND EXIT ENTERED :- robot shutdown , threads closing \n'
+            print 'USER COMMAND EXIT ENTERED :- robot shutdown , threads closing '
             Exit(1)
 
     
-    print '\nremember to turn off robot servo power \n'
+    print 'remember to turn off robot servo power '
     # exit program properly   
     
     # send data to sleeping buffers to wake them and let them exit
