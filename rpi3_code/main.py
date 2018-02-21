@@ -37,7 +37,7 @@
 #
 # FIXME:- 
 #
-#   1. up serial baudrate to something faster (needs other files changing
+#   1. up serial baudrate to something faster (other files changed
 #      USBjoystick1.ino  and leggie_arduino_pid.ino to match this)  
 #
 #   2. should exit if leg ports are not configured , but for the time leave
@@ -611,7 +611,7 @@ def Main():
     try:
         ser0 = serial.Serial(
             port='/dev/ttyUSB0',
-            baudrate = 9600,
+            baudrate = 115200,
             parity=serial.PARITY_NONE,
             stopbits=serial.STOPBITS_ONE,
             bytesize=serial.EIGHTBITS,
@@ -623,7 +623,7 @@ def Main():
     try:
         ser1 = serial.Serial(
             port='/dev/ttyUSB1',
-            baudrate = 9600,
+            baudrate = 115200,
             parity=serial.PARITY_NONE,
             stopbits=serial.STOPBITS_ONE,
             bytesize=serial.EIGHTBITS,
@@ -635,7 +635,7 @@ def Main():
     try:
         ser2 = serial.Serial(
             port='/dev/ttyUSB2',
-            baudrate = 9600,
+            baudrate = 115200,
             parity=serial.PARITY_NONE,
             stopbits=serial.STOPBITS_ONE,
             bytesize=serial.EIGHTBITS,
@@ -647,7 +647,7 @@ def Main():
     try:
         ser3 = serial.Serial(
             port='/dev/ttyUSB3',
-            baudrate = 9600,
+            baudrate = 115200,
             parity=serial.PARITY_NONE,
             stopbits=serial.STOPBITS_ONE,
             bytesize=serial.EIGHTBITS,

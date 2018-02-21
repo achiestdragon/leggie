@@ -400,7 +400,7 @@ void setup()
   pinMode(exception_in_pin, INPUT);      //  d2  ** defined but unused
   
   // initialize serial communications at 9600 bps:
-  Serial.begin(9600);
+  Serial.begin(115200);
   delay(200);
   adr0 = digitalRead(adr0_pin);
   adr1 = digitalRead(adr1_pin); 

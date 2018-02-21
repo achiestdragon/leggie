@@ -228,7 +228,7 @@ void setup() {
   pinMode(button11, INPUT);
   pinMode(button12, INPUT); 
   // initialize serial communications at 9600 bps:
-  Serial.begin(9600);
+  Serial.begin(115200);
 }
 
 // **********************************************************************
