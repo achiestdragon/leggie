@@ -364,11 +364,8 @@ def walk_main_worker(srl_out_q,srl_in_q):
         # decode input data queue  
         srl_data_in = srl_in_q.get()
         if srl_data_in.startswith("[") == True:
-            
             # joystick data decode
             # format [n,n,n],[n,n,n],[............]
-            # FIXME:-  in progress
-            
             stsplit = srl_data_in.split('],[')
             sp1 = stsplit[0].strip('[')
             sp2 = stsplit[1].strip(']')
@@ -440,21 +437,29 @@ def walk_main_worker(srl_out_q,srl_in_q):
                 button10 = 1
             else:
                 button10 = 0
-            
+                
+            #
+            #*****************************************************************
+            #         debug code  to be removed when done
+            #
+            # joystick x1 = hip servos
+            # joystick y1 = leg servos
+            # joystick x2 = knee servos
+            # move hip, leg and knee servos to joystick position 
+            #
+
             #test print of joystick decoded values
-            outstr= str('x1='+j1x+' y1='+j1y+' z1='+j1z+'; x2='+j2x+' y2='+j2y+' z2='+j2z+' sbl ='+js1b+js2b+ button1+button2+button3+button4+button5+button6+button7+button8+button9+button10)
-            sys.stdout.write( outstr )
-            sys.stdout.flush()   
-            #call update walk gate function for fresh data 
-            
-            #debug test servo movement, joystick to servo movement code
+            #print 'x1=',j1x,'y1=',j1y,'z1=',j1z,'; x2=',j2x,'y2=',j2y,'z2=',j2z,'sbl =',js1b , js2b , button1,button2,button3,button4,button5,button6,button7,button8,button9,button10
+ 
+            # servo movement, joystick to servo movement command string encode
+            # #1[n,t,hhh,lll,kkk] command string encode
             hhh = '0'+str(j1x)+'0'
             hhh = hhh.strip(' ')
             lll = '0'+str(j1y)+'0'
             lll = lll.strip(' ')
             kkk = '0'+str(j2x)+'0'
             kkk = kkk.strip(' ')
-            
+            # send to all legs
             outstr = '#1[1,6,'+hhh+','+lll+','+kkk+']'
             srl_out_q.put(outstr)
             outstr = '#1[3,6,'+hhh+','+lll+','+kkk+']'
@@ -467,7 +472,12 @@ def walk_main_worker(srl_out_q,srl_in_q):
             srl_out_q.put(outstr)          
             outstr = '#1[6,6,'+hhh+','+lll+','+kkk+']'
             srl_out_q.put(outstr)  
+            # set sent data to current active positions 
             srl_out_q.put('#2') # move legs to new pos
+            
+            #           end of debug code
+            #*****************************************************************
+            #
             
         #if srl_data_in.startswith('E[3'): # error leg pwm pll loss exception
             
@@ -498,7 +508,7 @@ def walk_main_worker(srl_out_q,srl_in_q):
             
             #TODO:-
             # decode the leg , if all legs in that sequence are ready then
-            # issue a #2 followed by a preload
+            # issue a #2 followed by a preload for next position
             
         #if srl_data_in.startswith('k[#'): # command ack
             
