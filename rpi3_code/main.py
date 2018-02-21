@@ -244,25 +244,25 @@ def srl_write(portnos,data):
         try :
             ser0.write(data)
         except Exception ,e:
-            print' port write to /dev/ttyUSB0 device not present'
+            print'port write to /dev/ttyUSB0 device not present'
     if portnos ==1 :
         data=data + chr(10)
         try :
             ser1.write(data)
         except Exception ,e:
-            print' port write to /dev/ttyUSB1 device not present'
+            print'port write to /dev/ttyUSB1 device not present'
     if portnos ==2 :
         data=data + chr(10)
         try :
             ser2.write(data)
         except Exception ,e:
-            print' port write to /dev/ttyUSB2 device not present'
+            print'port write to /dev/ttyUSB2 device not present'
     if portnos ==3 :       
         data=data + chr(10)
         try :
             ser3.write(data)
         except Exception ,e:
-            print' port write to /dev/ttyUSB3 device not present'        
+            print'port write to /dev/ttyUSB3 device not present'        
 
     
     
@@ -442,7 +442,9 @@ def walk_main_worker(srl_out_q,srl_in_q):
                 button10 = 0
             
             #test print of joystick decoded values
-            print 'x1=',j1x,'y1=',j1y,'z1=',j1z,'; x2=',j2x,'y2=',j2y,'z2=',j2z,'sbl =',js1b , js2b , button1,button2,button3,button4,button5,button6,button7,button8,button9,button10
+            outstr= 'x1=',j1x,'y1=',j1y,'z1=',j1z,'; x2=',j2x,'y2=',j2y,'z2=',j2z,'sbl =',js1b , js2b , button1,button2,button3,button4,button5,button6,button7,button8,button9,button10
+            sys.stdout.write( outstr )
+            sys.stdout.flush()   
             #call update walk gate function for fresh data 
             
             #debug test servo movement, joystick to servo movement code
@@ -454,7 +456,6 @@ def walk_main_worker(srl_out_q,srl_in_q):
             kkk = kkk.strip(' ')
             
             outstr = '#1[1,6,'+hhh+','+lll+','+kkk+']'
-            print outstr
             srl_out_q.put(outstr)
             outstr = '#1[3,6,'+hhh+','+lll+','+kkk+']'
             srl_out_q.put(outstr)
@@ -466,7 +467,6 @@ def walk_main_worker(srl_out_q,srl_in_q):
             srl_out_q.put(outstr)          
             outstr = '#1[6,6,'+hhh+','+lll+','+kkk+']'
             srl_out_q.put(outstr)  
-            print '#2'
             srl_out_q.put('#2') # move legs to new pos
             
         #if srl_data_in.startswith('E[3'): # error leg pwm pll loss exception
