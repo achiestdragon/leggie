@@ -1149,7 +1149,7 @@ void loop()
                   {
                     // new    load new values for hip,leg,knee
                     // for appropriate legs data format :-
-                    //
+                    //  012345678901234567890
                     // "#1[n,t,hhh,lll,kkk]"
                     //
                     // where :- 
@@ -1160,14 +1160,14 @@ void loop()
                     //     kkk   = knee value 000 to 255
                     // ** hip,leg and knee values must have leading 0's
                     // and be a 3 chrs fixed lenght
-                    //
-                    // if leg nos is valid then ack with "k[#1,n,t]"
+                    //                                    
+                    // if leg nos is valid then ack with "k[#1,n,t,h,l,k]"
                     //
                     nosstr=buff.substring(3,4)      ;
                     tagstr=buff.substring(5,6)      ;
-                    hipstr=buff.substring(7,9)    ;
-                    legstr=buff.substring(11,13)  ;
-                    kneestr=buff.substring(14,16) ;
+                    hipstr=buff.substring(7,10)    ;
+                    legstr=buff.substring(11,14)  ;
+                    kneestr=buff.substring(15,18) ;
                     btag=nosstr.toInt();
                     if (btag == leg1 )
                       {
