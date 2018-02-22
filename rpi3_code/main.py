@@ -359,6 +359,13 @@ def srl_write_queue_worker( srl_out_q, ):
 # 
 
 def walk_main_worker(srl_out_q,srl_in_q):
+    rdy1 = 1
+    rdy2 = 1
+    rdy3 = 1
+    rdy4 = 1            
+    rdy5 = 1
+    rdy6 = 1 
+    new = 0
     print 'main walk Worker: startup'
     while exit != 1 :
         # decode input data queue  
@@ -437,17 +444,18 @@ def walk_main_worker(srl_out_q,srl_in_q):
                 button10 = 1
             else:
                 button10 = 0
-                
-            #
-            #*****************************************************************
-            #         debug code  to be removed when done
-            #
-            # joystick x1 = hip servos
-            # joystick y1 = leg servos
-            # joystick x2 = knee servos
-            # move hip, leg and knee servos to joystick position 
-            #
-
+            new = 1    
+        #
+        #*****************************************************************
+        #         debug code  to be removed when done
+        #
+        # joystick x1 = hip servos
+        # joystick y1 = leg servos
+        # joystick x2 = knee servos
+        # move hip, leg and knee servos to joystick position 
+        #
+        # if legs ready and not moving
+        if rdy1==1 and rdy2==1 and rdy3==1 and rdy4==1 and rdy5==1 and rdy6==1 and new ==1::
             #test print of joystick decoded values
             #print 'x1=',j1x,'y1=',j1y,'z1=',j1z,'; x2=',j2x,'y2=',j2y,'z2=',j2z,'sbl =',js1b , js2b , button1,button2,button3,button4,button5,button6,button7,button8,button9,button10
  
@@ -474,10 +482,17 @@ def walk_main_worker(srl_out_q,srl_in_q):
             srl_out_q.put(outstr)  
             # set sent data to current active positions 
             srl_out_q.put('#2') # move legs to new pos
+            rdy1 = 0
+            rdy2 = 0
+            rdy3 = 0
+            rdy4 = 0            
+            rdy5 = 0
+            rdy6 = 0
+            new = 0
             
-            #           end of debug code
-            #*****************************************************************
-            #
+        #           end of debug code
+        #*****************************************************************
+        #
             
         #if srl_data_in.startswith('E[3'): # error leg pwm pll loss exception
             
@@ -504,7 +519,18 @@ def walk_main_worker(srl_out_q,srl_in_q):
             # down has not slipped and lost its footing
             # if so then this needs new sequence data to compensate
             
-        #if srl_data_in.startswith('l['):  # leg moved and ready
+        if srl_data_in.startswith('l[1'):  # leg1 moved and ready
+            rdy1 = 1
+        if srl_data_in.startswith('l[2'):  # leg2 moved and ready
+            rdy2 = 1            
+        if srl_data_in.startswith('l[3'):  # leg3 moved and ready
+            rdy3 = 1 
+        if srl_data_in.startswith('l[4'):  # leg4 moved and ready
+            rdy4 = 1
+        if srl_data_in.startswith('l[5'):  # leg5 moved and ready
+            rdy5 = 1            
+        if srl_data_in.startswith('l[6'):  # leg6 moved and ready
+            rdy6 = 1
             
             #TODO:-
             # decode the leg , if all legs in that sequence are ready then
@@ -571,6 +597,13 @@ def Main():
     global button8 
     global button9 
     global button10
+    
+    #global rdy1
+    #global rdy2
+    #global rdy3
+    #global rdy4
+    #global rdy5
+    #global rdy6
     
     Exit(0)
     ser0_av =0
