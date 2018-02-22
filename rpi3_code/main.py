@@ -37,8 +37,9 @@
 #
 # FIXME:- 
 #
-#   1. up serial baudrate to something faster (other files changed
-#      USBjoystick1.ino  and leggie_arduino_pid.ino to match this)  
+#   1. speed up serial protocol used for servo control (also arduino needs 
+#      changing to match )
+
 #
 #   2. should exit if leg ports are not configured , but for the time leave
 #      this while debugging 
