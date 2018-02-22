@@ -444,7 +444,7 @@ def walk_main_worker(srl_out_q,srl_in_q):
                 button10 = 1
             else:
                 button10 = 0
-            new = 1    
+            newj = 1    
         #
         #*****************************************************************
         #         debug code  to be removed when done
@@ -454,8 +454,8 @@ def walk_main_worker(srl_out_q,srl_in_q):
         # joystick x2 = knee servos
         # move hip, leg and knee servos to joystick position 
         #
-        # if legs ready and not moving
-        if rdy1==1 and rdy2==1 and rdy3==1 and rdy4==1 and rdy5==1 and rdy6==1 and new ==1:
+        #if rdy1==1 and rdy2==1 and rdy3==1 and rdy4==1 and rdy5==1 and rdy6==1 and newj==1:
+        if newj == 1:    
             #test print of joystick decoded values
             #print 'x1=',j1x,'y1=',j1y,'z1=',j1z,'; x2=',j2x,'y2=',j2y,'z2=',j2z,'sbl =',js1b , js2b , button1,button2,button3,button4,button5,button6,button7,button8,button9,button10
  
@@ -470,47 +470,40 @@ def walk_main_worker(srl_out_q,srl_in_q):
             # send to all legs
             
             outstr = '#1[1,6,'+hhh+','+lll+','+kkk+']'
-            print outstr
             srl_out_q.put(outstr)
             
             outstr = '#1[3,6,'+hhh+','+lll+','+kkk+']'
-            print outstr
             srl_out_q.put(outstr)
             
             outstr = '#1[5,6,'+hhh+','+lll+','+kkk+']'
-            print outstr
             srl_out_q.put(outstr)
             
             # should handle ack responces better but for test here only
-            cntr=0
-            while cntr != 3 :
-                isk = srl_in_q.get()
-                if isk.startswith('k[') == True :
-                    print ' ack =',isk
-                    cntr = cntr +1
+            #cntr=0
+            #while cntr != 3 :
+            #    isk = srl_in_q.get()
+            #    if isk.startswith('k[') == True :
+            #        print ' ack =',isk
+            #        cntr = cntr +1
                     
             outstr = '#1[2,6,'+hhh+','+lll+','+kkk+']'
-            print outstr
             srl_out_q.put(outstr)
             
             outstr = '#1[4,6,'+hhh+','+lll+','+kkk+']'
-            print outstr
             srl_out_q.put(outstr) 
             
             outstr = '#1[6,6,'+hhh+','+lll+','+kkk+']'
-            print outstr
             srl_out_q.put(outstr)
             
             # set sent data to current active positions
-            print '#2'
             srl_out_q.put('#2') # move legs to new pos
-            rdy1 = 0
-            rdy2 = 0
-            rdy3 = 0
-            rdy4 = 0            
-            rdy5 = 0
-            rdy6 = 0
-            new = 0
+            #rdy1 = 0
+            #rdy2 = 0
+            #rdy3 = 0
+            #rdy4 = 0            
+            #rdy5 = 0
+            #rdy6 = 0
+            newj = 0
             
         #           end of debug code
         #*****************************************************************
