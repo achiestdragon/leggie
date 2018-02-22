@@ -478,8 +478,8 @@ void setup()
     }  
   else 
     {
-      hip1_pwmo  = 199 - hip1_pwm  ;
-      hip2_pwmo  = 199 - hip2_pwm  ;
+      hip1_pwmo  = 179 - hip1_pwm  ;
+      hip2_pwmo  = 179 - hip2_pwm  ;
     }
   if (leg_d == 0) 
     {
@@ -488,8 +488,8 @@ void setup()
     }
     else
     {
-      leg1_pwmo  = 199 - leg1_pwm  ;
-      leg2_pwmo  = 199 - leg2_pwm  ;
+      leg1_pwmo  = 179 - leg1_pwm  ;
+      leg2_pwmo  = 179 - leg2_pwm  ;
     }       
   if (knee_d == 0) 
     {
@@ -498,8 +498,8 @@ void setup()
     }
     else
     {
-      knee1_pwmo = 199 - knee1_pwm ;       
-      knee2_pwmo = 199 - knee2_pwm ;
+      knee1_pwmo = 179 - knee1_pwm ;       
+      knee2_pwmo = 179 - knee2_pwm ;
     }
   // update pwm i/o values   servo.write(pwmvalout); for all servos
   hip1_servo.write(hip1_pwmo);    
