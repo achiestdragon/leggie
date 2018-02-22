@@ -481,6 +481,12 @@ def walk_main_worker(srl_out_q,srl_in_q):
             print outstr
             srl_out_q.put(outstr)
             
+            # should handle ack responces better but for test here only
+            cntr=0
+            while cntr != 3
+                if srl_in_q.startswith('k[') == true :
+                    cntr = cntr +1
+                    
             outstr = '#1[2,6,'+hhh+','+lll+','+kkk+']'
             print outstr
             srl_out_q.put(outstr)
