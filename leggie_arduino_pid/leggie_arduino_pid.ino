@@ -341,8 +341,8 @@ int error     = 0;
 // this should be set to the pwm driven rotational range of movment of 
 // the servos  , default 180 degree mg996r servos
    
-const int pwm_neg90  =0;//=25 ;  //-90 deg rotation pwm value of servos
-const int pwm_pos90  =179;//=230 ;  //-90 deg rotation pwm value of servos
+const int pwm_neg90  =0;    //-90 deg rotation pwm value of servos
+const int pwm_pos90  =179;  //-90 deg rotation pwm value of servos
 
 // set so that scaled adc values = servo pwm for the range 
 // note :-
@@ -1177,8 +1177,14 @@ void loop()
                         knee1_new = kneestr.toInt();
                         Serial.print("k[#1,");
                         Serial.print(leg1);
-                        Serial.println(",");
+                        Serial.print(",");
                         Serial.print(tag1_new);
+                        Serial.print(",");
+                        Serial.print(hip1_new);
+                        Serial.print(",");
+                        Serial.print(leg1_new );
+                        Serial.print(",");
+                        Serial.print(knee1_new);
                         Serial.println("]");
                       }
                     if (btag == leg2 )
@@ -1189,8 +1195,14 @@ void loop()
                         knee2_new = kneestr.toInt();
                         Serial.print("k[#1,");
                         Serial.print(leg2);
-                        Serial.println(",");
+                        Serial.print(",");
                         Serial.print(tag2_new);
+                        Serial.print(",");
+                        Serial.print(hip2_new);
+                        Serial.print(",");
+                        Serial.print(leg2_new );
+                        Serial.print(",");
+                        Serial.print(knee2_new);
                         Serial.println("]");                      
                       }
                     buff ="";             

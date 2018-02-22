@@ -486,6 +486,7 @@ def walk_main_worker(srl_out_q,srl_in_q):
             while cntr != 3 :
                 isk = srl_in_q.get()
                 if isk.startswith('k[') == True :
+                    print ' ack ='isk
                     cntr = cntr +1
                     
             outstr = '#1[2,6,'+hhh+','+lll+','+kkk+']'
