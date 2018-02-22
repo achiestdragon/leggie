@@ -468,19 +468,33 @@ def walk_main_worker(srl_out_q,srl_in_q):
             kkk = '0'+str(j2x)+'0'
             kkk = kkk.strip(' ')
             # send to all legs
+            
             outstr = '#1[1,6,'+hhh+','+lll+','+kkk+']'
+            print outstr
             srl_out_q.put(outstr)
+            
             outstr = '#1[3,6,'+hhh+','+lll+','+kkk+']'
+            print outstr
             srl_out_q.put(outstr)
+            
             outstr = '#1[5,6,'+hhh+','+lll+','+kkk+']'
+            print outstr
             srl_out_q.put(outstr)
+            
             outstr = '#1[2,6,'+hhh+','+lll+','+kkk+']'
-            srl_out_q.put(outstr)          
+            print outstr
+            srl_out_q.put(outstr)
+            
             outstr = '#1[4,6,'+hhh+','+lll+','+kkk+']'
-            srl_out_q.put(outstr)          
+            print outstr
+            srl_out_q.put(outstr) 
+            
             outstr = '#1[6,6,'+hhh+','+lll+','+kkk+']'
-            srl_out_q.put(outstr)  
-            # set sent data to current active positions 
+            print outstr
+            srl_out_q.put(outstr)
+            
+            # set sent data to current active positions
+            print '#2'
             srl_out_q.put('#2') # move legs to new pos
             rdy1 = 0
             rdy2 = 0
