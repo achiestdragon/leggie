@@ -739,17 +739,17 @@ def Main():
                 srl_write(portnos,data)
                 srl_data_in = srl_in_q.get()
                 print 'port0 #9 response =',srl_data_in
-                if srl_data_in.startswith('k[#9,[1')==True :  
+                if srl_data_in.startswith('k#9,[1')==True :  
                     leg1_port = 0
                     leg2_port = 0
                     config = 1
                     i = 4
-                if srl_data_in.startswith('k[#9,[3')==True :                 
+                if srl_data_in.startswith('k#9,[3')==True :                 
                     leg3_port = 0
                     leg4_port = 0
                     config = 1
                     i = 4
-                if srl_data_in.startswith('k[#9,[5')==True :    
+                if srl_data_in.startswith('k#9,[5')==True :    
                     leg5_port = 0
                     leg6_port = 0
                     config = 1
@@ -789,17 +789,17 @@ def Main():
                 srl_write(portnos,data)
                 srl_data_in = srl_in_q.get()
                 print 'port1 #9 response =',srl_data_in
-                if srl_data_in.startswith('k[#9,[1')==True :
+                if srl_data_in.startswith('k#9,[1')==True :
                     leg1_port = 1
                     leg2_port = 1
                     config = 1
                     i = 4
-                if srl_data_in.startswith('k[#9,[3')==True :              
+                if srl_data_in.startswith('k#9,[3')==True :              
                     leg3_port = 1
                     leg4_port = 1
                     config = 1
                     i = 4
-                if srl_data_in.startswith('k[#9,[5')==True :
+                if srl_data_in.startswith('k#9,[5')==True :
                     leg5_port = 1
                     leg6_port = 1
                     config = 1
@@ -839,17 +839,17 @@ def Main():
                 srl_write(portnos,data)
                 srl_data_in = srl_in_q.get()
                 print 'port2 #9 response =',srl_data_in
-                if srl_data_in.startswith('k[#9,[1')==True :
+                if srl_data_in.startswith('k#9,[1')==True :
                     leg1_port = 2
                     leg2_port = 2
                     config = 1
                     i = 4
-                if srl_data_in.startswith('k[#9,[3')==True :            
+                if srl_data_in.startswith('k#9,[3')==True :            
                     leg3_port = 2
                     leg4_port = 2
                     config = 1
                     i = 4
-                if srl_data_in.startswith('k[#9,[5')==True :
+                if srl_data_in.startswith('k#9,[5')==True :
                     leg5_port = 2
                     leg6_port = 2
                     config = 1
@@ -889,17 +889,17 @@ def Main():
                 srl_write(portnos,data)
                 srl_data_in = srl_in_q.get()
                 print 'port3 #9  response =',srl_data_in
-                if srl_data_in.startswith('k[#9,[1')==True :
+                if srl_data_in.startswith('k#9,[1')==True :
                     leg1_port = 3
                     leg2_port = 3
                     config = 1
                     i = 4
-                if srl_data_in.startswith('k[#9,[3')==True :             
+                if srl_data_in.startswith('k#9,[3')==True :             
                     leg3_port = 3
                     leg4_port = 3
                     config = 1
                     i = 4
-                if srl_data_in.startswith('k[#9,[5')==True :
+                if srl_data_in.startswith('k#9,[5')==True :
                     leg5_port = 3
                     leg6_port = 3
                     config = 1
