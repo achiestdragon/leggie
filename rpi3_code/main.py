@@ -365,7 +365,7 @@ def walk_main_worker(srl_out_q,srl_in_q):
     rdy4 = 1            
     rdy5 = 1
     rdy6 = 1 
-    new = 0
+    newj = 0
     print 'main walk Worker: startup'
     while exit != 1 :
         # decode input data queue  
