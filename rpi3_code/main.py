@@ -484,11 +484,11 @@ def walk_main_worker(srl_out_q,srl_in_q):
  
             # servo movement, joystick to servo movement command string encode
             # #1[n,t,hhh,lll,kkk] command string encode
-            hhh = '0'+str(j1x)+'0'
+            hhh = '0'+str(j1z)+'0'
             hhh = hhh.strip(' ')
             lll = '0'+str(j1y)+'0'
             lll = lll.strip(' ')
-            kkk = '0'+str(j2x)+'0'
+            kkk = '0'+str(j1x)+'0'
             kkk = kkk.strip(' ')
             # send to all legs
             #  "#,hhh,lll,kkk,hhh,lll,kkk,"
