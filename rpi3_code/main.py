@@ -485,61 +485,61 @@ def walk_main_worker(srl_out_q,srl_in_q):
             # servo movement, joystick to servo movement command string encode
             # #1[n,t,hhh,lll,kkk] command string encode
             # scale joystick input data 
-            if j1z = 0
+            if j1z == 0:
                 hhh = "010"
-            if j1z = 1
+            if j1z == 1:
                 hhh = "020"
-            if j1z = 2
+            if j1z == 2:
                 hhh = "040"
-            if j1z = 3
+            if j1z == 3:
                 hhh = "060"
-            if j1z = 4
+            if j1z == 4:
                 hhh = "080"
-            if j1z = 5
+            if j1z == 5:
                 hhh = "110"
-            if j1z = 6
+            if j1z == 6:
                 hhh = "130"
-            if j1z = 7
+            if j1z == 7:
                 hhh = "160"
-            if j1z = 8
+            if j1z == 8:
                 hhh = "170"
 
-            if j1y = 0
+            if j1y == 0:
                 lll = "010"
-            if j1y = 1
+            if j1y == 1:
                 lll = "020"
-            if j1y = 2
+            if j1y == 2:
                 lll = "040"
-            if j1y = 3
+            if j1y == 3:
                 lll = "060"
-            if j1y = 4
+            if j1y == 4:
                 lll = "080"
-            if j1y = 5
+            if j1y == 5:
                 lll = "110"
-            if j1y = 6
+            if j1y == 6:
                 lll = "130"
-            if j1y = 7
+            if j1y == 7:
                 lll = "160"
-            if j1y = 8
+            if j1y == 8:
                 lll = "170"
 
-            if j1x = 0
+            if j1x == 0:
                 kkk = "010"
-            if j1x = 1
+            if j1x == 1:
                 kkk = "020"
-            if j1x = 2
+            if j1x == 2:
                 kkk = "040"
-            if j1x = 3
+            if j1x == 3:
                 kkk = "060"
-            if j1x = 4
+            if j1x == 4:
                 kkk = "080"
-            if j1x = 5
+            if j1x == 5:
                 kkk = "110"
-            if j1x = 6
+            if j1x == 6:
                 kkk = "130"
-            if j1x = 7
+            if j1x == 7:
                 kkk = "160"
-            if j1x = 8
+            if j1x == 8:
                 kkk = "170"
             #hhh = '0'+str(j1z)+'0'
             #hhh = hhh.strip(' ')
