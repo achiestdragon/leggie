@@ -303,10 +303,13 @@ def srl_write_queue_worker( srl_out_q, ):
         wp3 = 99
         if d != '' :
             d = d + chr(10)
-            if d.startswith('#0')==True :   # data to all leg ports
+            if d.startswith('#,')==True :   # data to all leg ports
+                # patched in so writes position data to all ports 
                 wp1 = leg1_port             # also  leg2_port
                 wp2 = leg3_port             # also  leg4_port
                 wp3 = leg5_port             # also  leg6_port
+            
+            # code below other than #9 redundant (protocol change)
             if d.startswith('#1')==True :   # data to individual leg port
                 if d.startswith('#1[1'):
                     wp1 = leg1_port
@@ -467,7 +470,7 @@ def walk_main_worker(srl_out_q,srl_in_q):
             newj = 1    
             #
             #*****************************************************************
-            #         debug code  to be removed when done
+            #         debug code  
             #
             # joystick x1 = hip servos
             # joystick y1 = leg servos
@@ -488,41 +491,9 @@ def walk_main_worker(srl_out_q,srl_in_q):
             kkk = '0'+str(j2x)+'0'
             kkk = kkk.strip(' ')
             # send to all legs
-            
-            outstr = '#1[1,6,'+hhh+','+lll+','+kkk+']'
+            #  "#,hhh,lll,kkk,hhh,lll,kkk,"
+            outstr = '#,'+hhh+','+lll+','+kkk+','+hhh+','+lll+','+kkk+','
             srl_out_q.put(outstr)
-            
-            outstr = '#1[3,6,'+hhh+','+lll+','+kkk+']'
-            srl_out_q.put(outstr)
-            
-            outstr = '#1[5,6,'+hhh+','+lll+','+kkk+']'
-            srl_out_q.put(outstr)
-            
-            # should handle ack responces better but for test here only
-            #cntr=0
-            #while cntr != 3 :
-            #    isk = srl_in_q.get()
-            #    if isk.startswith('k[') == True :
-            #        print ' ack =',isk
-            #        cntr = cntr +1
-                    
-            outstr = '#1[2,6,'+hhh+','+lll+','+kkk+']'
-            srl_out_q.put(outstr)
-            
-            outstr = '#1[4,6,'+hhh+','+lll+','+kkk+']'
-            srl_out_q.put(outstr) 
-            
-            outstr = '#1[6,6,'+hhh+','+lll+','+kkk+']'
-            srl_out_q.put(outstr)
-            
-            # set sent data to current active positions
-            srl_out_q.put('#2') # move legs to new pos
-            #rdy1 = 0
-            #rdy2 = 0
-            #rdy3 = 0
-            #rdy4 = 0            
-            #rdy5 = 0
-            #rdy6 = 0
             newj = 0
             
         #           end of debug code
@@ -554,18 +525,18 @@ def walk_main_worker(srl_out_q,srl_in_q):
             # down has not slipped and lost its footing
             # if so then this needs new sequence data to compensate
             
-        if srl_data_in.startswith('l[1'):  # leg1 moved and ready
-            rdy1 = 1
-        if srl_data_in.startswith('l[2'):  # leg2 moved and ready
-            rdy2 = 1            
-        if srl_data_in.startswith('l[3'):  # leg3 moved and ready
-            rdy3 = 1 
-        if srl_data_in.startswith('l[4'):  # leg4 moved and ready
-            rdy4 = 1
-        if srl_data_in.startswith('l[5'):  # leg5 moved and ready
-            rdy5 = 1            
-        if srl_data_in.startswith('l[6'):  # leg6 moved and ready
-            rdy6 = 1
+        #if srl_data_in.startswith('l[1'):  # leg1 moved and ready
+            #rdy1 = 1
+        #if srl_data_in.startswith('l[2'):  # leg2 moved and ready
+            #rdy2 = 1            
+        #if srl_data_in.startswith('l[3'):  # leg3 moved and ready
+            #rdy3 = 1 
+        #if srl_data_in.startswith('l[4'):  # leg4 moved and ready
+            #rdy4 = 1
+        #if srl_data_in.startswith('l[5'):  # leg5 moved and ready
+            #rdy5 = 1            
+        #if srl_data_in.startswith('l[6'):  # leg6 moved and ready
+            #rdy6 = 1
             
             #TODO:-
             # decode the leg , if all legs in that sequence are ready then
@@ -1003,7 +974,7 @@ def Main():
     # initalize robot to known positions
     
     print '\ninitializing all legs to home positions'
-    init_data_command ="#0"
+    init_data_command ="#,090,010,010,090,010,010,"
     srl_out_q.put(init_data_command)
     old_time = time.time()
     for c in range(3): # do this with 1 second delay between each 

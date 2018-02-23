@@ -1120,7 +1120,7 @@ void loop()
           {
 
             //newline detected so decode string
-            if (buff.substring(0,1) == "#") 
+            if (buff.substring(0,2) == "#,") 
               {
                 // load new values for hip,leg,knee
                 // for all legs data format :-
@@ -1145,7 +1145,7 @@ void loop()
                 hip2_pwmo  = hipstr2.toInt() ;
                 leg2_pwmo  = legstr2.toInt() ;
                 knee2_pwmo = kneestr2.toInt();
-              
+              }
                 /*
                 //valid command string detected
                 if (buff.substring(1,2) == "0")  //home
@@ -1403,77 +1403,79 @@ void loop()
                     buff ="";              
                     error=0;
                   }
-                if (buff.substring(1,2) == "9")  // leg status
-                  {
-                    // return leg status for both legs 
-                    // format:-
-                    // k[#9,[n,hhh,lll,kkk,f,s],[n,hhh,lll,kkk,f,s]
-                    // where:-
-                    //      n   = leg nos 
-                    //      hhh = hip pos
-                    //      lll = leg pos
-                    //      kkk = knee pos
-                    //      f   = foot status ( u = up or d = down)
-                    //      s   = lock status ( l= lock or m= moving)
-                    Serial.print("k#9,[");
-                    Serial.print(leg1);
-                    Serial.print(",");
-                    Serial.print(hip1_pos_s);                                        
-                    Serial.print(",");
-                    Serial.print(leg1_pos_s);                                      
-                    Serial.print(",");
-                    Serial.print(knee1_pos_s);
-                    Serial.print(",");
-                    if (foot1_pos > 520) 
-                      { 
-                        Serial.print("d");
-                      } 
-                    else
-                      {
-                        Serial.print("u");
-                      }
-                    Serial.print(",");  
-                    if (hip1_lock==true&&leg1_lock==true&&knee1_lock==true)
-                      {  
-                        Serial.print("l");
-                      }
-                    else
-                      {
-                        Serial.print("m");  
-                      }
-                    Serial.print("],");
-                    Serial.print("[");
-                    Serial.print(leg2);
-                    Serial.print(",");
-                    Serial.print(hip2_pos_s); 
-                    Serial.print(",");
-                    Serial.print(leg2_pos_s);
-                    Serial.print(",");
-                    Serial.print(knee2_pos_s); 
-                    Serial.print(",");
-                    if (foot2_pos > 520) 
-                      { 
-                        Serial.print("d");
-                      } 
-                      else
-                      {
-                        Serial.print("u");
-                      }
-                    Serial.print(",");  
-                    if (hip2_lock==true&&leg2_lock==true&&knee2_lock==true)
-                      {  
-                        Serial.print("l");
-                      }
-                    else
-                      {
-                        Serial.print("m");  
-                      }                      
-                    Serial.println("]");                 
-
-                    buff ="";              
-                    error=0;
-                  }
                   */
+            if (buff.substring(0,2) == "#9")  // leg status
+              {
+                // return leg status for both legs 
+                // format:-
+                // k[#9,[n,hhh,lll,kkk,f,s],[n,hhh,lll,kkk,f,s]
+                // where:-
+                //      n   = leg nos 
+                //      hhh = hip pos
+                //      lll = leg pos
+                //      kkk = knee pos
+                //      f   = foot status ( u = up or d = down)
+                //      s   = lock status ( l= lock or m= moving)
+                Serial.print("k#9,[");
+                Serial.print(leg1);
+                Serial.println(",direct position no pid ]");
+                /*
+                Serial.print(hip1_pos_s);                                        
+                Serial.print(",");
+                Serial.print(leg1_pos_s);                                      
+                Serial.print(",");
+                Serial.print(knee1_pos_s);
+                Serial.print(",");
+                if (foot1_pos > 520) 
+                  { 
+                    Serial.print("d");
+                  } 
+                else
+                  {
+                    Serial.print("u");
+                  }
+                Serial.print(",");  
+                if (hip1_lock==true&&leg1_lock==true&&knee1_lock==true)
+                  {  
+                    Serial.print("l");
+                  }
+                else
+                  {
+                    Serial.print("m");  
+                  }
+                Serial.print("],");
+                Serial.print("[");
+                Serial.print(leg2);
+                Serial.print(",");
+                Serial.print(hip2_pos_s); 
+                Serial.print(",");
+                Serial.print(leg2_pos_s);
+                Serial.print(",");
+                Serial.print(knee2_pos_s); 
+                Serial.print(",");
+                if (foot2_pos > 520) 
+                  { 
+                    Serial.print("d");
+                  } 
+                  else
+                  {
+                    Serial.print("u");
+                  }
+                Serial.print(",");  
+                if (hip2_lock==true&&leg2_lock==true&&knee2_lock==true)
+                  {  
+                    Serial.print("l");
+                  }
+                else
+                  {
+                    Serial.print("m");  
+                  }                      
+                Serial.println("]");                 
+                */
+                buff ="";              
+                error=0;
+              
+                
               }   
             else
               {
