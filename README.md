@@ -6,7 +6,8 @@ a hexapod robot
 
 # progress:-
 
-FIXME: redesign needed :- servos not powerful enough to lift robot into walking position
+FIXME:  servos not powerful enough to lift robot into walking position see readme.txt
+
 
 hardware build and 3d printed parts :-
 
