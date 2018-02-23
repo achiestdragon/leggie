@@ -6,7 +6,7 @@ a hexapod robot
 
 # progress:-
 
-FIXME:  servos not powerful enough to lift robot into walking position see readme.txt
+FIXME:  servos power supply current limiting issue see readme.txt
 
 
 hardware build and 3d printed parts :-
