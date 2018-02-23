@@ -480,7 +480,7 @@ def walk_main_worker(srl_out_q,srl_in_q):
             #if rdy1==1 and rdy2==1 and rdy3==1 and rdy4==1 and rdy5==1 and rdy6==1 and newj==1:
             #if newj == 1:    
             #test print of joystick decoded values
-            #print 'x1=',j1x,'y1=',j1y,'z1=',j1z,'; x2=',j2x,'y2=',j2y,'z2=',j2z,'sbl =',js1b , js2b , button1,button2,button3,button4,button5,button6,button7,button8,button9,button10
+            print 'x1=',j1x,'y1=',j1y,'z1=',j1z,'; x2=',j2x,'y2=',j2y,'z2=',j2z,'sbl =',js1b , js2b , button1,button2,button3,button4,button5,button6,button7,button8,button9,button10
  
             # servo movement, joystick to servo movement command string encode
             # #1[n,t,hhh,lll,kkk] command string encode
