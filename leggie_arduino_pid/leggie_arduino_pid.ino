@@ -283,6 +283,13 @@ String legstr    ;
 String kneestr   ;
 String leg       ;
 
+String hipstr1=buff   ;
+String legstr1=buff   ;
+String kneestr1=buff  ;
+String hipstr2=buff   ;
+String legstr2=buff   ;
+String kneestr2=buff  ;
+
 // other varibles
 
 int cal    = false ;
@@ -524,6 +531,12 @@ void loop()
   // main code :
   if ( cal == false)
   {
+
+    /* 
+     *  cutdown  remove pll and just do  direct positioning debug for 
+     *  faster loop initial version 
+      
+     
     // read adc's for both legs 
     // scale values  read foot status
     // do pwm pll lock and 
@@ -1086,7 +1099,10 @@ void loop()
       }   
     digitalWrite(rdy_out_pin, rdy_out);  // set led pin state
     // led on when all servos on both legs are in lock 
-    
+
+
+
+    */
     //
     // read serial
     //
@@ -1097,14 +1113,40 @@ void loop()
         buff   = String(buff + inByte);
         if (inByte=="#")   
           {
-            buff = String( "#");
+            buff = String( "#"); // new commandline start detected
+                                 // clear input buffer
           }
-        if (inByte=="\n")         
+        if (inByte=="\n")        // end of command line so process it 
           {
 
             //newline detected so decode string
             if (buff.substring(0,1) == "#") 
               {
+                // load new values for hip,leg,knee
+                // for all legs data format :-
+                //  
+                // "#,hhh,lll,kkk,hhh,lll,kkk,"
+                //
+                // where :- 
+                //     hhh   = hip value  000 to 180
+                //     lll   = leg value  000 to 180
+                //     kkk   = knee value 000 to 180
+                // 
+                hipstr1=buff.substring(2,5)    ;
+                legstr1=buff.substring(6,9)    ;
+                kneestr1=buff.substring(10,13) ;
+                hipstr2=buff.substring(14,17)  ;
+                legstr2=buff.substring(18,21)  ;
+                kneestr2=buff.substring(22,25) ;
+                                        
+                hip1_pwmo  = hipstr1.toInt() ;
+                leg1_pwmo  = legstr1.toInt() ;
+                knee1_pwmo = kneestr1.toInt();
+                hip2_pwmo  = hipstr2.toInt() ;
+                leg2_pwmo  = legstr2.toInt() ;
+                knee2_pwmo = kneestr2.toInt();
+              
+                /*
                 //valid command string detected
                 if (buff.substring(1,2) == "0")  //home
                   {
@@ -1145,6 +1187,7 @@ void loop()
                     buff ="";              
                     error=0;                 
                   }
+                  
                 if (buff.substring(1,2) == "1")  //new
                   {
                     // new    load new values for hip,leg,knee
@@ -1176,7 +1219,7 @@ void loop()
                         leg1_new  = legstr.toInt() ;
                         knee1_new = kneestr.toInt();
                         Serial.print("k#1");
-                        /*
+                        
                         Serial.print(leg1);
                         Serial.print(",");
                         Serial.print(tag1_new);
@@ -1187,7 +1230,7 @@ void loop()
                         Serial.print(",");
                         Serial.print(knee1_new);
                         Serial.println("]");
-                        */
+                       
                       }
                     if (btag == leg2 )
                       {
@@ -1196,7 +1239,7 @@ void loop()
                         leg2_new  = legstr.toInt() ;
                         knee2_new = kneestr.toInt();
                         Serial.println("k#1");
-                        /*
+                        
                         Serial.print(leg2);
                         Serial.print(",");
                         Serial.print(tag2_new);
@@ -1207,7 +1250,7 @@ void loop()
                         Serial.print(",");
                         Serial.print(knee2_new);
                         Serial.println("]"); 
-                        */                     
+                                             
                       }
                     buff ="";             
                     error=0;  
@@ -1336,10 +1379,10 @@ void loop()
                         knee2_lock = false ;  
                       }
                     Serial.println("k#6"); 
-                    /*
+                    
                     Serial.print(leg); 
                     Serial.println("]"); 
-                    */
+                    
                     buff ="";             
                     error=0;
                   }
@@ -1430,6 +1473,7 @@ void loop()
                     buff ="";              
                     error=0;
                   }
+                  */
               }   
             else
               {
@@ -1444,13 +1488,15 @@ void loop()
             error = 2;    //ERROR [ buffer overrun ]
           }
       }
+    /*
     if (error != 0)
       {
         Serial.print("E[");
         Serial.print(error);
         Serial.println("]");
         error=0;
-      }    
+      } 
+    /*   
     // set and invert if needed pwmo values 
     if (hip_d == 0)
       {
@@ -1484,7 +1530,7 @@ void loop()
       }
 
     // ******** debug  serial pwmo values see if there in range 
-    /*
+    
     Serial.print("h1= ");
     Serial.print(hip1_pwmo);
     Serial.print(", l1= ");
@@ -1498,16 +1544,7 @@ void loop()
     Serial.print(", k2= ");
     Serial.println(knee2_pwmo);
     */
-    //************ debug try fixed positions again 
-    /*
-    hip1_pwmo  = 60 ;
-    leg1_pwmo  = 60 ; 
-    knee1_pwmo = 20 ;   
-    hip2_pwmo  = 60 ;
-    leg2_pwmo  = 60 ;  
-    knee2_pwmo = 20 ; 
-    */
-    //************
+
    
     // update pwm i/o values   servo.write(pwmvalout); for all servos
     hip1_servo.write(hip1_pwmo);    
