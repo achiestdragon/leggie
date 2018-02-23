@@ -21,28 +21,47 @@
 #        a:-  serial over ip (wifi/ethernet) 
 #        b:-  bluetooth
 #        c:-  where the joystick has bluetooth dongle fitted
-#   
-#   1. add code for leg position data ie current positions and
-#      next position walking sequence buffers and movement exception handlers
 #
-#   2. add code for calculating direction movements to new footing
+#   2. debug code (not all for inclusion in final version but for testing during
+#      writing the code) mainly direct servo positon  in relation to joystick
+#      position , this code is to be made selectable on the command line >>>
+#
+#      add the following command line options 
+#      >>> j       joystick moves servos directly  (debug code only)
+#      >>> v       toggle verbose joystick position data
+#      >>> s       toggle verbose serial tx data stream 
+#      >>> r       toggle verbose recive serial data
+#      >>> d       full leg status for all legs 
+#      >>> h       home all legs
+#
+#   3. add code for calculating direction movements to new footing
 #      positions and calculate the walking gate sequence from 
 #      direction inputs to feed into the walking sequence buffers
 #
-#   3. fixed sequence movements and other sequencing code    
+#   4. fixed sequence movements and other sequencing code    
 #
-#   4. ...all the other things 
+#   5. ...all the other things 
 #
-#   5. a gui control interface ? (maybe someday)
+#   6. a gui control interface ? (maybe someday)
 #
 # FIXME:- 
 #
 #   1. speed up serial protocol used for servo control (also arduino needs 
-#      changing to match )
-
+#      changing to match ) including:-
+#      major changes needed to make the protocol faster
+#      changes needed for command responses
+#      minor changes to routing  and serial buffering 
 #
-#   2. should exit if leg ports are not configured , but for the time leave
-#      this while debugging 
+#      notable changes ,  short messages for quicker tx/rx time
+#      no ack messages unless status data is needed
+#      removed current/new data buffer  all data is conciddered new on arrival
+#      sync is by command arrival and out queue sync
+#      make tx multithread on pi for this
+#      change foot down detect/stop to seperate instruction to move instruction
+#      add move instruction that informs if loss of footing  
+#      
+#
+#   2. should exit if leg ports are not configured 
 #
 
 #
@@ -919,10 +938,13 @@ def Main():
     config = 0
     if leg1_port == 99 :
         print 'ERROR :- leg1 & 2 arduino not found'   # FIXME :- add force exit gracefully for this
+        Exit(1)
     if leg3_port == 99 :
-        print 'ERROR :- leg3 & 4 arduino not found'   # FIXME :- add force exit gracefully for this    
+        print 'ERROR :- leg3 & 4 arduino not found'   # FIXME :- add force exit gracefully for this 
+        Exit(1)
     if leg5_port == 99 :
         print 'ERROR :- leg5 & 6 arduino not found'   # FIXME :- add force exit gracefully for this
+        Exit(1)
     if leg1_port < 6 and leg3_port < 6 and leg5_port < 6:
         config = 1
         if joystick_port == 99 :
@@ -984,17 +1006,17 @@ def Main():
     init_data_command ="#0"
     srl_out_q.put(init_data_command)
     old_time = time.time()
-    for c in range(6): # do this with 1 second delay between each 
+    for c in range(3): # do this with 1 second delay between each 
         waiting = 1
         while waiting == 1:
             if time.time() - old_time > 1:
                 old_time = time.time()
                 dd = ''
-                for cc in range(6):
+                for cc in range(3):
                    if cc <= c :
-                       dd = dd +'##'
+                       dd = dd +'###'
                    else :
-                       dd = dd +'..'
+                       dd = dd +'...'
                 progress = '\rprogress =['+dd+']'
                 sys.stdout.write( progress )
                 sys.stdout.flush()
