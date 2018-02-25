@@ -486,7 +486,7 @@ def walk_main_worker(srl_out_q,srl_in_q):
             # #1[n,t,hhh,lll,kkk] command string encode
             # scale joystick input data 
             if j1z == 0:
-                hhh = "010"
+                hhh = "000"
             if j1z == 1:
                 hhh = "020"
             if j1z == 2:
@@ -505,7 +505,7 @@ def walk_main_worker(srl_out_q,srl_in_q):
                 hhh = "170"
 
             if j1y == 0:
-                lll = "010"
+                lll = "000"
             if j1y == 1:
                 lll = "020"
             if j1y == 2:
@@ -524,7 +524,7 @@ def walk_main_worker(srl_out_q,srl_in_q):
                 lll = "170"
 
             if j1x == 0:
-                kkk = "010"
+                kkk = "000"
             if j1x == 1:
                 kkk = "020"
             if j1x == 2:
