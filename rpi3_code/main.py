@@ -635,10 +635,10 @@ def sequence1():
                     old_time = time.time()
                     waiting = 0                
             if hip_pos <=10 :  # min hip 
-                up =1
+                up = 1
             if hip_pos >=170 : # max hip 
                 up = 0 
-            if up = 1:
+            if up == 1:
                 hip_pos = hip_pos + 1
             else :
                 hip_pos = hip_pos - 1
