@@ -627,7 +627,7 @@ def sequence1():
                 waiting = 0
         hip_pos = 90
         up =0
-        for count in xrange(360)
+        for count in xrange(360):
             old_time = time.time()
             waiting = 1
             while waiting == 1:
