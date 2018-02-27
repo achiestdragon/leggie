@@ -420,6 +420,7 @@ def walk_main_worker(srl_out_q,srl_in_q):
             sbl = sbl[1:]
             if sbl.startswith('X'):
                 button1 = 1
+                sequence1()
             else:
                 button1 = 0
             sbl = sbl[1:]
@@ -603,10 +604,53 @@ def walk_main_worker(srl_out_q,srl_in_q):
             
             #TODO:-
             # flag appropriate sequence pipe task state 
-            
+        
+        # sequence 1
             
     print 'main walk Worker: exit'
-
+#
+# ****************************************************************************
+# *                           leg move sequence 1                            *
+# ****************************************************************************
+# basis if hip position calibrate
+# move lower and upper leg to home position , then move hip in incriments 
+# of 1 to 0 then to 179  then back to home  
+def sequence1():
+        # move to home position
+        outstr = '#,090,000,000,090,000,000,'
+        srl_out_q.put(outstr)
+        old_time = time.time()
+        waiting = 1
+        while waiting == 1:
+            if time.time() - old_time > 1:
+                old_time = time.time()
+                waiting = 0
+        hip_pos = 90
+        up =0
+        for count in xrange(360)
+            old_time = time.time()
+            waiting = 1
+            while waiting == 1:
+                if time.time() - old_time > 0.25:
+                    old_time = time.time()
+                    waiting = 0                
+            if hip_pos <=10 :  # min hip 
+                up =1
+            if hip_pos >=170 : # max hip 
+                up = 0 
+            if up = 1:
+                hip_pos = hip_pos + 1
+            else :
+                hip_pos = hip_pos - 1
+            if hip_pos <=9 :
+                hipstr = '00',+str(hip_pos)
+            if hip_pos >=10 :
+                hipstr = '0',+str(hip_pos)
+            if hip_pos >=100 :
+                hipstr = str(hip_pos)
+            hipstr = hipstr.strip(' ')
+            outstr = '#,'+hipstr+',000,000,'+hipstr+',000,000,'
+        
 #
 # ****************************************************************************
 # *                           error global update                            *
@@ -983,12 +1027,12 @@ def Main():
             print 'serial joystick connected ok'
     
      
-    # wait 1 second for serial queue to settle 
+    # wait .5 second for serial queue to settle 
     
     old_time = time.time()
     waiting = 1
     while waiting == 1:
-        if time.time() - old_time > 1:
+        if time.time() - old_time > .5:
             old_time = time.time()
             waiting = 0
             
@@ -1024,7 +1068,7 @@ def Main():
     old_time = time.time()
     waiting = 1
     while waiting == 1:
-        if time.time() - old_time > 1:
+        if time.time() - old_time > 0.5:
             old_time = time.time()
             waiting = 0
 
@@ -1034,13 +1078,13 @@ def Main():
     init_data_command ="#,090,010,010,090,010,010,"
     srl_out_q.put(init_data_command)
     old_time = time.time()
-    for c in range(3): # do this with 1 second delay between each 
+    for c in range(3): # do this with .5 second delay between each 
         waiting = 1
         while waiting == 1:
-            if time.time() - old_time > 1:
+            if time.time() - old_time > 0.5:
                 old_time = time.time()
                 dd = ''
-                for cc in range(3):
+                for cc in range(6):
                    if cc <= c :
                        dd = dd +'###'
                    else :
@@ -1054,12 +1098,12 @@ def Main():
     
     print '\nDone:- all robot legs should now be in home position\n'
     
-    # wait 1 second for serial queue to settle 
+    # wait .5 second for serial queue to settle 
     
     old_time = time.time()
     waiting = 1
     while waiting == 1:
-        if time.time() - old_time > 1:
+        if time.time() - old_time > 0.5:
             old_time = time.time()
             waiting = 0
     # clear srl_in_q
