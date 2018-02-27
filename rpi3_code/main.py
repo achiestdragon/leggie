@@ -643,13 +643,13 @@ def sequence1(srl_out_q,):
             else :
                 hip_pos = hip_pos - 1
             if hip_pos <=9 :
-                hipstr = '00',+str(hip_pos)
+                hipstr = '00',str(hip_pos)
             if hip_pos >=10 :
-                hipstr = '0',+str(hip_pos)
+                hipstr = '0',str(hip_pos)
             if hip_pos >=100 :
                 hipstr = str(hip_pos)
             hipstr = hipstr.strip(' ')
-            outstr = '#,'+hipstr+',000,000,'+hipstr+',000,000,'
+            outstr = '#,',hipstr,',000,000,',hipstr,',000,000,'
             srl_out_q.put(outstr)
         
 #
