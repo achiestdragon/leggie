@@ -1116,6 +1116,11 @@ void loop()
             buff = String( "#"); // new commandline start detected
                                  // clear input buffer
           }
+         if (inByte=="$")   
+          {
+            buff = String( "$"); // new commandline start detected
+                                 // clear input buffer
+          }         
         if (inByte=="\n")        // end of command line so process it 
           {
 
@@ -1142,6 +1147,47 @@ void loop()
                 hip1_pwmo  = hipstr1.toInt() ;
                 leg1_pwmo  = legstr1.toInt() ;
                 knee1_pwmo = kneestr1.toInt();
+                hip2_pwmo  = hipstr2.toInt() ;
+                leg2_pwmo  = legstr2.toInt() ;
+                knee2_pwmo = kneestr2.toInt();
+              }
+            if (buff.substring(0,2) == "$1" or buff.substring(0,2) == "$3" or buff.substring(0,2) == "$5") 
+              {
+                // load new values for hip,leg,knee
+                // for all legs data format :-
+                //  
+                // "$n,hhh,lll,kkk,"
+                //
+                // where :- 
+                //     hhh   = hip value  000 to 180
+                //     lll   = leg value  000 to 180
+                //     kkk   = knee value 000 to 180
+                // 
+                hipstr1=buff.substring(3,6)    ;
+                legstr1=buff.substring(7,10)    ;
+                kneestr1=buff.substring(11,14) ;
+                                                        
+                hip1_pwmo  = hipstr1.toInt() ;
+                leg1_pwmo  = legstr1.toInt() ;
+                knee1_pwmo = kneestr1.toInt();
+                
+              }
+            if (buff.substring(0,2) == "$2" or buff.substring(0,2) == "$4" or buff.substring(0,2) == "$6") 
+              {
+                // load new values for hip,leg,knee
+                // for all legs data format :-
+                //  
+                // "$n,hhh,lll,kkk,"
+                //
+                // where :- 
+                //     hhh   = hip value  000 to 180
+                //     lll   = leg value  000 to 180
+                //     kkk   = knee value 000 to 180
+                // 
+                hipstr2=buff.substring(3,6)    ;
+                legstr2=buff.substring(7,10)    ;
+                kneestr2=buff.substring(11,14) ;
+                                                        
                 hip2_pwmo  = hipstr2.toInt() ;
                 leg2_pwmo  = legstr2.toInt() ;
                 knee2_pwmo = kneestr2.toInt();

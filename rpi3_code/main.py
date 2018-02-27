@@ -617,7 +617,7 @@ def walk_main_worker(srl_out_q,srl_in_q):
 # of 1 to 0 then to 179  then back to home  
 def sequence1(srl_out_q,):
         # move to home position
-        outstr = '#,090,000,000,090,000,000,'
+        outstr = '#,090,000,005,090,000,005,'
         srl_out_q.put(outstr)
         old_time = time.time()
         waiting = 1
@@ -625,31 +625,55 @@ def sequence1(srl_out_q,):
             if time.time() - old_time > 1:
                 old_time = time.time()
                 waiting = 0
-        hip_pos = 90
-        up =0
-        for count in xrange(72):
+        n=1
+        while done != 1:
+            nstr = str(n)
+            nstr = nstr.strip(' ')
+            outstr = str('$'+nstr+',000,000,002,')
+            srl_out_q.put(outstr)
             old_time = time.time()
             waiting = 1
             while waiting == 1:
                 if time.time() - old_time > 1:
                     old_time = time.time()
-                    waiting = 0                
-            if hip_pos <=10 :  # min hip 
-                up = 1
-            if hip_pos >=170 : # max hip 
-                up = 0 
-            if up == 1:
-                hip_pos = hip_pos + 5
-            else :
-                hip_pos = hip_pos - 5
-            if hip_pos <=9 :
-                hipstr = '00'+str(hip_pos)
-            if hip_pos >=10 :
-                hipstr = '0'+str(hip_pos)
-            if hip_pos >=100 :
-                hipstr = str(hip_pos)
-            hipstr = hipstr.strip(' ')
-            outstr = str('#,'+hipstr+',000,000,'+hipstr+',000,000,')
+                    waiting = 0 
+            outstr = str('$'+nstr+',179,000,002,')
+            srl_out_q.put(outstr)
+            old_time = time.time()
+            waiting = 1
+            while waiting == 1:
+                if time.time() - old_time > 1:
+                    old_time = time.time()
+                    waiting = 0 
+            outstr = str('$'+nstr+',090,000,002,')
+            srl_out_q.put(outstr)
+            old_time = time.time()
+            waiting = 1
+            while waiting == 1:
+                if time.time() - old_time > 1:
+                    old_time = time.time()
+                    waiting = 0                    
+            outstr = str('$'+nstr+',090,000,090,')
+            srl_out_q.put(outstr)
+            old_time = time.time()
+            waiting = 1
+            while waiting == 1:
+                if time.time() - old_time > 1:
+                    old_time = time.time()
+                    waiting = 0                    
+            outstr = str('$'+nstr+',090,000,005,')
+            srl_out_q.put(outstr)
+            old_time = time.time()
+            waiting = 1
+            while waiting == 1:
+                if time.time() - old_time > 1:
+                    old_time = time.time()
+                    waiting = 0                     
+            n=n+1
+            if n==7 :
+                done = 1
+
+            outstr = str('#,090,000,005,090,000,005,')
             srl_out_q.put(outstr)
         
 #
