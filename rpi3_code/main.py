@@ -46,22 +46,9 @@
 #
 # FIXME:- 
 #
-#   1. speed up serial protocol used for servo control (also arduino needs 
-#      changing to match ) including:-
-#      major changes needed to make the protocol faster
-#      changes needed for command responses
-#      minor changes to routing  and serial buffering 
-#
-#      notable changes ,  short messages for quicker tx/rx time
-#      no ack messages unless status data is needed
-#      removed current/new data buffer  all data is conciddered new on arrival
-#      sync is by command arrival and out queue sync
-#      make tx multithread on pi for this
-#      change foot down detect/stop to seperate instruction to move instruction
-#      add move instruction that informs if loss of footing  
-#      
-#
-#   2. should exit if leg ports are not configured 
+#   1. serial write command thread dropping out of sequence
+#      fix rewrite  srl_write_queue_worker( srl_out_q, ): as a callable
+#      function  ser_out(ser_out_d): with single string input not a queue 
 #
 
 #
@@ -293,6 +280,10 @@ def srl_write(portnos,data):
 #
 
 # reads command queue , and directs data to appropriate port
+# FIXME:-
+#    threading for some reason is loosing sync between data sent to all ports
+#    and individual ports ,  could be buffer data , threading timing or arduino
+#    rx fail ,, seems like its missing to catch /n on the end of commands 
 
 def srl_write_queue_worker( srl_out_q, ):
     print 'serial write router Worker : startup'
@@ -302,15 +293,13 @@ def srl_write_queue_worker( srl_out_q, ):
         wp2 = 99
         wp3 = 99
         if d != '' :
-            d = d + chr(10)
+            d = d + str('/n')
             if d.startswith('#,')==True :   # data to all leg ports
                 # patched in so writes position data to all ports 
                 wp1 = leg1_port             # also  leg2_port
                 wp2 = leg3_port             # also  leg4_port
                 wp3 = leg5_port             # also  leg6_port
-            
-            # code below other than #9 redundant (protocol change)
-            if d.startswith('$')==True :   # data to individual leg port
+           if d.startswith('$')==True :   # data to individual leg port
                 if d.startswith('$1'):
                     wp1 = leg1_port
                 if d.startswith('$2'):
@@ -323,48 +312,10 @@ def srl_write_queue_worker( srl_out_q, ):
                     wp1 = leg5_port
                 if d.startswith('$6'):
                     wp1 = leg6_port
-            if d.startswith('#2')==True :   # data to all leg ports
-                wp1 = leg1_port             # also  leg2_port
-                wp2 = leg3_port             # also  leg4_port
-                wp3 = leg5_port             # also  leg6_port
-            if d.startswith('#3')==True :   # data to all leg ports
-                wp1 = leg1_port             # also  leg2_port
-                wp2 = leg3_port             # also  leg4_port
-                wp3 = leg5_port             # also  leg6_port
-            if d.startswith('#4')==True :   # data to all odd leg ports
-                wp1 = leg1_port
-                wp2 = leg3_port
-                wp3 = leg5_port
-            if d.startswith('#5')==True :   # data to all even leg ports
-                wp1 = leg2_port
-                wp2 = leg4_port
-                wp3 = leg6_port
-            if d.startswith('#6')==True :   # data to individual leg port
-                if d.startswith('#1[1'):
-                    wp1 = leg1_port
-                if d.startswith('#1[2'):
-                    wp1 = leg2_port
-                if d.startswith('#1[3'):
-                    wp1 = leg3_port
-                if d.startswith('#1[4'):
-                    wp1 = leg4_port
-                if d.startswith('#1[5'):
-                    wp1 = leg5_port
-                if d.startswith('#1[6'):
-                    wp1 = leg6_port                
-            if d.startswith('#7')==True :   # data to all leg ports
-                wp1 = leg1_port             # also  leg2_port
-                wp2 = leg3_port             # also  leg4_port
-                wp3 = leg5_port             # also  leg6_port
-            if d.startswith('#8')==True :   # data to all leg ports
-                wp1 = leg1_port             # also  leg2_port
-                wp2 = leg3_port             # also  leg4_port
-                wp3 = leg5_port             # also  leg6_port
             if d.startswith('#9')==True :   # data to all leg ports
                 wp1 = leg1_port             # also  leg2_port
                 wp2 = leg3_port             # also  leg4_port
                 wp3 = leg5_port             # also  leg6_port
-
             if wp1 == 0  or wp2 == 0 or wp3 == 0 : # if data for /dev/ttyUSB0
                 ser0.write(d)
             if wp1 == 1  or wp2 == 1 or wp3 == 1 : # if data for /dev/ttyUSB1
@@ -612,7 +563,7 @@ def walk_main_worker(srl_out_q,srl_in_q):
 # ****************************************************************************
 # *                           leg move sequence 1                            *
 # ****************************************************************************
-# basis if hip position calibrate
+# basis of hip position calibrate
 # move lower and upper leg to home position , then move hip in incriments 
 # of 1 to 0 then to 179  then back to home  
 def sequence1(srl_out_q,):
@@ -673,9 +624,8 @@ def sequence1(srl_out_q,):
             n=n+1
             if n==7 :
                 done = 1
-
-            outstr = str('#,090,000,005,090,000,005,')
-            srl_out_q.put(outstr)
+                outstr = str('#,090,000,005,090,000,005,')
+                srl_out_q.put(outstr)
         
 #
 # ****************************************************************************
