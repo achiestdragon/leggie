@@ -631,7 +631,7 @@ def sequence1(srl_out_q,):
             old_time = time.time()
             waiting = 1
             while waiting == 1:
-                if time.time() - old_time > 0.5:
+                if time.time() - old_time > 1:
                     old_time = time.time()
                     waiting = 0                
             if hip_pos <=10 :  # min hip 
