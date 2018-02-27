@@ -295,6 +295,7 @@ def srl_write(portnos,data):
 # reads command queue , and directs data to appropriate port
 
 def srl_write_queue_worker( srl_out_q, ):
+    global srl_out_q
     print 'serial write router Worker : startup'
     while exit != 1 :
         d = srl_out_q.get()
