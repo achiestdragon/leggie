@@ -627,11 +627,11 @@ def sequence1(srl_out_q,):
                 waiting = 0
         hip_pos = 90
         up =0
-        for count in xrange(360):
+        for count in xrange(72):
             old_time = time.time()
             waiting = 1
             while waiting == 1:
-                if time.time() - old_time > 0.25:
+                if time.time() - old_time > 0.5:
                     old_time = time.time()
                     waiting = 0                
             if hip_pos <=10 :  # min hip 
@@ -639,9 +639,9 @@ def sequence1(srl_out_q,):
             if hip_pos >=170 : # max hip 
                 up = 0 
             if up == 1:
-                hip_pos = hip_pos + 1
+                hip_pos = hip_pos + 5
             else :
-                hip_pos = hip_pos - 1
+                hip_pos = hip_pos - 5
             if hip_pos <=9 :
                 hipstr = '00'+str(hip_pos)
             if hip_pos >=10 :
