@@ -624,8 +624,9 @@ def sequence1(srl_out_q,):
         while waiting == 1:
             if time.time() - old_time > 1:
                 old_time = time.time()
-        done = 0        waiting = 0
+                waiting = 0
         n = 1
+        done = 0
         while done != 1:
             nstr = str(n)
             nstr = nstr.strip(' ')
