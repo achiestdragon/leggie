@@ -6,17 +6,13 @@ version 1.0a  alpha prototype
 
 most of  the documentation so far is in the comments in the code
 
+project status
+--------------
+ hardware:-
+    built and assembled , currently testing 
+ software:-
+    still work in progress
 
-FIXME:-
- first servo drive tests  
- the robot servos are able to lift robot into walking positions
- even though in inital tests it could hold its walking position under servo power
- with the upper leg sections horizontal  
- not sure if this is a pwm issue or just down to servo power at the moment so
- working on this 
- UPDATE:-  seems to be a down to power supply issue current limiting issue
-  upgrading on board servo power, fix in progress
- 
 
 3d printing requirements   
 ------------------------

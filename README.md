@@ -6,9 +6,6 @@ a hexapod robot
 
 # progress:-
 
-FIXME:  servos power supply current limiting issue see readme.txt
-
-
 hardware build and 3d printed parts :-
 
 .    scad & stl files for 3d printed parts printed =version 1.0a not yet final
