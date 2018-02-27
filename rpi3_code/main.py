@@ -615,7 +615,8 @@ def walk_main_worker(srl_out_q,srl_in_q):
 # basis if hip position calibrate
 # move lower and upper leg to home position , then move hip in incriments 
 # of 1 to 0 then to 179  then back to home  
-def sequence1(srl_out_q,):
+def sequence1():
+        global srl_out_q
         # move to home position
         outstr = '#,090,000,000,090,000,000,'
         srl_out_q.put(outstr)
