@@ -286,6 +286,13 @@ def srl_write_ini(portnos,data):
 #    rx fail ,, seems like its missing to catch /n on the end of commands 
 
 def srl_write( srl_out_d ):
+    global leg1_port
+    global leg2_port
+    global leg3_port
+    global leg4_port
+    global leg5_port
+    global leg6_port
+    global joystick_port
     d = srl_out_d
     wp1 = 99
     wp2 = 99
