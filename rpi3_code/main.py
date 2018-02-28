@@ -579,8 +579,8 @@ def sequence1():
     old_time = time.time()
     waiting = 1
     while waiting == 1:
-    if time.time() - old_time > .5:
-        old_time = time.time()
+        if time.time() - old_time > .5:
+            old_time = time.time()
             waiting = 0
     n = 1
     done = 0
