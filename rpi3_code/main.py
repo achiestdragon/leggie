@@ -612,14 +612,30 @@ def sequence1():
             if time.time() - old_time > .5:
                 old_time = time.time()
                 waiting = 0                    
-        srl_out_d = str('$'+nstr+',090,000,090,')
+        srl_out_d = str('$'+nstr+',090,090,090,')
         srl_write( srl_out_d )
         old_time = time.time()
         waiting = 1
         while waiting == 1:
             if time.time() - old_time > .5:
                 old_time = time.time()
-                waiting = 0                    
+                waiting = 0   
+        srl_out_d = str('$'+nstr+',090,090,170,')
+        srl_write( srl_out_d )
+        old_time = time.time()
+        waiting = 1
+        while waiting == 1:
+            if time.time() - old_time > .5:
+                old_time = time.time()
+                waiting = 0
+        srl_out_d = str('$'+nstr+',090,090,090,')
+        srl_write( srl_out_d )
+        old_time = time.time()
+        waiting = 1
+        while waiting == 1:
+            if time.time() - old_time > .5:
+                old_time = time.time()
+                waiting = 0 
         srl_out_d = str('$'+nstr+',090,000,005,')
         srl_write( srl_out_d )
         old_time = time.time()
