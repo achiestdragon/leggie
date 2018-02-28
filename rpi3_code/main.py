@@ -245,7 +245,7 @@ def srl_worker(num , srl_in_q , ):
 # used for initial port routing setup only
 # sends data to port portnos
 
-def srl_write(portnos,data):
+def srl_write_ini(portnos,data):
     if portnos ==0 :
         data=data + chr(10)   
         try :
@@ -802,7 +802,7 @@ def Main():
             while i <= 4 :
                 portnos=0 
                 data= "#9"
-                srl_write(portnos,data)
+                srl_write_ini(portnos,data)
                 srl_data_in = srl_in_q.get()
                 print 'port0 #9 response =',srl_data_in
                 if srl_data_in.startswith('k#9,[1')==True :  
@@ -852,7 +852,7 @@ def Main():
             while i <= 4 :
                 portnos=1 
                 data= "#9"
-                srl_write(portnos,data)
+                srl_write_ini(portnos,data)
                 srl_data_in = srl_in_q.get()
                 print 'port1 #9 response =',srl_data_in
                 if srl_data_in.startswith('k#9,[1')==True :
@@ -902,7 +902,7 @@ def Main():
             while i <= 4 :
                 portnos=2 
                 data= "#9"
-                srl_write(portnos,data)
+                srl_write_ini(portnos,data)
                 srl_data_in = srl_in_q.get()
                 print 'port2 #9 response =',srl_data_in
                 if srl_data_in.startswith('k#9,[1')==True :
@@ -952,7 +952,7 @@ def Main():
             while i <= 4 :
                 portnos=3 
                 data= "#9"
-                srl_write(portnos,data)
+                srl_write_ini(portnos,data)
                 srl_data_in = srl_in_q.get()
                 print 'port3 #9  response =',srl_data_in
                 if srl_data_in.startswith('k#9,[1')==True :
