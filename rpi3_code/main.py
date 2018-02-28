@@ -297,7 +297,7 @@ def srl_write( srl_out_d ):
             wp1 = leg1_port             # also  leg2_port
             wp2 = leg3_port             # also  leg4_port
             wp3 = leg5_port             # also  leg6_port
-       if d.startswith('$')==True :   # data to individual leg port
+        if d.startswith('$')==True :   # data to individual leg port
             if d.startswith('$1'):
                 wp1 = leg1_port
             if d.startswith('$2'):
