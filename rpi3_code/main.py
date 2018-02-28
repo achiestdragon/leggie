@@ -573,66 +573,66 @@ def walk_main_worker(srl_in_q,):
 # move lower and upper leg to home position , then move hip in incriments 
 # of 1 to 0 then to 179  then back to home  
 def sequence1():
-        # move to home position
-        srl_out_d = '#,090,000,005,090,000,005,'
+    # move to home position
+    srl_out_d = '#,090,000,005,090,000,005,'
+    srl_write( srl_out_d )
+    old_time = time.time()
+    waiting = 1
+    while waiting == 1:
+    if time.time() - old_time > .5:
+        old_time = time.time()
+            waiting = 0
+    n = 1
+    done = 0
+    while done != 1:
+        nstr = str(n)
+        nstr = nstr.strip(' ')
+        srl_out_d = str('$'+nstr+',010,000,002,')
         srl_write( srl_out_d )
         old_time = time.time()
         waiting = 1
         while waiting == 1:
-            if time.time() - old_time > 1:
+            if time.time() - old_time > .5:
                 old_time = time.time()
-                waiting = 0
-        n = 1
-        done = 0
-        while done != 1:
-            nstr = str(n)
-            nstr = nstr.strip(' ')
-            srl_out_d = str('$'+nstr+',000,000,002,')
+                waiting = 0 
+        srl_out_d = str('$'+nstr+',170,000,002,')
+        srl_write( srl_out_d )
+        old_time = time.time()
+        waiting = 1
+        while waiting == 1:
+            if time.time() - old_time > .5:
+                old_time = time.time()
+                waiting = 0 
+        srl_out_d = str('$'+nstr+',090,000,002,')
+        srl_write( srl_out_d )
+        old_time = time.time()
+        waiting = 1
+        while waiting == 1:
+            if time.time() - old_time > .5:
+                old_time = time.time()
+                waiting = 0                    
+        srl_out_d = str('$'+nstr+',090,000,090,')
+        srl_write( srl_out_d )
+        old_time = time.time()
+        waiting = 1
+        while waiting == 1:
+            if time.time() - old_time > .5:
+                old_time = time.time()
+                waiting = 0                    
+        srl_out_d = str('$'+nstr+',090,000,005,')
+        srl_write( srl_out_d )
+        old_time = time.time()
+        waiting = 1
+        while waiting == 1:
+            if time.time() - old_time > .5:
+                old_time = time.time()
+                waiting = 0                     
+        n=n+1
+        if n==7 :
+            done = 1
+            srl_out_d = str('#,090,000,005,090,000,005,')
             srl_write( srl_out_d )
-            old_time = time.time()
-            waiting = 1
-            while waiting == 1:
-                if time.time() - old_time > 1:
-                    old_time = time.time()
-                    waiting = 0 
-            srl_out_d = str('$'+nstr+',179,000,002,')
-            srl_write( srl_out_d )
-            old_time = time.time()
-            waiting = 1
-            while waiting == 1:
-                if time.time() - old_time > 1:
-                    old_time = time.time()
-                    waiting = 0 
-            srl_out_d = str('$'+nstr+',090,000,002,')
-            srl_write( srl_out_d )
-            old_time = time.time()
-            waiting = 1
-            while waiting == 1:
-                if time.time() - old_time > 1:
-                    old_time = time.time()
-                    waiting = 0                    
-            srl_out_d = str('$'+nstr+',090,000,090,')
-            srl_write( srl_out_d )
-            old_time = time.time()
-            waiting = 1
-            while waiting == 1:
-                if time.time() - old_time > 1:
-                    old_time = time.time()
-                    waiting = 0                    
-            srl_out_d = str('$'+nstr+',090,000,005,')
-            srl_write( srl_out_d )
-            old_time = time.time()
-            waiting = 1
-            while waiting == 1:
-                if time.time() - old_time > 1:
-                    old_time = time.time()
-                    waiting = 0                     
-            n=n+1
-            if n==7 :
-                done = 1
-                srl_out_d = str('#,090,000,005,090,000,005,')
-                srl_write( srl_out_d )
-        
+     
 #
 # ****************************************************************************
 # *                           error global update                            *
