@@ -298,7 +298,7 @@ def srl_write( srl_out_d ):
     wp2 = 99
     wp3 = 99
     if d != '' :
-        d = d + str('/n')
+        d = d + str('\n')
         if d.startswith('#,')==True :   # data to all leg ports
             # patched in so writes position data to all ports 
             wp1 = leg1_port             # also  leg2_port
