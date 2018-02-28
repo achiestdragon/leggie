@@ -570,9 +570,12 @@ def walk_main_worker(srl_in_q,):
 # ****************************************************************************
 # *                           leg move sequence 1                            *
 # ****************************************************************************
-# basis of hip position calibrate
-# move lower and upper leg to home position , then move hip in incriments 
-# of 1 to 0 then to 179  then back to home  
+# 
+# move each leg in turn though following sequence 
+#    hip right full , left full and back to center , upper and lower leg out 
+#    to center , lower leg out full , then back to home , next leg
+#
+
 def sequence1():
     # move to home position
     srl_out_d = '#,090,000,005,090,000,005,'
@@ -580,7 +583,7 @@ def sequence1():
     old_time = time.time()
     waiting = 1
     while waiting == 1:
-        if time.time() - old_time > .5:
+        if time.time() - old_time > 0.5:
             old_time = time.time()
             waiting = 0
     n = 1
@@ -593,7 +596,7 @@ def sequence1():
         old_time = time.time()
         waiting = 1
         while waiting == 1:
-            if time.time() - old_time > .5:
+            if time.time() - old_time > 0.5:
                 old_time = time.time()
                 waiting = 0 
         srl_out_d = str('$'+nstr+',170,000,002,')
@@ -601,7 +604,7 @@ def sequence1():
         old_time = time.time()
         waiting = 1
         while waiting == 1:
-            if time.time() - old_time > .5:
+            if time.time() - old_time > 0.5:
                 old_time = time.time()
                 waiting = 0 
         srl_out_d = str('$'+nstr+',090,000,002,')
@@ -609,7 +612,7 @@ def sequence1():
         old_time = time.time()
         waiting = 1
         while waiting == 1:
-            if time.time() - old_time > .5:
+            if time.time() - old_time > 0.5:
                 old_time = time.time()
                 waiting = 0                    
         srl_out_d = str('$'+nstr+',090,090,090,')
@@ -617,7 +620,7 @@ def sequence1():
         old_time = time.time()
         waiting = 1
         while waiting == 1:
-            if time.time() - old_time > .5:
+            if time.time() - old_time > 0.5:
                 old_time = time.time()
                 waiting = 0   
         srl_out_d = str('$'+nstr+',090,090,170,')
@@ -625,7 +628,7 @@ def sequence1():
         old_time = time.time()
         waiting = 1
         while waiting == 1:
-            if time.time() - old_time > .5:
+            if time.time() - old_time > 0.5:
                 old_time = time.time()
                 waiting = 0
         srl_out_d = str('$'+nstr+',090,090,090,')
@@ -633,7 +636,7 @@ def sequence1():
         old_time = time.time()
         waiting = 1
         while waiting == 1:
-            if time.time() - old_time > .5:
+            if time.time() - old_time > 0.5:
                 old_time = time.time()
                 waiting = 0 
         srl_out_d = str('$'+nstr+',090,000,005,')
@@ -641,7 +644,7 @@ def sequence1():
         old_time = time.time()
         waiting = 1
         while waiting == 1:
-            if time.time() - old_time > .5:
+            if time.time() - old_time > 0.5:
                 old_time = time.time()
                 waiting = 0                     
         n=n+1
@@ -654,9 +657,10 @@ def sequence1():
 # ****************************************************************************
 # *                           leg move sequence 2                            *
 # ****************************************************************************
-# basis of hip position calibrate
-# move lower and upper leg to home position , then move hip in incriments 
-# of 1 to 0 then to 179  then back to home  
+# 
+# move odd then even legs  from home to 90 deg lower and 90 deg upper leg
+# then back , and then on other set  4 times in total 
+#
 def sequence2():
     # move to home position
     srl_out_d = '#,090,000,005,090,000,005,'
@@ -664,7 +668,7 @@ def sequence2():
     old_time = time.time()
     waiting = 1
     while waiting == 1:
-        if time.time() - old_time > .5:
+        if time.time() - old_time > 0.5:
             old_time = time.time()
             waiting = 0
     n = 1
@@ -680,7 +684,7 @@ def sequence2():
         old_time = time.time()
         waiting = 1
         while waiting == 1:
-            if time.time() - old_time > .5:
+            if time.time() - old_time > 0.5:
                 old_time = time.time()
                 waiting = 0 
         srl_out_d = str('$1,090,000,002,')
@@ -693,7 +697,7 @@ def sequence2():
         old_time = time.time()
         waiting = 1
         while waiting == 1:
-            if time.time() - old_time > .5:
+            if time.time() - old_time > 0.5:
                 old_time = time.time()
                 waiting = 0
         srl_out_d = str('$2,090,090,090,')
@@ -706,7 +710,7 @@ def sequence2():
         old_time = time.time()
         waiting = 1
         while waiting == 1:
-            if time.time() - old_time > .5:
+            if time.time() - old_time > 0.5:
                 old_time = time.time()
                 waiting = 0 
         srl_out_d = str('$2,090,000,002,')
@@ -719,7 +723,7 @@ def sequence2():
         old_time = time.time()
         waiting = 1
         while waiting == 1:
-            if time.time() - old_time > .5:
+            if time.time() - old_time > 0.5:
                 old_time = time.time()
                 waiting = 0                
          
@@ -888,7 +892,7 @@ def Main():
     old_time = time.time()
     waiting = 1
     while waiting == 1:
-        if time.time() - old_time > 1:
+        if time.time() - old_time > 0.5:
             old_time = time.time()
             waiting = 0     
     # configure whats on port dev/ttyUSB0
@@ -936,7 +940,7 @@ def Main():
     old_time = time.time()
     waiting = 1
     while waiting == 1:
-        if time.time() - old_time > 1:
+        if time.time() - old_time > 0.5:
             old_time = time.time()
             waiting = 0 
  
@@ -986,7 +990,7 @@ def Main():
     old_time = time.time()
     waiting = 1
     while waiting == 1:
-        if time.time() - old_time > 1:
+        if time.time() - old_time > 0.5:
             old_time = time.time()
             waiting = 0 
             
@@ -1036,7 +1040,7 @@ def Main():
     old_time = time.time()
     waiting = 1
     while waiting == 1:
-        if time.time() - old_time > 1:
+        if time.time() - old_time > 0.5:
             old_time = time.time()
             waiting = 0  
             
@@ -1086,13 +1090,13 @@ def Main():
     print '\nconfigure device data routing :-'
     config = 0
     if leg1_port == 99 :
-        print 'ERROR :- leg1 & 2 arduino not found'   # FIXME :- add force exit gracefully for this
+        print 'ERROR :- leg1 & 2 arduino not found'    
         Exit(1)
     if leg3_port == 99 :
-        print 'ERROR :- leg3 & 4 arduino not found'   # FIXME :- add force exit gracefully for this 
+        print 'ERROR :- leg3 & 4 arduino not found'    
         Exit(1)
     if leg5_port == 99 :
-        print 'ERROR :- leg5 & 6 arduino not found'   # FIXME :- add force exit gracefully for this
+        print 'ERROR :- leg5 & 6 arduino not found'   
         Exit(1)
     if leg1_port < 6 and leg3_port < 6 and leg5_port < 6:
         config = 1
@@ -1104,12 +1108,12 @@ def Main():
             print 'serial joystick connected ok'
     
      
-    # wait .5 second for serial queue to settle 
+    # wait 0.5 second for serial queue to settle 
     
     old_time = time.time()
     waiting = 1
     while waiting == 1:
-        if time.time() - old_time > .5:
+        if time.time() - old_time > 0.5:
             old_time = time.time()
             waiting = 0
             
@@ -1151,7 +1155,7 @@ def Main():
     
     print '\nDone:- all robot legs should now be in home position\n'
     
-    # wait .5 second for serial queue to settle 
+    # wait 0.5 second for serial queue to settle 
     
     old_time = time.time()
     waiting = 1
