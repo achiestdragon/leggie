@@ -285,46 +285,44 @@ def srl_write(portnos,data):
 #    and individual ports ,  could be buffer data , threading timing or arduino
 #    rx fail ,, seems like its missing to catch /n on the end of commands 
 
-def srl_write_queue_worker( srl_out_q, ):
-    print 'serial write router Worker : startup'
-    while exit != 1 :
-        d = srl_out_q.get()
-        wp1 = 99
-        wp2 = 99
-        wp3 = 99
-        if d != '' :
-            d = d + str('/n')
-            if d.startswith('#,')==True :   # data to all leg ports
-                # patched in so writes position data to all ports 
-                wp1 = leg1_port             # also  leg2_port
-                wp2 = leg3_port             # also  leg4_port
-                wp3 = leg5_port             # also  leg6_port
-           if d.startswith('$')==True :   # data to individual leg port
-                if d.startswith('$1'):
-                    wp1 = leg1_port
-                if d.startswith('$2'):
-                    wp1 = leg2_port
-                if d.startswith('$3'):
-                    wp1 = leg3_port
-                if d.startswith('$4'):
-                    wp1 = leg4_port
-                if d.startswith('$5'):
-                    wp1 = leg5_port
-                if d.startswith('$6'):
-                    wp1 = leg6_port
-            if d.startswith('#9')==True :   # data to all leg ports
-                wp1 = leg1_port             # also  leg2_port
-                wp2 = leg3_port             # also  leg4_port
-                wp3 = leg5_port             # also  leg6_port
-            if wp1 == 0  or wp2 == 0 or wp3 == 0 : # if data for /dev/ttyUSB0
-                ser0.write(d)
-            if wp1 == 1  or wp2 == 1 or wp3 == 1 : # if data for /dev/ttyUSB1
-                ser1.write(d)
-            if wp1 == 2  or wp2 == 2 or wp3 == 2 : # if data for /dev/ttyUSB2
-                ser2.write(d)
-            if wp1 == 3  or wp2 == 3 or wp3 == 3 : # if data for /dev/ttyUSB3
-                ser3.write(d)
-    print 'Serial write router Worker: exit'
+def srl_write( srl_out_d ):
+    d = srl_out_d
+    wp1 = 99
+    wp2 = 99
+    wp3 = 99
+    if d != '' :
+        d = d + str('/n')
+        if d.startswith('#,')==True :   # data to all leg ports
+            # patched in so writes position data to all ports 
+            wp1 = leg1_port             # also  leg2_port
+            wp2 = leg3_port             # also  leg4_port
+            wp3 = leg5_port             # also  leg6_port
+       if d.startswith('$')==True :   # data to individual leg port
+            if d.startswith('$1'):
+                wp1 = leg1_port
+            if d.startswith('$2'):
+                wp1 = leg2_port
+            if d.startswith('$3'):
+                wp1 = leg3_port
+            if d.startswith('$4'):
+                wp1 = leg4_port
+            if d.startswith('$5'):
+                wp1 = leg5_port
+            if d.startswith('$6'):
+                wp1 = leg6_port
+        if d.startswith('#9')==True :   # data to all leg ports
+            wp1 = leg1_port             # also  leg2_port
+            wp2 = leg3_port             # also  leg4_port
+            wp3 = leg5_port             # also  leg6_port
+        if wp1 == 0  or wp2 == 0 or wp3 == 0 : # if data for /dev/ttyUSB0
+            ser0.write(d)
+        if wp1 == 1  or wp2 == 1 or wp3 == 1 : # if data for /dev/ttyUSB1
+            ser1.write(d)
+        if wp1 == 2  or wp2 == 2 or wp3 == 2 : # if data for /dev/ttyUSB2
+            ser2.write(d)
+        if wp1 == 3  or wp2 == 3 or wp3 == 3 : # if data for /dev/ttyUSB3
+            ser3.write(d)
+    
     
 #
 # ****************************************************************************
@@ -332,7 +330,7 @@ def srl_write_queue_worker( srl_out_q, ):
 # ****************************************************************************
 # 
 
-def walk_main_worker(srl_out_q,srl_in_q):
+def walk_main_worker(srl_in_q,):
     rdy1 = 1
     rdy2 = 1
     rdy3 = 1
@@ -371,7 +369,7 @@ def walk_main_worker(srl_out_q,srl_in_q):
             sbl = sbl[1:]
             if sbl.startswith('X'):
                 button1 = 1
-                sequence1(srl_out_q,)
+                sequence1()
             else:
                 button1 = 0
             sbl = sbl[1:]
@@ -501,8 +499,8 @@ def walk_main_worker(srl_out_q,srl_in_q):
             #kkk = kkk.strip(' ')
             # send to all legs
             #  "#,hhh,lll,kkk,hhh,lll,kkk,"
-            outstr = '#,'+hhh+','+lll+','+kkk+','+hhh+','+lll+','+kkk+','
-            srl_out_q.put(outstr)
+            srl_out_d = '#,'+hhh+','+lll+','+kkk+','+hhh+','+lll+','+kkk+','
+            srl_write( srl_out_d )
             newj = 0
             
         #           end of debug code
@@ -566,10 +564,10 @@ def walk_main_worker(srl_out_q,srl_in_q):
 # basis of hip position calibrate
 # move lower and upper leg to home position , then move hip in incriments 
 # of 1 to 0 then to 179  then back to home  
-def sequence1(srl_out_q,):
+def sequence1():
         # move to home position
-        outstr = '#,090,000,005,090,000,005,'
-        srl_out_q.put(outstr)
+        srl_out_d = '#,090,000,005,090,000,005,'
+        srl_write( srl_out_d )
         old_time = time.time()
         waiting = 1
         while waiting == 1:
@@ -581,40 +579,40 @@ def sequence1(srl_out_q,):
         while done != 1:
             nstr = str(n)
             nstr = nstr.strip(' ')
-            outstr = str('$'+nstr+',000,000,002,')
-            srl_out_q.put(outstr)
+            srl_out_d = str('$'+nstr+',000,000,002,')
+            srl_write( srl_out_d )
             old_time = time.time()
             waiting = 1
             while waiting == 1:
                 if time.time() - old_time > 1:
                     old_time = time.time()
                     waiting = 0 
-            outstr = str('$'+nstr+',179,000,002,')
-            srl_out_q.put(outstr)
+            srl_out_d = str('$'+nstr+',179,000,002,')
+            srl_write( srl_out_d )
             old_time = time.time()
             waiting = 1
             while waiting == 1:
                 if time.time() - old_time > 1:
                     old_time = time.time()
                     waiting = 0 
-            outstr = str('$'+nstr+',090,000,002,')
-            srl_out_q.put(outstr)
+            srl_out_d = str('$'+nstr+',090,000,002,')
+            srl_write( srl_out_d )
             old_time = time.time()
             waiting = 1
             while waiting == 1:
                 if time.time() - old_time > 1:
                     old_time = time.time()
                     waiting = 0                    
-            outstr = str('$'+nstr+',090,000,090,')
-            srl_out_q.put(outstr)
+            srl_out_d = str('$'+nstr+',090,000,090,')
+            srl_write( srl_out_d )
             old_time = time.time()
             waiting = 1
             while waiting == 1:
                 if time.time() - old_time > 1:
                     old_time = time.time()
                     waiting = 0                    
-            outstr = str('$'+nstr+',090,000,005,')
-            srl_out_q.put(outstr)
+            srl_out_d = str('$'+nstr+',090,000,005,')
+            srl_write( srl_out_d )
             old_time = time.time()
             waiting = 1
             while waiting == 1:
@@ -624,8 +622,8 @@ def sequence1(srl_out_q,):
             n=n+1
             if n==7 :
                 done = 1
-                outstr = str('#,090,000,005,090,000,005,')
-                srl_out_q.put(outstr)
+                srl_out_d = str('#,090,000,005,090,000,005,')
+                srl_write( srl_out_d )
         
 #
 # ****************************************************************************
@@ -1033,42 +1031,18 @@ def Main():
     print "leg 6    routed to port  /dev/ttyUSB", leg6_port
     print "joystick routed to port  /dev/ttyUSB", joystick_port
     print ''
-    # start the serial write thread 
+
+    # initalize robot to known positions
     
-    srl_out_q = Queue.Queue()  
-    t = threading.Thread(target=srl_write_queue_worker, args=(srl_out_q,))
-    threads.append(t)
-    t.start()
-    
-    # wait for thread to start cleanly
+    print '\ninitializing all legs to home positions'
+    srl_out_d ="#,090,010,010,090,010,010,"
+    srl_write( srl_out_d )
     old_time = time.time()
     waiting = 1
     while waiting == 1:
         if time.time() - old_time > 0.5:
             old_time = time.time()
             waiting = 0
-
-    # initalize robot to known positions
-    
-    print '\ninitializing all legs to home positions'
-    init_data_command ="#,090,010,010,090,010,010,"
-    srl_out_q.put(init_data_command)
-    old_time = time.time()
-    for c in range(3): # do this with .5 second delay between each 
-        waiting = 1
-        while waiting == 1:
-            if time.time() - old_time > 0.5:
-                old_time = time.time()
-                dd = ''
-                for cc in range(6):
-                   if cc <= c :
-                       dd = dd +'###'
-                   else :
-                       dd = dd +'...'
-                progress = '\rprogress =['+dd+']'
-                sys.stdout.write( progress )
-                sys.stdout.flush()
-                waiting = 0
     
     # all robots legs should now be in home position
     
@@ -1094,16 +1068,11 @@ def Main():
         
     # start walk main thread 
     
-    t = threading.Thread(target=walk_main_worker, args=(srl_out_q,srl_in_q))
+    t = threading.Thread(target=walk_main_worker, args=(srl_in_q,))
     threads.append(t)
     t.start() 
     #
 
-
-    # console commands just get put into srl_out_q and may clash with 
-    # the main walking sequence by joystick control 
-    # there provided for debug where the joystick is not connected
-    # should fix this 
     
     print '\nrobot startup complete and robot is now active :-\n'
    
@@ -1120,7 +1089,6 @@ def Main():
     
     # send data to sleeping buffers to wake them and let them exit
     
-    srl_out_q.put('exit') #send to write queue to get exit from write worker
     srl_in_q.put('exit') # get walker worker to exit 
     return
 
