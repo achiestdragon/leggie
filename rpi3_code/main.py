@@ -654,11 +654,11 @@ def sequence2():
     n = 1
     done = 0
     while done != 1:
-        srl_out_d = str('$1,090,000,090,')
+        srl_out_d = str('$1,090,090,090,')
         srl_write( srl_out_d )
-        srl_out_d = str('$3,090,000,090,')
+        srl_out_d = str('$3,090,090,090,')
         srl_write( srl_out_d )
-        srl_out_d = str('$5,090,000,090,')
+        srl_out_d = str('$5,090,090,090,')
         srl_write( srl_out_d )
         
         old_time = time.time()
@@ -680,11 +680,11 @@ def sequence2():
             if time.time() - old_time > .5:
                 old_time = time.time()
                 waiting = 0
-        srl_out_d = str('$2,090,000,090,')
+        srl_out_d = str('$2,090,090,090,')
         srl_write( srl_out_d )
-        srl_out_d = str('$4,090,000,090,')
+        srl_out_d = str('$4,090,090,090,')
         srl_write( srl_out_d )
-        srl_out_d = str('$6,090,000,090,')
+        srl_out_d = str('$6,090,090,090,')
         srl_write( srl_out_d )
         
         old_time = time.time()
