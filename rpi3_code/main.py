@@ -321,6 +321,7 @@ def srl_write( srl_out_d ):
             wp1 = leg1_port             # also  leg2_port
             wp2 = leg3_port             # also  leg4_port
             wp3 = leg5_port             # also  leg6_port
+        print 'wp1=',wp1,' wp2=',wp2,' wp3=',wp3,' d=',d
         if wp1 == 0  or wp2 == 0 or wp3 == 0 : # if data for /dev/ttyUSB0
             ser0.write(d)
         if wp1 == 1  or wp2 == 1 or wp3 == 1 : # if data for /dev/ttyUSB1
