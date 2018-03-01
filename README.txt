@@ -9,11 +9,46 @@ most of  the documentation so far is in the comments in the code
 project status
 --------------
  hardware:-
-    built and assembled , currently testing 
+ 
+    v1 built and assembled , found that the servos are under powered for the
+    size and weight of the robot so currently redesigning to use rs-775 dc motors
+    these are 12 to 36v motors and involves quite a number of major changes
+    
+    1 most of the 3d printed parts will need to be redesigned and reprinted
+    
+    2 the power requirements have increased , it will now need 2*11.1v or 14.6v lipos 
+      for the dc motor drive power (wired in parallel to give 22.2v or 29.2v) and still 
+      keep the 7.4v 4000ma lipo for logic power( with the 5v regulator)
+      this should save having to power down the whole robot when the drive power is 
+      depleted and give quite a few hrs of logic power
+      
+    3 the need for 18 h bridge drivers suitable for the rs-775 motors
+    
+    4 2 sense pots will be used per leg joint again acting as the joint bearing as this
+      seems to work well 
+    
+    5 the drive system will use the dc motors driving 5mm threaded bar to form a linear
+      actuator , with .8mm per turn and 80 mm movement giving an joint angle range of 
+      160deg and movment speed around of around 1 second at 7000rpm from end to end
+      with a gearing reduction of 225:1  and give a stall torque of around  400kg.cm or
+      40N.M in that arrangement , about 40x that of the mg996r servos 
+    
+    6 the other advantage of using the drives in linear actuator form is they dont 
+      slip position when not powered, this will make running power more efficiant as
+      its not having to provide hold power to keep the legs in hold position 
+      although it does have the disadvantage that you cant move the legs without power
+    
+    7 delay in development dew to extra expense and time waiting for parts
+    
+
  software:-
+
     still work in progress
 
-
+ 
+******* notes below here relate to servo version and are to be replaced **********
+    
+    
 3d printing requirements   
 ------------------------
   intended for printing on a tevo delta 3d printer
@@ -30,6 +65,7 @@ project status
   uploaded the gcode as you would be better generating it using slic3r or
   whatever other program you use to ensure its suitable for your 3d printer)
 
+  version 1 (servo version )
   part            material   quant     time per print   total time per set
 --------------- ----------- ------  ---------------- ---------------------
   base top       black pla     1x       4hr30                  4hr30
