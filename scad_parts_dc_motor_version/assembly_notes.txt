@@ -1,0 +1,34 @@
+assembly.txt
+
+actuator shaft 
+
+see figure 1/. ( actuator_shaft_assembly.png)
+
+place 2  m5 nuts close to the center of the 150mm m5 threaded bar(threads not shown) ,
+then 2x 6mm inner dia rubber 'o' rings (shown black on the image) 
+with 2 washers
+
+insert 8 short lengths (5 to 9mm long) of 4mm dia teflon tube (shown as blue on the image)
+into the slots on the side  of the carrage halves shown in red
+
+insert the 2 m5 pivot bearing bolts and fasten in place tight with a nut(not shown)
+
+adjust the spacing of the nuts on the theaded bar so they sit snuggly into the carrage halves 
+while having a small ammount of pressure against the rubber 'o'rings this will remove backlash
+but not too much as the theaded bar will be too tight for the motor to turn quicky ,and will
+just cause friction and lack of effective power
+
+bolt the 2 haves together using m3 screws (m3*20) and m3 bolts in the outer 4 holes (not shown)
+
+beraings shown on shaft (shown) are added after the above assembly is inserted into the 
+actuator_shaft_rail part 
+
+place the shaft and carrage assembly into the actuator shaft rail and it should slide relativily freely
+up and down the rail , ensure it does not bind and can travel to within 2mm of the ends, (and gives 84mm travel)
+
+fit a bearing at each end and a m5 nut , at one end the shaft the nut holding the bearing should be 
+almost flush with the shaft end at the other there should be about 10mm or more of shaft sticking out for the
+motor coupling
+
+
+ 
