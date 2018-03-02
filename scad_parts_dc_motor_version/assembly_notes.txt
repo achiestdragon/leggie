@@ -8,7 +8,7 @@ place 2  m5 nuts close to the center of the 150mm m5 threaded bar(threads not sh
 then 2x 6mm inner dia rubber 'o' rings (shown black on the image) 
 with 2 washers
 
-insert 8 short lengths (5 to 9mm long) of 4mm dia teflon tube (shown as blue on the image)
+insert 8 short lengths (5 to 9mm long) of 4mm dia ptfe tube (shown as blue on the image)
 into the slots on the side  of the carrage halves shown in red
 
 insert  2x m5 (m5*30mm) pivot bearing bolts and fasten in place tight with a nut(nut not shown)
