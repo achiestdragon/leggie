@@ -66,6 +66,9 @@ module legbase()
         //sides
         translate([0,28,8]){cube([310,4,12],center=true);}
         translate([0,-28,8]){cube([310,4,12],center=true);}
+        
+        translate([-55,28,18]){cube([130,4,12],center=true);}
+        translate([-55,-28,18]){cube([130,4,12],center=true);}
         //motor mount
         translate([-23,0,22]){cube([6,60,36],center=true);}
         // motor endplate
@@ -74,8 +77,8 @@ module legbase()
         translate([-139,20,15]){cube([32,4,25],center=true);}
         translate([-139,-20,15]){cube([32,4,25],center=true);}
       }
-      translate([-65,0,2]){cube([80,35,6],center=true);}
-      translate([65,0,2]){cube([80,35,6],center=true);}
+      translate([-66,0,2]){cube([80,35,6],center=true);}
+      translate([66,0,2]){cube([80,35,6],center=true);}
       translate([77.5,0,2]){cube([132,26,6],center=true);}
       translate([77.5,0,2])
         {
@@ -98,11 +101,12 @@ module legbase()
           rotate([0,0,-35])Radial_Array (90,4,16){ cylinder(h=10,d=8,center=true,$fn=6) ;}
           //motor mount champhers
           
-          rotate([0,0,155])translate ([00,40,0]){ cube([40,30,10],center=true) ;}
-          rotate([0,0,25])translate ([00,40,0]){ cube([40,30,10],center=true) ;}
+          rotate([0,0,135])translate ([00,40,0]){ cube([40,30,10],center=true) ;}
+          rotate([0,0,45])translate ([00,40,0]){ cube([40,30,10],center=true) ;}
+          translate([-9,0,32]){rotate([0,45,0]){cube([20,90,20],center=true);}}
           //end plate champers
-          rotate([0,0,155])translate ([00,40,-100]){ cube([40,30,10],center=true) ;}
-          rotate([0,0,25])translate ([00,40,-100]){ cube([40,30,10],center=true) ;}
+          rotate([0,0,135])translate ([00,40,-100]){ cube([40,30,10],center=true) ;}
+          rotate([0,0,45])translate ([00,40,-100]){ cube([40,30,10],center=true) ;}
         }
     //pot mounts and endplate cutouts
     translate([-140,-22,14]){rotate([90,180,0]){pot();}}
