@@ -64,7 +64,10 @@ module end_joint()
       }
     //cutouts
       rotate([0,-20,0]){
-      translate([-50,0,-60]){ rotate([90,0,0]) {cylinder(h=100,d=6,center=true,$fn=60);}} }     
+      translate([-50,0,-60]){ rotate([90,0,0]) {cylinder(h=100,d=8,center=true,$fn=60);}}
+      translate([-50,35,-60]){ rotate([90,0,0]) {cylinder(h=5,d=16,center=true,$fn=60);}} 
+      translate([-50,-35,-60]){ rotate([90,0,0]) {cylinder(h=5,d=16,center=true,$fn=60);}}
+      }     
       translate([0,32,0])rotate([90,0,0])cylinder(h=40,d=6.5,center=true,$fn=60);
       translate([0,-32,0])rotate([90,0,0])cylinder(h=40,d=6.5,center=true,$fn=60);
       translate([-7,32,0])rotate([0,90,0])cylinder(h=16,d=4,center=true,$fn=60);
