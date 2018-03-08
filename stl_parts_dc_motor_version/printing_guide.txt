@@ -1,0 +1,15 @@
+
+stl files  individual 3d printable parts in printing orientations , by david powell AKA (AchiestDragon) license gpl
+  
+actuator_shaft_rail.stl   quant 18x  pla 
+carrage_half.stl          quant 36x  pla  (supports needed)
+conrod.stl                quant 24x  pla 
+leg_half.stl              quant 12x  pla 
+leg_joint.stl             quant 12x  pla 
+
+also required (from other sources)  
+
+12_tooth_T5.stl  (thingverse part #10848 " Printable 12 tooth T5 pulley by AlephObjects" license gpl)
+                          quant 12x  pla 
+
+
