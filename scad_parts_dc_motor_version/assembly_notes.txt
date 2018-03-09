@@ -40,14 +40,18 @@ leg assembly :-
 fig2 upper_leg_assembled.png
 
 fasten the 2 leg halves together using 4 m3 nuts and bolts  insert the assembled actuator rails and fasten them in place
-also with m3 nuts and bolts  taking note that  at the outer ends the bolts go up though the leg halves then though the actuators , and at the coupling ends the bolts go down though the actuator rail into the leg halves , this is so the excess threads don't bind with other parts , you will also have to attach a pair of pivot arms to the ends of the pivot
-bearings before placing the actuator rail assembly into the leg half  
+also with m3 nuts and bolts  taking note that  at the outer ends the bolts go up though the leg halves then though the actuators , and at the coupling ends the bolts go down though the actuator rail into the leg halves , this is so the excess threads don't bind with other parts , you will also have to attach a pair of conrods to the ends of the pivot
+bearings before placing the actuator rail assembly into the leg half, make sure you also insert some short lenths (3 to 5mm long )of 4mm dia ptfe tube into the 5 slots on the conrods  
 
 attach the shaft coupler to the actuator (you need to push it though the motor output shaft hole),
 then mount the motor m4* (lengths for these need to be measured so as there not too long )
 
-and mount the pots (you may have to widen the pot mounting holes) the wireing pins for the pot should face out as per fig2
-so you can solder wires to them after there mounted (and also so you can get to them to meter out values when servicing )
+and mount the pots and hip/knee pivot plate  (you may have to widen the pot mounting holes) the wireing pins for the pot should face out as per fig2 so you can solder wires to them after there mounted (and also so you can get to them to meter out values when servicing )
+you will have to push the pot mounting nut and washer though the gap between the leg base and the hip/knee pivot plate and tighten them with a spanner (this hip/knee pivot plates canot be removed without removing at least one of the pots)
+insert a m3 nut into each slot in the pivot plate and a m3 screw , tighten the screws so it grips the d shafts on the pots
+
+insert a m5 bolt though the end of each conrod , and bearings into the pivot plates , then pass the bolt though the bearing and hold it in place with a m5 locking nut
+
 
 there are 2 holes each side of the motor mountings and 2 slotted holes for wireing to pass though 
 
