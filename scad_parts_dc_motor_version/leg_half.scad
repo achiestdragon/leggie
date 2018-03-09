@@ -67,8 +67,8 @@ module legbase()
         translate([0,28,8]){cube([310,4,12],center=true);}
         translate([0,-28,8]){cube([310,4,12],center=true);}
         
-        translate([-55,28,18]){cube([130,4,12],center=true);}
-        translate([-55,-28,18]){cube([130,4,12],center=true);}
+        translate([-45,28,18]){cube([150,4,12],center=true);}
+        translate([-45,-28,18]){cube([150,4,12],center=true);}
         //motor mount
         translate([-23,0,22]){cube([6,60,36],center=true);}
         // motor endplate
@@ -96,14 +96,14 @@ module legbase()
           cylinder(h=25,d=20,center=true,$fn=60);
           translate([0,14.5,0]){cylinder(h=25,d=4,center=true,$fn=60);}
           translate([0,-14.5,0]){cylinder(h=25,d=4,center=true,$fn=60);}
-          rotate([0,0,45])Radial_Array (90,4,16){ cylinder(h=10,d=8,center=true,$fn=6) ;}
-          rotate([0,0,35])Radial_Array (90,4,16){ cylinder(h=10,d=8,center=true,$fn=6) ;}
-          rotate([0,0,-35])Radial_Array (90,4,16){ cylinder(h=10,d=8,center=true,$fn=6) ;}
+          rotate([0,0,45])Radial_Array (90,4,16){ cylinder(h=10,d=8.5,center=true,$fn=6) ;}
+          rotate([0,0,35])Radial_Array (90,4,16){ cylinder(h=10,d=8,center=true,$fn=16) ;}
+          rotate([0,0,-35])Radial_Array (90,4,16){ cylinder(h=10,d=8,center=true,$fn=16) ;}
           //motor mount champhers
           
           rotate([0,0,135])translate ([00,40,0]){ cube([40,30,10],center=true) ;}
           rotate([0,0,45])translate ([00,40,0]){ cube([40,30,10],center=true) ;}
-          translate([-9,0,32]){rotate([0,45,0]){cube([20,90,20],center=true);}}
+          translate([-10,0,35.5]){rotate([0,15,0]){cube([20,90,40],center=true);}}
           //end plate champers
           rotate([0,0,135])translate ([00,40,-100]){ cube([40,30,10],center=true) ;}
           rotate([0,0,45])translate ([00,40,-100]){ cube([40,30,10],center=true) ;}
