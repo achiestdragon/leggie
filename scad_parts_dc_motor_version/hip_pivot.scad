@@ -1,0 +1,30 @@
+include<shapes.scad>
+module hip_pivot();
+
+{ 
+  rotate([0,-90,0])color("yellow",1)
+ { 
+  difference()
+   {
+     union()
+     {
+       translate([95,0,7.5])cube([10,20,5],center=true); 
+       translate([95,0,62.5])cube([10,20,5],center=true);
+       translate([50,15,10])cube([100,10,10],center=true);
+       translate([50,-15,10])cube([100,10,10],center=true);
+       translate([50,15,60])cube([100,10,10],center=true);
+       translate([50,-15,60])cube([100,10,10],center=true); 
+       rotate([0,0,30])cylinder(h=130,d=40,center=true,$fn=6);
+       translate([-15,0,0])cube([5,50,80],center=true); 
+     }
+     translate([-30,-60,50])rotate([0,90,0])Cubic_Array(20,40,0,4,2,1){cylinder(h=50,d=3.5,center=true,$fn=60);}
+     cylinder(h=135,d=6,center=true,$fn=60);
+     translate([-10,0,62])rotate([0,90,0])cylinder(h=20,d=3.5,center=true,$fn=60);
+     translate([-10,0,64])rotate([0,90,0])cube([10,5.6,4],center=true);
+     translate([-10,0,60])rotate([0,90,0])cylinder(h=4,d=6.5,center=true,$fn=6);
+     translate([-10,0,-62])rotate([0,90,0])cylinder(h=20,d=3.5,center=true,$fn=60);
+     translate([-10,0,-64])rotate([0,90,0])cube([10,5.6,4],center=true);
+     translate([-10,0,-60])rotate([0,90,0])cylinder(h=4,d=6.5,center=true,$fn=6);
+  } 
+ }
+}
