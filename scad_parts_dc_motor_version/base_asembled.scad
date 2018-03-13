@@ -149,9 +149,8 @@ module upper()
   translate([0,0,35])rotate([0,0,30])Radial_Array(-120,3,95){rotate([90,0,0])shaft_m51();}
   color("yellow",1)
     {
-    translate([0,0,35])rotate([0,0,30])Radial_Array(-120,3,95){translate([88,0,0])rotate([0,-90,0])pully();}
-    
-    translate([0,0,35])rotate([0,0,30])Radial_Array(-120,3,50){translate([79,0,0])rotate([0,90,0])pully();}
+    translate([0,0,35])rotate([0,0,30])Radial_Array(-120,3,95){translate([98,-10,-10])rotate([0,-90,0])pully();}
+    translate([0,0,35])rotate([0,0,30])Radial_Array(-120,3,50){translate([70.5,-10,10])rotate([0,90,0])pully();}
     }
   translate([0,0,0])rotate([0,0,30])Radial_Array(-120,3,50){translate([67.5,0,35])rotate([0,90,0])motor_mount();}
   translate([0,0,0])rotate([0,180,30])Radial_Array(-120,3,50){translate([72.5,0,-35])rotate([0,-90,0])rail_end_mount();}
@@ -164,8 +163,8 @@ module lower()
   translate([0,0,-35])rotate([0,0,-30])Radial_Array(-120,3,95){rotate([90,0,0])shaft_m51();}
   color("yellow",1)
     {
-    translate([0,0,-35])rotate([0,0,-30])Radial_Array(-120,3,95){translate([88,0,0])rotate([0,-90,0])pully();}
-    translate([0,0,-35])rotate([0,0,-30])Radial_Array(-120,3,50){translate([79,0,0])rotate([0,90,0])pully();}
+    translate([0,0,-35])rotate([0,0,-30])Radial_Array(-120,3,95){translate([98,-10,-10])rotate([0,-90,0])pully();}
+    translate([0,0,-35])rotate([0,0,-30])Radial_Array(-120,3,50){translate([70.5,-10,10])rotate([0,90,0])pully();}
     
   }
   translate([0,0,0])rotate([180,0,30])Radial_Array(-120,3,50){translate([-67.5,0,35])rotate([0,-90,0])motor_mount();}
@@ -311,12 +310,12 @@ module base_center()
 module pully()
 {
    
-  import("t5a.stl");
+  import("../stl_parts_dc_motor_version/12_tooth_T5.stl");
    
 }
 module shaft_rail1()
 { 
-  color("orangered",1)
+  color("brown",1)
   {
     translate([0,0,40])rotate([0,180,0])
     { 

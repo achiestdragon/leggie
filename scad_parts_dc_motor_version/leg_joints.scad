@@ -59,8 +59,8 @@ module pos()
   translate([-140,0,14])rotate([0,-5,0]){end_joint();}
   //hip -90deg
   //translate([-140,0,14])rotate([0,-45,0]){end_joint();}
-  color("yellow",1)translate([15.5,0,-30])rotate([90,-25,0]){import("conrod.stl");}
-  color("yellow",1)translate([-1.5,0,5.5])rotate([-90,-25,0]){import("conrod.stl");}
+  color("yellow",1)translate([15.5,0,-30])rotate([90,-25,0]){import("../stl_parts_dc_motor_version/conrod.stl");}
+  color("yellow",1)translate([-1.5,0,5.5])rotate([-90,-25,0]){import("../stl_parts_dc_motor_version/conrod.stl");}
 }
 
 module end_joint()
