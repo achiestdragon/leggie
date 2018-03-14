@@ -48,28 +48,47 @@ module asm()
   //translate([0,0,5])rotate([0,0,30])Radial_Array(60,6,197.5){rotate([180,-0,90])end_joint1();}
   hip_pivot_asm();
   }
+  
+module upper_body_mount();
+ {
+   color("pink",1)
+   {
+     translate([0,0,125])Radial_Array(60,6,110)rotate([0,0,30])ring (20,10,110,6);
+     
+   }  
+   //pcbs
+   color("green",1)
+   {  
+    translate([0,0,90])rotate([0,0,30])Radial_Array(120,3,90)cube ([100,100,2],center =true);
+    translate([0,0,120])rotate([0,0,30])Radial_Array(120,3,90)cube ([100,100,2],center =true); 
+     translate([0,0,150])rotate([0,0,30])Radial_Array(120,3,90)cube ([100,100,2],center =true); 
+   }
+ }
+ 
 module base_bottom()
   {
     difference()
     {
     translate([0,0,-70])base_half();
     rotate([0,0,0])
-      {m_holes_l() ; 
-      
+      {
+        m_holes_l() ; 
         rotate([180,0,30])Radial_Array(-120,3,50){translate([72.5,0,30])rotate([0,-90,0])rail_end_mount_h();}
       }
     }
   }
-module base_top()
+  
+module base_top() 
   {
     difference()
     {
     translate([0,0,70])rotate([0,180,0])base_half();
     rotate([0,0,60])
-      {m_holes_l() ; 
-      
+      {
+        m_holes_l(); 
         rotate([180,0,30])Radial_Array(-120,3,50){translate([72.5,0,-30])rotate([0,-90,0])rail_end_mount_h();}
       }
+      Radial_Array(-60,6,110){cylinder (h=200,d=4,center=true,$fn=60);}
     }
   }
 module hip_pivot_asm()
@@ -88,6 +107,7 @@ module hip_pivot_asm()
     translate([0,0,70])rotate([0,180,30])Radial_Array(120,3,95){rotate([0,0,-90])hip_slide();}
     translate([0,0,-70])rotate([0,0,-30])Radial_Array(120,3,95){rotate([0,0,-90])hip_slide();}
   }
+  
 module hip_slide()
   {
     rotate([0,0,0])
@@ -110,6 +130,7 @@ module hip_slide()
       translate([-8,10,5])rotate([90,0,0])cylinder (h=10,d=4,center=true,$fn=60);
     }
   }
+  
 module hip_pivot()
 { 
   rotate([0,0,0])color("yellow",1)
@@ -175,6 +196,7 @@ module rail_end_mount_h()
 {
      translate([0,19,-11.5])rotate([0,90,0]) cylinder(h=120,d=3.5,center=true,$fn=60) ;   
 }
+
 module rail_end_mount()
 {
   color("green",1)
@@ -247,6 +269,7 @@ module m_holes_l()
   translate([0,-28,8])rotate([0,90,0])cylinder(h=280,d=3.5,center=true,$fn=60) ;
   translate([0,-28,-36])rotate([0,90,0])cylinder(h=280,d=3.5,center=true,$fn=60) ; }}
 }  
+
 module base_half()
 {
   rotate([0,0,0])color("orangered",1)
@@ -279,6 +302,7 @@ module base_half()
     
   }
 }
+
 module base_center()
 {
   rotate([0,0,0])color("brown",1)
@@ -313,6 +337,7 @@ module pully()
   import("../stl_parts_dc_motor_version/12_tooth_T5.stl");
    
 }
+
 module shaft_rail1()
 { 
   color("brown",1)
@@ -352,8 +377,6 @@ module shaft_rail1()
     }
   }
 }
-
-
 
 module end_joint1()
 {
@@ -398,6 +421,7 @@ module end_joint1()
     }
   }
 }
+
 module shaft_m51()
 { 
   translate([0,0,0])
