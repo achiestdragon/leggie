@@ -284,7 +284,14 @@ module actuatorhwasm()
   rotate([0,90,0])
   {
     motor_rs_775();
-    shaft_coupler();
+    //shaft_coupler();
+    translate([0,0,55])
+  {
+    rotate([0,0,0])
+    {
+      cylinder(h=25,d=19,center=true,$fn=60);
+    }
+  }
     shaft_m5();
     
   }

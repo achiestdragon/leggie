@@ -1,5 +1,5 @@
 // leg_joint.scad
-//
+// and lower leg
 //*****************************************************************************
 //*             (c) 2017 by David Powell (aka AchiestDragon)                  *
 //*****************************************************************************
@@ -14,13 +14,17 @@
 
 include <MCAD/units/metric.scad>
 include <MCAD/hardware/bearing.scad>
+
 include <MCAD/fasteners/metric_fastners.scad>
 // NOTE :- the sizes are wrong for nut and bolt heads in this lib
 // as cylinder(h,d,center,$fn=6) gives dia size from point tip
 // to point tip  and spanner sizes are mesured across flat sides
-// 
+// (may be fixed in newer libs than the ones i have) 
+// the lib is only used for illistration purpus as i dont depend on it
+// for critical sizes
+//
 
-// ****************************************************************************
+//****************************************************************************
 // Libraries :-     (local directory libs) 
 
 
