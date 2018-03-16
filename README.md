@@ -16,7 +16,13 @@ hardware build and 3d printed parts :-
 
 .    see README.txt for hardware and printing progress status and notes
 
+.    servo version prototype (underpowered)
+
 ![pic1](https://lh3.googleusercontent.com/-5JN2nPmkK0I/WoS32gn13_I/AAAAAAAABls/yhc50X_s0GkQThyo7ScWCl8HOlUzFeV-QCL0BGAs/w530-d-h298-n-rw/20180210_155444.jpeg)
+
+.    dc motor version ( current work in progress )
+
+![pic1](https://github.com/achiestdragon/leggie/blob/master/scad_parts_dc_motor_version/assembled.png)
 
 # code status :-
 
