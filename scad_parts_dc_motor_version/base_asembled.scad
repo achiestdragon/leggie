@@ -19,7 +19,7 @@ include <MCAD/fasteners/metric_fastners.scad>
 include <shapes.scad>
 include <parts_lib.scad>
 include <leg_joints.scad>
-
+include <leg_joint.scad>
 
 //*****************************************************************************
 // Code :-
@@ -44,12 +44,13 @@ module asm()
   //legs
   // full assembled legs or.. 
   translate([0,0,-21])rotate([0,0,30])Radial_Array(60,6,346.5){rotate([180,-6,90])fullasm();}
+  translate([0,0,8])rotate([0,0,30])Radial_Array(60,6,486.5){rotate([0,-90,-90])leg();}
   // just leg hip joint plates
   //translate([0,0,5])rotate([0,0,30])Radial_Array(60,6,197.5){rotate([180,-0,90])end_joint1();}
-  hip_pivot_asm();
+  //hip_pivot_asm();
   }
   
-module upper_body_mount();
+module upper_body_mount_asm();
  {
    color("pink",1)
    {
