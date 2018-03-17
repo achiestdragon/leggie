@@ -1,15 +1,27 @@
 
-stl files  individual 3d printable parts in printing orientations , by david powell AKA (AchiestDragon) license gpl
+stl files  individual 3d printable parts  , by david powell AKA (AchiestDragon) license gpl
   
-actuator_shaft_rail.stl   quant 18x  pla   20% infill
-carrage_half.stl          quant 36x  pla  100% infill (supports needed)
-conrod.stl                quant 24x  pla   20% infill
-leg_half.stl              quant 12x  pla   20% infill
-leg_joint.stl             quant 12x  pla   20% infill
-
+part                      quant  material  infill      notes             print time each      total 
+------                    -----  --------  ------     ------             ---------------     -------
+actuator_shaft_rail.stl    18x     pla       20% 
+carrage_half.stl           36x     pla      100%  (supports needed)
+conrod.stl                 24x     pla       20%                                 42min        16hrs 08mins
+leg_half.stl               12x     pla       20%                            4hrs 43min        56hrs 36mins
+leg_joint.stl              12x     pla       20%                            3hrs 19min        39hrs 48mins
+base_top.stl                1x     pla       20%                           10hrs 30min        10hrs 30mins
+base_center.stl             1x     pla       20% 
+base bottom.stl             1x     pla       20% 
+hip_pivot.stl               6x     pla       20% 
+hip_slide.stl              12x     pla       20% 
+lower_leg.stl               6x     pla       20% 
+motor_mount.stl             6x     pla       20% 
+rail_end_mount.stl          6x     pla       20% 
+ 
 also required (from other sources)  
 
 12_tooth_T5.stl  (thingverse part #10848 " Printable 12 tooth T5 pulley by AlephObjects" license gpl)
-                          quant 12x  pla  100% infill
+                           12x     pla       100% 
 
-
+                                                                                            ----------------
+                                                                     total 3d printing time           
+                                                                                            ----------------

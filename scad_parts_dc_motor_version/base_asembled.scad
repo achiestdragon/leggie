@@ -25,7 +25,7 @@ include <leg_joint.scad>
 // Code :-
 //translate([0,0,-60])printer_bed();
 
-asm();
+//asm();
 module asm()
 
   {
@@ -48,15 +48,12 @@ module asm()
   // just leg hip joint plates
   //translate([0,0,5])rotate([0,0,30])Radial_Array(60,6,197.5){rotate([180,-0,90])end_joint1();}
   hip_pivot_asm();
+  upper_body_mount_asm();
   }
   
 module upper_body_mount_asm()
- {
-   color("pink",1)
-   {
-     translate([0,0,125])Radial_Array(60,6,110)rotate([0,0,30])ring (20,10,110,6);
-     
-   }  
+  {
+   //upperbody();
    //pcbs
    color("green",1)
    {  
@@ -66,6 +63,14 @@ module upper_body_mount_asm()
    }
  }
  
+module upperbody()
+ {
+ color("pink",1)
+   {
+     translate([0,0,125])Radial_Array(60,6,110)rotate([0,0,30])ring (20,10,110,6);
+     
+   } 
+ } 
 module base_bottom()
   {
     difference()
