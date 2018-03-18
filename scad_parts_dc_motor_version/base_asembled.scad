@@ -25,7 +25,7 @@ include <leg_joint.scad>
 // Code :-
 //translate([0,0,-60])printer_bed();
 
-//asm();
+asm();
 module asm()
 
   {
@@ -53,7 +53,7 @@ module asm()
   
 module upper_body_mount_asm()
   {
-   //upperbody();
+   upperbody();
    //pcbs
    color("green",1)
    {  
@@ -346,7 +346,7 @@ module pully()
 
 module shaft_rail1()
 { 
-  color("brown",1)
+  color("yellow",1)
   {
     translate([0,0,40])rotate([0,180,0])
     { 
@@ -360,14 +360,14 @@ module shaft_rail1()
           translate([0,0,7.5]){cube([150,25,5],center=true);}
           
           translate([0,9.5,34.5]){cube([131,6,6],center=true);}
-          translate([0,9.5,5.5]){cube([131,6,6],center=true);}
+          translate([0,11,5.5]){cube([131,3,6],center=true);}
           translate([0,-9.5,34.5]){cube([131,6,6],center=true);}
-          translate([0,-9.5,5.5]){cube([131,6,6],center=true);}
+          translate([0,-11,5.5]){cube([131,3,6],center=true);}
           
           translate([0,7,34.5]){rotate([0,90,0])cylinder(h=131,d=6,center=true,$fn=60);}
-          translate([0,7,5.5]){rotate([0,90,0])cylinder(h=131,d=6,center=true,$fn=60);}
+          translate([0,9.5,5.5]){rotate([0,90,0])cylinder(h=131,d=6,center=true,$fn=60);}
           translate([0,-7,34.5]){rotate([0,90,0])cylinder(h=131,d=6,center=true,$fn=60);}
-          translate([0,-7,5.5]){rotate([0,90,0])cylinder(h=131,d=6,center=true,$fn=60);}
+          translate([0,-9.5,5.5]){rotate([0,90,0])cylinder(h=131,d=6,center=true,$fn=60);}
         }
         translate ([-3.5,0,20])rotate([0,90,0])
         {
@@ -378,7 +378,7 @@ module shaft_rail1()
           translate([0,0,85]){rotate([0,180,0]){cylinder(h=30,d=22,center=true,$fn=60);}}
           translate([0,0,-78]){rotate([0,180,0]){cylinder(h=30,d=22,center=true,$fn=60);}}
         }
-        {Cubic_Array (140,17.5,0,2,2,1,center=true){ cylinder(h=30,d=3.5,center=true,$fn=60);}}
+        {Cubic_Array (140,17.5,0,2,2,1,center=true){ rotate([0,0,0]){cylinder(h=30,d=3.5,center=true,$fn=60);}}}
       }
     }
   }

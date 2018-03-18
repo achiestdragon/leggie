@@ -36,14 +36,14 @@ module shaft_rail()
           translate([0,0,7.5]){cube([150,25,5],center=true);}
           
           translate([0,9.5,34.5]){cube([131,6,6],center=true);}
-          translate([0,9.5,5.5]){cube([131,6,6],center=true);}
+          translate([0,11,5.5]){cube([131,3,6],center=true);}
           translate([0,-9.5,34.5]){cube([131,6,6],center=true);}
-          translate([0,-9.5,5.5]){cube([131,6,6],center=true);}
+          translate([0,-11,5.5]){cube([131,3,6],center=true);}
           
           translate([0,7,34.5]){rotate([0,90,0])cylinder(h=131,d=6,center=true,$fn=60);}
-          translate([0,7,5.5]){rotate([0,90,0])cylinder(h=131,d=6,center=true,$fn=60);}
+          translate([0,9.5,5.5]){rotate([0,90,0])cylinder(h=131,d=6,center=true,$fn=60);}
           translate([0,-7,34.5]){rotate([0,90,0])cylinder(h=131,d=6,center=true,$fn=60);}
-          translate([0,-7,5.5]){rotate([0,90,0])cylinder(h=131,d=6,center=true,$fn=60);}
+          translate([0,-9.5,5.5]){rotate([0,90,0])cylinder(h=131,d=6,center=true,$fn=60);}
         }
         translate ([-3.5,0,20])rotate([0,90,0])
         {
