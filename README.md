@@ -22,6 +22,8 @@ hardware build and 3d printed parts :-
 
 .    dc motor version ( current work in progress )
 
+.    current progress printing parts ( ... 280 hrs current estimate )
+
 ![pic1](https://github.com/achiestdragon/leggie/blob/master/scad_parts_dc_motor_version/assembled.png)
 
 # code status :-

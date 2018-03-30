@@ -24,7 +24,7 @@ include <leg_joint.scad>
 //*****************************************************************************
 // Code :-
 //translate([0,0,-60])printer_bed();
-
+//base_bottom();
 asm();
 module asm()
 
