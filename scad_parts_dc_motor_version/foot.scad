@@ -26,12 +26,12 @@ include <parts_lib.scad>
 //  footpad() 1 of    foot pad (flexible)
 
 //  assembly  
-foot(); 
-footsw2();  // footsw1 and footsw3 in assembly pos
-footsw1();
-footsw4();
-footpad();
-
+//foot(); 
+//footsw2();  // footsw1 and footsw3 in assembly pos
+//footsw1();
+//footsw4();
+//rotate([180,0,0])footpad(); //print position
+//footpad();
 
 module foot()
 {
