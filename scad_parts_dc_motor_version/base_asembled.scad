@@ -30,24 +30,24 @@ module asm()
 
   {
   // hip motors and slides
-  upper();  
-  lower();
+  //upper();  
+  //lower();
   
   // hip sence pots
-  translate([0,0,-70])rotate([0,0,30])Radial_Array(60,6,145){translate([0,0,2.5])rotate([0,0,90])pot();}
-  translate([0,0,70])rotate([0,180,0])rotate([0,0,30])Radial_Array(60,6,145){translate([0,0,2.5])rotate([0,0,90])pot();}
+  //translate([0,0,-70])rotate([0,0,30])Radial_Array(60,6,145){translate([0,0,2.5])rotate([0,0,90])pot();}
+  //translate([0,0,70])rotate([0,180,0])rotate([0,0,30])Radial_Array(60,6,145){translate([0,0,2.5])rotate([0,0,90])pot();}
   //base plates
-  base_bottom();
+  //base_bottom();
   base_top();
-  base_center();
+  //base_center();
   
   //legs
   // full assembled legs or.. 
-  translate([0,0,-21])rotate([0,0,30])Radial_Array(60,6,346.5){rotate([180,-6,90])fullasm();}
-  translate([0,0,8])rotate([0,0,30])Radial_Array(60,6,486.5){rotate([0,-90,-90])leg();}
+  //translate([0,0,-21])rotate([0,0,30])Radial_Array(60,6,346.5){rotate([180,-6,90])fullasm();}
+  //translate([0,0,8])rotate([0,0,30])Radial_Array(60,6,486.5){rotate([0,-90,-90])leg();}
   // just leg hip joint plates
   //translate([0,0,5])rotate([0,0,30])Radial_Array(60,6,197.5){rotate([180,-0,90])end_joint1();}
-  hip_pivot_asm();
+  //hip_pivot_asm();
   upper_body_mount_asm();
   }
   
@@ -57,9 +57,9 @@ module upper_body_mount_asm()
    //pcbs
    color("green",1)
    {  
-    translate([0,0,90])rotate([0,0,30])Radial_Array(120,3,90)cube ([100,100,2],center =true);
-    translate([0,0,120])rotate([0,0,30])Radial_Array(120,3,90)cube ([100,100,2],center =true); 
-     translate([0,0,150])rotate([0,0,30])Radial_Array(120,3,90)cube ([100,100,2],center =true); 
+    //translate([0,0,135])rotate([0,0,30])rotate([0,90,0])translate([0,0,-105])Cubic_Array(0,0,30,1,1,6)cube ([100,160,2],center =true);
+    //translate([0,0,134])rotate([0,0,30])Radial_Array(60,6,105)rotate([90,0,00])cube ([100,100,2],center =true); 
+ //    translate([0,0,150])rotate([0,0,30])Radial_Array(120,3,90)cube ([100,100,2],center =true); 
    }
  }
  
@@ -67,7 +67,12 @@ module upperbody()
  {
  color("pink",1)
    {
-     translate([0,0,125])Radial_Array(60,6,110)rotate([0,0,30])ring (20,10,110,6);
+     translate([0,0,80.5])
+     {
+       Radial_Array(60,6,110)rotate([0,0,30])ring (15,4,5,6);
+     //translate([0,0,10])rotate([0,0,0]) ring (280,220,6,6); 
+     }
+     
      
    } 
  } 
