@@ -23,6 +23,7 @@ footsw1.stl                12x     pla       20%
 footsw3.stl                 6x     pla       20%
 footsw4.stl                 6x     pla       20%
 footpad.stl                 6x     flex      20%
+conrod_spacer.stl          12x     pla       20%
 
 also required (from other sources)  
 
