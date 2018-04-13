@@ -22,7 +22,9 @@ hardware build and 3d printed parts :-
 
 .    dc motor version ( current work in progress )
 
-.    current progress printing parts ( ... 280 hrs current estimate )
+.    printing parts ( 300 hrs total for dc motor version base and leg sections )
+
+.    current progress (assembling base and legs sections ...)
 
 ![pic1](https://github.com/achiestdragon/leggie/blob/master/scad_parts_dc_motor_version/assembled.png)
 
