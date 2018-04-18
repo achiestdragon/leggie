@@ -30,37 +30,55 @@ module asm()
 
   {
   // hip motors and slides
-  //upper();  
-  //lower();
+  upper();  
+  lower();
   
   // hip sence pots
-  //translate([0,0,-70])rotate([0,0,30])Radial_Array(60,6,145){translate([0,0,2.5])rotate([0,0,90])pot();}
-  //translate([0,0,70])rotate([0,180,0])rotate([0,0,30])Radial_Array(60,6,145){translate([0,0,2.5])rotate([0,0,90])pot();}
+  translate([0,0,-70])rotate([0,0,30])Radial_Array(60,6,145){translate([0,0,2.5])rotate([0,0,90])pot();}
+  translate([0,0,70])rotate([0,180,0])rotate([0,0,30])Radial_Array(60,6,145){translate([0,0,2.5])rotate([0,0,90])pot();}
   //base plates
-  //base_bottom();
+  base_bottom();
   base_top();
-  //base_center();
+  base_center();
   
   //legs
   // full assembled legs or.. 
-  //translate([0,0,-21])rotate([0,0,30])Radial_Array(60,6,346.5){rotate([180,-6,90])fullasm();}
-  //translate([0,0,8])rotate([0,0,30])Radial_Array(60,6,486.5){rotate([0,-90,-90])leg();}
+  translate([0,0,-21])rotate([0,0,30])Radial_Array(60,6,346.5){rotate([180,-6,90])fullasm();}
+  translate([0,0,8])rotate([0,0,30])Radial_Array(60,6,486.5){rotate([0,-90,-90])leg();}
   // just leg hip joint plates
   //translate([0,0,5])rotate([0,0,30])Radial_Array(60,6,197.5){rotate([180,-0,90])end_joint1();}
-  //hip_pivot_asm();
+  hip_pivot_asm();
   upper_body_mount_asm();
   }
   
 module upper_body_mount_asm()
   {
-   upperbody();
+   //upperbody();
    //pcbs
-   color("green",1)
+   //color("green",1)
    {  
-    //translate([0,0,135])rotate([0,0,30])rotate([0,90,0])translate([0,0,-105])Cubic_Array(0,0,30,1,1,6)cube ([100,160,2],center =true);
-    //translate([0,0,134])rotate([0,0,30])Radial_Array(60,6,105)rotate([90,0,00])cube ([100,100,2],center =true); 
- //    translate([0,0,150])rotate([0,0,30])Radial_Array(120,3,90)cube ([100,100,2],center =true); 
+    
+    translate([0,0,200])rotate([0,0,30])Radial_Array(60,6,105)rotate([-90,0,0])pcbmountframe(); 
+    translate([0,0,200])rotate([0,0,30])Radial_Array(60,6,105)rotate([-90,0,0])eurocard();
    }
+ }
+
+module pcbmountframe()
+ {
+   color ("blue",1)
+   {
+     difference()
+     {
+       cube ([110,170,6],center=true);
+       translate ([0,0,4])cube ([100,160,8],center=true);
+       cube ([90,160,8],center=true);
+      
+     }
+    translate([0,0,-1.5]) Cubic_Array(86.5,147.5,0,2,2,1,center=true){ring (14,3.5,3,60);} 
+    translate([-40,90,0]) rotate([0,90,0]) difference(){cube([6,11,6],center=true);translate([0,2,0])cylinder(h=20,d=3.5,center=true,$fn=60);}
+    translate([40,90,0]) rotate([0,90,0]) difference(){cube([6,11,6],center=true);translate([0,2,0])cylinder(h=20,d=3.5,center=true,$fn=60);}
+   }
+   
  }
  
 module upperbody()
