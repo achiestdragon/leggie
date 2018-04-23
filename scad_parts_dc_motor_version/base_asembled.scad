@@ -48,7 +48,8 @@ module asm()
   // just leg hip joint plates
   //translate([0,0,5])rotate([0,0,30])Radial_Array(60,6,197.5){rotate([180,-0,90])end_joint1();}
   hip_pivot_asm();
-  upper_body_mount_asm();
+  translate([0,0,5])upper_body_mount_asm();
+    bodymount1(); 
   }
   
 module upper_body_mount_asm()
@@ -59,10 +60,10 @@ module upper_body_mount_asm()
 
     translate([0,0,196])rotate([0,0,30])Radial_Array(60,6,105)rotate([-90,0,0])pcbmountframe(); 
     translate([0,0,196])rotate([0,0,30])Radial_Array(60,6,105)rotate([-90,0,0])eurocard();
-   
+    
    // inner frame  
    translate([0,0,196])rotate([0,0,30])Radial_Array(60,6,85)rotate([-90,0,0])spacerframe(); 
-    
+   
  }
 module spacerframe()
  {
@@ -109,22 +110,59 @@ module upperbodyt()
      {
        Radial_Array(60,6,110)rotate([0,0,0])ring (55,4,5,6);
        
-     translate([0,0,0])rotate([0,0,30]) ring (210,185,5,6);
+       translate([0,0,0])rotate([0,0,30]) ring (210,185,5,6);
+        
     
-    translate([0,0,97])rotate([0,0,30])Radial_Array(60,6,105)rotate([-90,0,0]){ 
-    translate([-34,90,0]) rotate([0,90,0]) difference(){cube([6,11,6],center=true);translate([0,-2,0])cylinder(h=20,d=3.5,center=true,$fn=60);}
-    translate([34,90,0]) rotate([0,90,0]) difference(){cube([6,11,6],center=true);translate([0,-2,0])cylinder(h=20,d=3.5,center=true,$fn=60);}  
-      translate([-46,90,0]) rotate([0,90,0]) difference(){cube([6,11,6],center=true);translate([0,-2,0])cylinder(h=20,d=3.5,center=true,$fn=60);}
-    translate([46,90,0]) rotate([0,90,0]) difference(){cube([6,11,6],center=true);translate([0,-2,0])cylinder(h=20,d=3.5,center=true,$fn=60);} 
-     }
-   }
-   translate([0,0,192])rotate([0,0,30])Radial_Array(60,6,85)rotate([-90,0,0])
-  translate([-41,0,0])rotate([90,0,0])cylinder(h=800,d=3.5,center=true,$fn=60);
+       translate([0,0,97])rotate([0,0,30])Radial_Array(60,6,105)rotate([-90,0,0])
+       { 
+       translate([-34,90,0]) rotate([0,90,0]) difference(){cube([6,11,6],center=true);   translate([0,-2,0])cylinder(h=20,d=3.5,center=true,$fn=60);}
+       translate([34,90,0]) rotate([0,90,0]) difference(){cube([6,11,6],center=true);translate([0,-2,0])cylinder(h=20,d=3.5,center=true,$fn=60);}  
+       translate([-46,90,0]) rotate([0,90,0]) difference(){cube([6,11,6],center=true);translate([0,-2,0])cylinder(h=20,d=3.5,center=true,$fn=60);}
+       translate([46,90,0]) rotate([0,90,0]) difference(){cube([6,11,6],center=true);  translate([0,-2,0])cylinder(h=20,d=3.5,center=true,$fn=60);} 
+       }
+       translate ([0,0,0])rotate([0,0,30])cube ([110,170,5],center=true);
+    // 
+      }
+    translate([0,0,192])rotate([0,0,30])Radial_Array(60,6,85)rotate([-90,0,0])translate([-41,0,0])rotate([90,0,0])cylinder(h=800,d=3.5,center=true,$fn=60);
    
        translate([0,0,192])rotate([0,0,30])Radial_Array(60,6,85)rotate([-90,0,0])translate([41,0,0])rotate([90,0,0])cylinder(h=800,d=3.5,center=true,$fn=60); 
- } 
+  
+   
+       
+       translate ([0,0,4])rotate([0,0,30])cube ([100,160,8],center=true);
+       
+       translate ([0,00,0])rotate([0,0,30])cube ([90,155,8],center=true);
+      
+     
+      
+    }
+   translate([0,0,93.75]) rotate([0,0,30])Cubic_Array(86.5,147.5,0,2,2,1,center=true){ring (14,3.5,2.5,60);}
    } 
  }  
+ 
+module bodymount1()
+{
+  translate([0,0,74])Radial_Array(60,6,110)
+  {
+    bodymount();
+  }
+}
+    
+module bodymount()
+{ color("blue",1)
+  { 
+  difference()
+  {
+   union()
+  {  
+  rotate([0,0,30])ring (19,5,4,6);
+  ring (15,3.5,4,60);  
+  translate([0,0,10])ring (15,7,20,60);
+  }
+  translate([0,0,15])torus(10,4,360);
+}
+}
+} 
 module upperbody()
  {
  color("blue",1)
