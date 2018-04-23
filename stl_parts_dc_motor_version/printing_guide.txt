@@ -1,46 +1,48 @@
 
 stl files  individual 3d printable parts  , by david powell AKA (AchiestDragon) license gpl
   
-lower sections ( legs , main platform base and all walking mechanics assembly )
 
-part                      quant  material  infill      notes             print time each     
-------                    -----  --------  ------     ------             --------------- 
-actuator_shaft_rail.stl    18x     pla       20%                             1hr 35min
+part                      quant  material  infill      notes                  
+------                    -----  --------  ------     ------             
+actuator_shaft_rail.stl    18x     pla       20%                     
 carrage_half.stl           36x     pla      100%  (supports needed)
-conrod.stl                 24x     pla       20%                                 42min   
-leg_half.stl               12x     pla       20%                            4hrs 43min   
-leg_joint.stl              12x     pla       20%                            3hrs 19min   
-base_top.stl                1x     pla       20%                           10hrs 45min   
-base_center.stl             1x     pla       20%                            8hrs ...
-base bottom.stl             1x     pla       20%                           10hrs 45min   
-hip_pivot.stl               6x     pla       20%                            6hrs 35min
+conrod.stl                 24x     pla       20%                       
+leg_half.stl               12x     pla       20%                        
+leg_joint.stl              12x     pla       20%                         
+base_top.stl                1x     pla       20%                        
+base_center.stl             1x     pla       20%                       
+base bottom.stl             1x     pla       20%                        
+hip_pivot.stl               6x     pla       20%                        
 hip_slide.stl              12x     pla       20%                             
-lower_leg.stl               6x     pla       20%                            5hrs 43min
-motor_mount.stl             6x     pla       20%                             1hr 57min
-rail_end_mount.stl          6x     pla       20%                                 35min
-footmnt.stl                 6x     pla       20%                                 43min
+lower_leg.stl               6x     pla       20%                         
+motor_mount.stl             6x     pla       20%                          
+rail_end_mount.stl          6x     pla       20%                         
+footmnt.stl                 6x     pla       20%                         
 footsw1.stl                12x     pla       20%
 footsw3.stl                 6x     pla       20%
 footsw4.stl                 6x     pla       20%
 footpad.stl                 6x     flex      20%
 conrod_spacer.stl          12x     pla       20%
+upperbodyb.stl              1x     pla       20%
+upperbodyt.stl              1x     pla       20%
+spacerframe.stl             6x     pla       20%
+bodymount.stl               6x     pla       20%
+pcbmountframe.stl           6x     pla       20%
 
 also required (from other sources)  
 
 12_tooth_T5.stl  (thingverse part #10848 " Printable 12 tooth T5 pulley by AlephObjects" license gpl)
-                           12x     pla       100%                               40mins
+                           12x     pla       100%                         
 
-                           
-                           arround 5 x 1kg rolls of filament 
-                                                                          ----------------
-                            lower sections approx total 3d printing time      290hrs      
-                                                                          ----------------
+ 
+ 
+around 6 x 1kg rolls of filament  approx total 3d printing time      324hrs      
                                                                           
-mid sections  ( electronics and battery housings )
+                                                                          
 
-TODO;-   cad for these 
 
-optional upper sections ( head and turrets )
 
-TODO;-   cad for these
+TODO;-   optional upper sections ( head and turrets )cad for these
+         battery mountings 
+         
 
