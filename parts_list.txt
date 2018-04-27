@@ -1,14 +1,12 @@
-parts lists for the two versions
+parts list
 
-the dc motor version replaces the servo version
-
-Leggie parts list dc motor version
+Leggie6 parts list dc motor version
 ------------------------------------
 this list is not complete as yet, work in progress
 quant  part 
  18x   rs 775 12 to 36v dc motor 5mm shaft  
  1x    raspberry pi 3 (with 16gb microsd card for software)
- 4x    arduino nano 
+ 7x    arduino nano 
  36x   10k 6mm potentiometer with D shaft 
  1x    5v 3A switching regulator bec module (for pi/arduino power)
  2x    3 axis joysticks
@@ -18,17 +16,20 @@ quant  part
  3x    short usb a to mini b  cables
  1x    1.5m long usb a to mini b cable for joystick 
  
- 2x    25A or bigger bridge rectifier (to give 1v volt drop each for servos)
- 
  1x    7.4v 4000mha lipo  (and suitable charger)
- 2x    11.2v or 14.8v lipo's 4000mha (both the same type )
- 18x   15a 36v h-bridge driver modules (30a peek load)
+ 2x    14.8v lipo's 4000mha (both the same type and charger )
+ 
+ 18x   15a 36v h-bridge driver modules (30a peek load) (parts list for this to be added)
  
         bearings (type 625)  5mm shaft 5mm high by 16mm outer dia
-        m5 nuts and bolts  25mm thread lenth
-        m5 threaded bar
- 18x   5mm to 5mm flexible shaft couplers
+        m5 nuts and bolts  25mm thread length
+        m5 threaded bar 
         
+ 18x   5mm to 5mm flexible shaft couplers
+ 
+ 36 x  m4 screws for the motor mountings( use screwdriver or alen key heads no room for spanner to fit)
+ 
+ 
  
  as needed signal wire in a number of colors
  bag of 50 cable ties (that will fit though 3mm dia holes)
@@ -37,58 +38,25 @@ quant  part
  1x bag of 200 M3 locking nuts
  1x bag of 500 M3 washers
  6x 150mm lengths of M3 threaded bar
- 1x deans connector and about 300mm of suitable power cable
- 1x strip board  to make servo power distribution boards from 
- some .1" pitch pin strips (for servo connectors etc)
+ 10x deans connector pairs and suitable power cable
+ 8x strip board 100*160mm  for the electronics and motor control boards 
  some solder
-
+ 
+ lots of other bits not covered yet 
+ 
  lots of time patience and some thought to get it working
 
 
 intended for printing on a tevo delta with a 340mm dia print limit 
 
-allow a few days for the printing of parts 
+allow a few weeks for the printing of parts over 324 hrs 
 
 
 
 
-Leggie parts list servo version
---------------------------------
 
-quant  part 
- 18x   mg996r servo 
- 1x    raspberry pi 3 (with 16gb microsd card for software)
- 4x    arduino nano 
- 18x   10k 6mm potentiometer with D shaft 
- 1x    5v 3A switching regulator bec module (for pi/arduino power)
- 2x    3 axis joysticks
- 10x   push button switches momentary  (12mm dia hole)
- 1x    10a single pole single throw on/off toggle switch
- 3x    short usb a to mini b  cables
- 1x    1.5m long usb a to mini b cable for joystick 
- 2x    25A or bigger bridge rectifier (to give 1v volt drop each for servos)
- 12x   6 at 200mm 6 at 300mm long servo extension leads  
- 1x    7.4v 4000mha lipo with deans connector (and suitable charger)
- as needed signal wire in a number of colors
- bag of 50 cable ties (that will fit though 3mm dia holes)
- 1x bag of 500 M3 bolts x 18mm long
- 1x bag of 500 M3 nuts
- 1x bag of 200 M3 locking nuts
- 1x bag of 500 M3 washers
- 6x 150mm lengths of M3 threaded bar
- 1x deans connector and about 300mm of suitable power cable
- 1x strip board  to make servo power distribution boards from 
- some .1" pitch pin strips (for servo connectors etc)
- some solder
 
- lots of time patience and some thought to get it working
 
-for the 3d printed parts it takes 2x 1kg rolls of pla ( not accounting for
-having any bad prints so would recommend allowing for that )
-
-intended for printing on a tevo delta with a 340mm dia print limit 
-
-allow a few days for the printing of parts 
 
 extra parts needed for both versions
 ------------------------------------
