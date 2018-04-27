@@ -10,23 +10,16 @@ a hexapod robot
 
 hardware build and 3d printed parts :-
 
-.    scad & stl files for 3d printed parts  !! major rework in progress
-
-.    changing drives from mg996r servos to rs775 dc motors as the servos are under powered 
-
 .    see README.txt for hardware and printing progress status and notes
-
-.    servo version prototype (underpowered)
-
-![pic1](https://lh3.googleusercontent.com/-5JN2nPmkK0I/WoS32gn13_I/AAAAAAAABls/yhc50X_s0GkQThyo7ScWCl8HOlUzFeV-QCL0BGAs/w530-d-h298-n-rw/20180210_155444.jpeg)
 
 .    dc motor version ( current work in progress )
 
-.    printing parts ( 300 hrs total for dc motor version base and leg sections )
+.    3d printing parts of parts 324 hrs total so far 
 
-.    current progress (assembling base and legs sections ...)
+.    current progress (assembling electronics)
 
-![pic1](https://github.com/achiestdragon/leggie/blob/master/scad_parts_dc_motor_version/assembled.png)
+![pic1](https://github.com/achiestdragon/leggie/blob/master/IMG_20180425_202021.jpg)
+
 
 # code status :-
 
