@@ -16,9 +16,9 @@ hardware build and 3d printed parts :-
 
 .    3d printing parts of parts 324 hrs total so far 
 
-.    current progress (assembling electronics)
+.    current progress (assembling)
 
-![pic1](https://github.com/achiestdragon/leggie/blob/master/IMG_20180425_202021.jpg)
+![pic1](https://github.com/achiestdragon/leggie/blob/master/IMG_20180509_050946.jpg)
 
 
 # code status :-
