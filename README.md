@@ -14,9 +14,11 @@ hardware build and 3d printed parts :-
 
 .    dc motor version ( current work in progress )
 
-.    3d printing parts of parts 324 hrs total so far 
+.    3d printing parts of parts 400 hrs total so far 
 
 .    current progress (assembling)
+
+.    TODO:- lots  , add scad/stl parts for upper body&arms
 
 ![pic1](https://github.com/achiestdragon/leggie/blob/master/IMG_20180509_050946.jpg)
 
