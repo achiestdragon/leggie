@@ -4,7 +4,10 @@ a hexapod robot
 
 .    still work in progress not all code completed yet 
 
-.    major hardware design change update in progress 
+.    project suspended , the joystick code works well so is left here for others to use 
+      had issues with 3d printed parts snapping , not found a good solution to this 
+      so have given up on the project , as well as some other health reasons 
+      
 
 # progress:-
 
